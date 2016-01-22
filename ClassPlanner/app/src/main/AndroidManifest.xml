@@ -21,11 +21,19 @@
         </activity>
 
         <activity android:name=".CalendarActivity"
-            android:label="@string/calendar">
+            android:label="@string/calendar"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="io.github.cse110w260t13.ucsdcse110wi16.classplanner.MainActivity" />
         </activity>
 
         <activity android:name=".CoursesActivity"
-            android:label="@string/courses">
+            android:label="@string/courses"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="io.github.cse110w260t13.ucsdcse110wi16.classplanner.MainActivity" />
         </activity>
 
     </application>
