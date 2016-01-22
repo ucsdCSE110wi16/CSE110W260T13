@@ -15,5 +15,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="@string/menu_text"
+        android:textSize="24dp"
+        android:id="@+id/menuTextView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/menuSpinner"
+        android:layout_below="@+id/menuTextView"
+        android:layout_alignLeft="@+id/menuTextView"
+        android:layout_alignStart="@+id/menuTextView"
+        android:padding="15dp" />
+
 </RelativeLayout>
