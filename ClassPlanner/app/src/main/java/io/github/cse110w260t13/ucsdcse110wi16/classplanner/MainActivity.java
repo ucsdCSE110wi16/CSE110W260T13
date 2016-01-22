@@ -8,10 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+    private String menuSpinnerOptionSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Open activity associated with menu item", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                // Open the relevant activity
+                if(menuSpinnerOptionSelected.equals(getResources().getString(R.string.menu_spinner_calendar))) {
+
+                    // Inflate calendar activity
+
+                } else if(menuSpinnerOptionSelected.equals(getResources().getString(R.string.menu_spinner_courses))) {
+
+                    // Inflate courses activity
+
+                }
+
             }
         });
 
@@ -38,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         menuSpinner.setAdapter(adapter);
+        // Set the listener to be the activity
+        menuSpinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -60,5 +77,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+        menuSpinnerOptionSelected = parent.getItemAtPosition(pos).toString();
+
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
     }
 }

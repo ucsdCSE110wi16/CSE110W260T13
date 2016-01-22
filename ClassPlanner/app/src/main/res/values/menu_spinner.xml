@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="menu_spinner">
-        <item>Calendar</item>
-        <item>Courses</item>
+        <item>@string/menu_spinner_calendar</item>
+        <item>@string/menu_spinner_courses</item>
     </string-array>
 </resources>

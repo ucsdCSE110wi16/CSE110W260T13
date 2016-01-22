@@ -3,4 +3,6 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_text">Menu:</string>
+    <string name="menu_spinner_calendar">Calendar</string>
+    <string name="menu_spinner_courses">Courses</string>
 </resources>
