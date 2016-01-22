@@ -1,5 +1,6 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,17 +28,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                /*
                 Snackbar.make(view, "Open activity associated with menu item", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                        */
 
                 // Open the relevant activity
                 if(menuSpinnerOptionSelected.equals(getResources().getString(R.string.menu_spinner_calendar))) {
 
                     // Inflate calendar activity
+                    Intent calendarActivityIntent = new Intent(MainActivity.this, CalendarActivity.class);
+                    //calendarActivityIntent.putExtra("key", value); //Optional parameters
+                    MainActivity.this.startActivity(calendarActivityIntent);
 
                 } else if(menuSpinnerOptionSelected.equals(getResources().getString(R.string.menu_spinner_courses))) {
 
                     // Inflate courses activity
+                    Intent coursesActivityIntent = new Intent(MainActivity.this, CoursesActivity.class);
+                    //coursesActivityIntent.putExtra("key", value); //Optional parameters
+                    MainActivity.this.startActivity(coursesActivityIntent);
 
                 }
 
