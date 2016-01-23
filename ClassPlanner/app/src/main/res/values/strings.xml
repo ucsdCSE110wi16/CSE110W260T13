@@ -1,12 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Class Planner</string>
     <string name="action_settings">Settings</string>
 
-    <string name="calendar">Calendar</string>
-    <string name="courses">Courses</string>
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
 
-    <string name="menu_text">Menu:</string>
-    <string name="menu_spinner_calendar">@string/calendar</string>
-    <string name="menu_spinner_courses">@string/courses</string>
+    <!-- Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item >Home</item>
+        <item >Calendar</item>
+        <item >Courses</item>
+        <item >Assignments</item>
+        <item >To-Do List</item>
+    </string-array>
 
+    <!-- Menu Item Icons -->
+    <!-- Order of names is order they show up on menu screen-->
+    <!--Icon pictures are retrieved from /res/drawable/ic_XXXXX/-->
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_home_black_24dp</item>
+        <item>@drawable/ic_today_black_24dp</item>
+        <item>@drawable/ic_class_black_24dp</item>
+        <item>@drawable/ic_assignment_black_24dp</item>
+        <item>@drawable/ic_mode_edit_black_24dp</item>
+    </array>
+
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
 </resources>

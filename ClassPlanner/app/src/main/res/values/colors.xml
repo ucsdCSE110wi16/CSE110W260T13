@@ -9,4 +9,10 @@
     <color name="colorSecondaryText">#727272</color>
     <color name="colorIcons">#FFFFFF</color>
     <color name="colorDivider">#B6B6B6</color>
+
+    <color name="list_item_title">#727272</color>
+    <color name="list_background">#ffffff</color>
+    <color name="list_background_pressed">#b3e5fc</color>
+    <color name="list_divider">#ffffff</color>
+
 </resources>

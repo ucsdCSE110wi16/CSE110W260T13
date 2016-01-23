@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Combines the normal & pressed drawable states and sets them appropriately
+to the list button state-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/list_item_bg_normal" android:state_activated="false"/>
+    <item android:drawable="@drawable/list_item_bg_pressed" android:state_pressed="true"/>
+    <item android:drawable="@drawable/list_item_bg_pressed" android:state_activated="true"/>
+
+</selector>
