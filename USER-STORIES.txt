@@ -1,4 +1,4 @@
-NOTES:
+NOTES----------------------------------------------------:
 USER-STORIES.md is for our group use.
 USER-STORIES.txt is for submission.
 
