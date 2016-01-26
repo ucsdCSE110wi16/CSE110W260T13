@@ -1,8 +1,7 @@
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.adapter;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer;
 
 /*import resources from resource folder*/
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.navdrawer.NavDrawerItem;
 
 import java.util.ArrayList;
 

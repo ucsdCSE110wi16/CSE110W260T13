@@ -1,4 +1,4 @@
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.navdrawer;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

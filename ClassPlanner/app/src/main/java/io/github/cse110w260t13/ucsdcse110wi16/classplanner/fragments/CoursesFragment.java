@@ -1,4 +1,4 @@
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.navdrawer;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -24,8 +24,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.navdrawer.CoursePages.AssignmentsFragment;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.navdrawer.CoursePages.ClassInfoFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.AssignmentsFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.ClassInfoFragment;
 
 public class CoursesFragment extends Fragment{
 

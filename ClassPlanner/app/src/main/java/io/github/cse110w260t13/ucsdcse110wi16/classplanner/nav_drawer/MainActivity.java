@@ -1,4 +1,4 @@
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.navdrawer;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer;
 
 import android.support.v4.app.FragmentManager;
 import android.content.res.Configuration;
@@ -16,7 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.adapter.NavDrawerListAdapter;
+
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CalendarFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursesFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.HomeFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.NavDrawerItem;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.NavDrawerListAdapter;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 
 import java.util.ArrayList;

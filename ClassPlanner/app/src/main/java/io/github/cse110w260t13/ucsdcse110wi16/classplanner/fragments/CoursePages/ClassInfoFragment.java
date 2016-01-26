@@ -1,4 +1,4 @@
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.navdrawer.CoursePages;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 
-public class AssignmentsFragment extends Fragment {
-
+public class ClassInfoFragment extends Fragment
+{
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -21,7 +21,7 @@ public class AssignmentsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.fragment_assignments, container, false);
+        return inflater.inflate(R.layout.fragment_classinfo, container, false);
     }
 
     @Override
@@ -36,7 +36,6 @@ public class AssignmentsFragment extends Fragment {
         super.onAttach(context);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity)
     {

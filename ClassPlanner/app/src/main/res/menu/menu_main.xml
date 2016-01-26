@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="io.github.cse110w260t13.ucsdcse110wi16.classplanner.MainActivity">
+    tools:context=".nav_drawer.MainActivity">
 
 </menu>
