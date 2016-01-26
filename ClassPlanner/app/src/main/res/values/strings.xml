@@ -26,6 +26,15 @@
         <item>@drawable/ic_mode_edit_black_24dp</item>
     </array>
 
+    <string-array name="test">
+        <item >CSE 100</item>
+        <item >CSE 90</item>
+        <item >Class 3</item>
+        <item >Class 4</item>
+        <item >Class 5</item>
+    </string-array>
+
+    <string name= "spinner_test"> test  </string>
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
 </resources>

@@ -2,7 +2,10 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.navdrawer;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
@@ -28,6 +31,9 @@ public class CalendarFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
         calendar = (CalendarView) rootView.findViewById(R.id.calendarView);
 
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.calendar_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,7 +42,6 @@ public class CalendarFragment extends Fragment {
                         .setAction("Action", null).show();
             }
         });
-
         return rootView;
     }
 }

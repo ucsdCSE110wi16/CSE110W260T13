@@ -8,8 +8,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*I removed the default courses_toolbar settings from the app, so I need
+        to create a courses_toolbar in MainActivity in order to utilize the navdrawer.
+         */
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         mTitle = mDrawerTitle = getTitle();
 
@@ -130,6 +139,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // toggle nav drawer on selecting action bar app icon/title
@@ -190,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 2:
                 fragment = new CoursesFragment();
+
                 break;
             default:
                 break;

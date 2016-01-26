@@ -9,11 +9,10 @@
         android:layout_height="match_parent"
         tools:context="com.io.github.cse110w260t13.ucsdcse110wi16.classplanner.navdrawer.CalendarFragment">
 
-        <CalendarView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/calendarView"
-            android:layout_centerHorizontal="true" />
+        <include
+            layout="@layout/app_bar_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/calendar_fab"
@@ -24,5 +23,13 @@
             android:src="@drawable/ic_add_white_24dp" />
 
     </android.support.design.widget.CoordinatorLayout>
+
+    <CalendarView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/calendarView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="71dp" />
 
 </RelativeLayout>
