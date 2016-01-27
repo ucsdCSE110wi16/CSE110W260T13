@@ -5,4 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:textSize="18sp"
-    android:theme="@style/DropDownListView.Example" />
+    android:theme="@style/DropDownListView.Example"
+    android:textColor="#ffffff"
+    android:background="@drawable/ab_transparent_example"
+    android:fontFamily="sans-serif-light" />

@@ -5,4 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:textSize="18sp"
-    android:textColor="@color/colorPrimaryText" />
+    android:textColor="@color/colorPrimaryText"
+    android:fontFamily="sans-serif-light" />

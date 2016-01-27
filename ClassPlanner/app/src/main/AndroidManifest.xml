@@ -19,6 +19,29 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".local_database.AddClass"
+            android:label="Add Class"
+            android:parentActivityName=".nav_drawer.MainActivity" >
+        </activity>
+
+        <provider
+            android:name=".local_database.CourseCalendarContentProvider"
+            android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database">
+        </provider>
+
+
+<!--
+        <activity android:name=".local_db.AddClass"
+                android:label="Add Class"
+                android:parentActivityName=".nav_drawer.MainActivity" >
+            </activity>
+
+            <provider
+                android:name=".local_db.CourseContentProvider"
+                android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_db">
+            </provider> -->
+
+
         <!--
         <activity android:name=".CalendarActivity"
             android:label="@string/calendar"
@@ -36,6 +59,6 @@
                 android:value="io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.MainActivity" />
         </activity>-->
 
-    </application>
+</application>
 
 </manifest>
