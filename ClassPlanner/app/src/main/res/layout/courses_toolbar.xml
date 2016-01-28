@@ -43,12 +43,14 @@
             android:layout_weight="1"
             android:gravity="end">
             <ImageButton
+                android:id="@+id/add_course_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_add_black_24dp"
                 android:background="@color/colorPrimary"
                 android:layout_marginRight="10dp"/>
             <ImageButton
+                android:id="@+id/delete_course_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_delete_black_24dp"

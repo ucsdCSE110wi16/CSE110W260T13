@@ -38,6 +38,7 @@ public class AddClass extends AppCompatActivity{
                         values);
                 finish();
                 break;
+            //case R.id.cancel:
         }
     }
 

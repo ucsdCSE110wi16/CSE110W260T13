@@ -1,6 +1,7 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -21,6 +22,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabWidget;
@@ -99,7 +102,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             tv.setTypeface(face);
         }
 
-        //Adds a FAB
+        //Adds a FAB TODO:Remove FAB later
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.courses_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +111,25 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             }
         });
 
+        ImageButton add = (ImageButton)rootView.findViewById(R.id.add_course_button);
+        ImageButton delete = (ImageButton)rootView.findViewById(R.id.delete_course_button);
+        clickHandler click_handler = new clickHandler();
+        add.setOnClickListener(click_handler);
+        delete.setOnClickListener(click_handler);
+
         return rootView;
+    }
+
+    private class clickHandler implements View.OnClickListener {
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.add_course_button:
+                    startActivity(new Intent(getActivity(), AddClass.class));
+                    break;
+                case R.id.delete_course_button:
+                    break;
+            }
+        }
     }
 
     /* IMPLEMENTATION OF ADAPTER THAT IS NECESSARY FOR TABS TO WORK CORRECTLY
