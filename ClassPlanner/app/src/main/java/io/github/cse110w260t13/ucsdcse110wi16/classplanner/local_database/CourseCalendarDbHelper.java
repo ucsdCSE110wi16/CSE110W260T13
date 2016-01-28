@@ -8,11 +8,25 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class CourseCalendarDbHelper extends SQLiteOpenHelper{
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "FeedReader.db";
+    public static final String DATABASE_NAME = "courseCalendar.db";
 
-    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + CourseCalendarInfo.FeedEntry.TABLE_NAME
-            + " (" + CourseCalendarInfo.FeedEntry._ID + " TEXT PRIMARY KEY," +
-            CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + " TEXT" + " )";
+    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " +
+            CourseCalendarInfo.FeedEntry.TABLE_NAME + " (" +
+            CourseCalendarInfo.FeedEntry._ID + " TEXT PRIMARY KEY," +
+            CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + " TEXT," +
+            CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC + " TEXT," +
+            CourseCalendarInfo.FeedEntry.COLUMN_START_HOUR + " INTEGER," +
+            CourseCalendarInfo.FeedEntry.COLUMN_START_MIN + " INTEGER," +
+            CourseCalendarInfo.FeedEntry.COLUMN_END_HOUR + " INTEGER," +
+            CourseCalendarInfo.FeedEntry.COLUMN_END_MIN + " INTEGER," +
+            CourseCalendarInfo.FeedEntry.COLUMN_SUN + " INTEGER," +
+            CourseCalendarInfo.FeedEntry.COLUMN_MON + " INTEGER," +
+            CourseCalendarInfo.FeedEntry.COLUMN_TUE + " INTEGER," +
+            CourseCalendarInfo.FeedEntry.COLUMN_WED + " INTEGER," +
+            CourseCalendarInfo.FeedEntry.COLUMN_THUR + " INTEGER," +
+            CourseCalendarInfo.FeedEntry.COLUMN_FRI + " INTEGER," +
+            CourseCalendarInfo.FeedEntry.COLUMN_SAT + " INTEGER" +
+            " )";
 
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " +
             CourseCalendarInfo.FeedEntry.TABLE_NAME;

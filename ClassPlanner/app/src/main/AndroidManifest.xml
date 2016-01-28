@@ -30,35 +30,6 @@
         </provider>
 
 
-<!--
-        <activity android:name=".local_db.AddClass"
-                android:label="Add Class"
-                android:parentActivityName=".nav_drawer.MainActivity" >
-            </activity>
-
-            <provider
-                android:name=".local_db.CourseContentProvider"
-                android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_db">
-            </provider> -->
-
-
-        <!--
-        <activity android:name=".CalendarActivity"
-            android:label="@string/calendar"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.MainActivity" />
-        </activity>
-
-        <activity android:name=".CoursesActivity"
-            android:label="@string/courses"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.MainActivity" />
-        </activity>-->
-
 </application>
 
 </manifest>

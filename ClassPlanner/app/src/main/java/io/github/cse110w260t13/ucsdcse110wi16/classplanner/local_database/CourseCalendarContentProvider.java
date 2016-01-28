@@ -14,29 +14,31 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class CourseCalendarContentProvider extends ContentProvider{
-    private CourseCalendarDbHelper courses_db;
+    private CourseCalendarDbHelper db_helper;
+    private SQLiteDatabase db;
 
     //used for UriMatcher
-    private static final int COURSE_NAMES = 1;
-    private static final int COURSE_INFO = 2;
-    private static final int COURSE_ID = 3;
+
+    private static final int COURSE_INFO = 1;
+    private static final int COURSE_ID = 2;
+
 
     private static final String AUTHORITY = "io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database";
     private static final String BASE_PATH = "Courses";
 
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
-    public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/courseinfo";
-    public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE +"/coursename";
+    public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/multiple";
+    public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE +"/single";
 
     private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
-        sURIMatcher.addURI(AUTHORITY, BASE_PATH,COURSE_NAMES);
-        sURIMatcher.addURI(AUTHORITY, BASE_PATH ,COURSE_INFO);
+        sURIMatcher.addURI(AUTHORITY, BASE_PATH, COURSE_INFO);
+        sURIMatcher.addURI(AUTHORITY, BASE_PATH+ "/#", COURSE_ID);
     }
 
     @Override
     public boolean onCreate() {
-        courses_db = new CourseCalendarDbHelper(getContext());
+        db_helper = new CourseCalendarDbHelper(getContext());
         return false;
     }
 
@@ -45,7 +47,6 @@ public class CourseCalendarContentProvider extends ContentProvider{
                         String[] selectionArgs, String sortOrder){
 
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-
         //check to see if the columns requests by the user exist
         checkColumns(projection);
 
@@ -53,8 +54,6 @@ public class CourseCalendarContentProvider extends ContentProvider{
 
         int uriType = sURIMatcher.match(uri);
         switch(uriType) {
-            case COURSE_NAMES:
-                break;
             case COURSE_INFO:
                 break;
             case COURSE_ID:
@@ -64,10 +63,9 @@ public class CourseCalendarContentProvider extends ContentProvider{
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
 
-        SQLiteDatabase db = courses_db.getWritableDatabase();
+        SQLiteDatabase db = db_helper.getWritableDatabase();
         Cursor cursor = queryBuilder.query(db, projection, selection,
                 selectionArgs, null, null, sortOrder);
-
         //makes sure that potential listeners are getting notified
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
@@ -82,15 +80,12 @@ public class CourseCalendarContentProvider extends ContentProvider{
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         int uriType = sURIMatcher.match(uri);
-        SQLiteDatabase sqlDB = courses_db.getWritableDatabase();
+        SQLiteDatabase sqlDB = db_helper.getWritableDatabase();
         long id = 0;
 
         switch (uriType) {
-            case COURSE_NAMES:
-                id = sqlDB.insert(CourseCalendarInfo.FeedEntry.TABLE_NAME, null, values);
-                break;
             case COURSE_INFO:
-                //to be done later
+                id = sqlDB.insert(CourseCalendarInfo.FeedEntry.TABLE_NAME, null, values);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -103,10 +98,10 @@ public class CourseCalendarContentProvider extends ContentProvider{
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs){
         int uriType = sURIMatcher.match(uri);
-        SQLiteDatabase sqlDB = courses_db.getWritableDatabase();
+        SQLiteDatabase sqlDB = db_helper.getWritableDatabase();
         int rowsDeleted = 0;
         switch (uriType) {
-            case COURSE_NAMES:
+            case COURSE_INFO:
                 rowsDeleted = sqlDB.delete(CourseCalendarInfo.FeedEntry.TABLE_NAME, selection,
                         selectionArgs);
                 break;
@@ -133,11 +128,11 @@ public class CourseCalendarContentProvider extends ContentProvider{
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs){
         int uriType = sURIMatcher.match(uri);
-        SQLiteDatabase sqlDB = courses_db.getWritableDatabase();
+        SQLiteDatabase sqlDB = db_helper.getWritableDatabase();
         int rowsUpdated = 0;
 
         switch (uriType) {
-            case COURSE_NAMES:
+            case COURSE_INFO:
                 rowsUpdated = sqlDB.update(CourseCalendarInfo.FeedEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;

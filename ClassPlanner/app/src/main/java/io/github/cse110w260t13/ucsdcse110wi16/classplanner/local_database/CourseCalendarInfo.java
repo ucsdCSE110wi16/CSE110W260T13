@@ -10,8 +10,10 @@ public class CourseCalendarInfo {
         public static final String TABLE_NAME = "CourseList";
         public static final String COLUMN_COURSE_NAME = "CourseName";
         public static final String COLUMN_COURSE_LOC = "CourseLocation";
-        public static final String COLUMN_START_TIME = "CourseStartTime";
-        public static final String COLUMN_END_TIME = "CourseEndTime";
+        public static final String COLUMN_START_HOUR = "CourseStartHour";
+        public static final String COLUMN_START_MIN = "CourseStartMin";
+        public static final String COLUMN_END_HOUR = "CourseEndHour";
+        public static final String COLUMN_END_MIN = "CourseEndMin";
 
         public static final String COLUMN_MON = "ClassOnMon";
         public static final String COLUMN_TUE = "ClassOnTue";
@@ -22,10 +24,4 @@ public class CourseCalendarInfo {
         public static final String COLUMN_SUN = "ClassOnSun";
     }
 
-    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + FeedEntry.TABLE_NAME
-            + " (" + FeedEntry._ID + " TEXT PRIMARY KEY," + FeedEntry.COLUMN_COURSE_NAME
-            + " TEXT" + " )";
-
-    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " +
-            FeedEntry.TABLE_NAME;
 }

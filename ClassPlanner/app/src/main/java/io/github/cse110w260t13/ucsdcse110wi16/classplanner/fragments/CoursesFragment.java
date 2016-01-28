@@ -46,14 +46,11 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
 
 
     public CoursesFragment(){
-
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setHasOptionsMenu(true);
-
     }
 
     @Override
@@ -76,57 +73,22 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
 
         /* Creating the courses_toolbar (actionbar) for the courses tab.*/
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        /*Spinner_nav is located inside R.id.courses_toolbar XML. So we create a spinner with this
-         layout from the courses_toolbar and then upload the strings to the spinner as well as set
-         the adapter to the spinner.
-          */
 
+        /* Spinner_nav is located inside R.id.courses_toolbar XML. So we create a spinner with this
+         layout from the courses_toolbar and then upload the strings to the spinner as well as set
+         the adapter to the spinner. */
         spin=(Spinner) rootView.findViewById(R.id.spinner_nav);
         if (toolbar != null){
             ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
-        String[] projections={
-                CourseCalendarInfo.FeedEntry._ID,
-                CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME
-        };
-
-
-        /*
-        //Read data from database.
-        CourseCalendarDbHelper mDbHelper = new CourseCalendarDbHelper(getContext());
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        Cursor c = db.query(
-                CourseCalendarInfo.FeedEntry.TABLE_NAME,
-                projections,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-        final int size = c.getCount();
-        System.out.println(size);
-        String[] items = new String[size];
-        if (c.moveToFirst()) {
-            int i = 0;
-            do {
-                items[i] = c.getString(c.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME));
-                System.out.println(items[i]);
-                i++;
-            } while (c.moveToNext());
-        }
-
-        //String[] test = new String[]{"123", "456", "678"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                R.layout.layout_title, items);
-        adapter.setDropDownViewResource(R.layout.layout_drop_list);
-        spin.setAdapter(adapter);*/
-
+        /* Populate this spinner by calling fillData()*/
         fillData();
 
-        //Changes the look of the tabs. (Was unable to change it successfully in the XML.
+        /* Programatically changing the text/design of tab widget because of issues changing the
+        text & design via themes and styles
+        TODO: Move this to be done through XML files */
         for (int i = 0; i < courseTabHost.getTabWidget().getChildCount(); i++) {
             View v = courseTabHost.getTabWidget().getChildAt(i);
             v.setBackgroundResource(R.drawable.tab_indicator_ab_example);
@@ -146,11 +108,11 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             }
         });
 
-
         return rootView;
     }
 
-    /* ViewPager requires an implementation of PagerAdapter to generate the pages that the
+    /* IMPLEMENTATION OF ADAPTER THAT IS NECESSARY FOR TABS TO WORK CORRECTLY
+    ViewPager requires an implementation of PagerAdapter to generate the pages that the
     view shows so TabsAdapter extends FragmentPagerAdapter.
     It listens to changes to the tabs.
     Then it changes pages accordingly.
@@ -253,18 +215,22 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         public void onPageScrollStateChanged(int state) {
         }
     }
-        private void fillData() {
-            // Must include the _id column for the adapter to work
-            String[] from = new String[] { CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME} ;
-            // Fields on the UI to which we map
-            int[] to = new int[] { android.R.id.text1 };
 
-            getLoaderManager().initLoader(0, null, this);
-            adapter = new SimpleCursorAdapter(getContext(), R.layout.layout_title, null, from, to, 0);
-            adapter.setDropDownViewResource(R.layout.layout_drop_list);
-            spin.setAdapter(adapter);
-            //adapter.notifyDataSetChanged();
-        }
+
+    /**
+     * METHODS TO UPDATE INFORMATION OF SPINNER
+     */
+    private void fillData() {
+        // Must include the _id column for the adapter to work
+        String[] from = new String[] { CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME} ;
+        // Fields on the UI to which we map
+        int[] to = new int[] { android.R.id.text1 };
+
+        getLoaderManager().initLoader(0, null, this);
+        adapter = new SimpleCursorAdapter(getContext(), R.layout.layout_title, null, from, to, 0);
+        adapter.setDropDownViewResource(R.layout.layout_drop_list);
+        spin.setAdapter(adapter);
+    }
 
     // creates a new loader after the initLoader () call
     @Override
