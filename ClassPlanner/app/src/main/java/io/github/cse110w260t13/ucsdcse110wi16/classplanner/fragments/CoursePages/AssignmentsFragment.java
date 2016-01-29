@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 
@@ -53,5 +54,10 @@ public class AssignmentsFragment extends Fragment {
     public void onResume()
     {
         super.onResume();
+    }
+
+    public void test(String course_name){
+        Toast.makeText(getActivity().getBaseContext(),
+                "assignments: + " + course_name, Toast.LENGTH_SHORT).show();
     }
 }

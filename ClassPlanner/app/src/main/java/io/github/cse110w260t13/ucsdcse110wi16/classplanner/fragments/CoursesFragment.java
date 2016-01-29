@@ -1,7 +1,6 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -22,12 +21,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.ClassInfoFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarInfo;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarContentProvider;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.AddClass;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.AddClass;
 
 public class CoursesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -76,18 +76,17 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
 
         /* Creating the courses_toolbar (actionbar) for the courses tab.*/
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-
-        /* Spinner_nav is located inside R.id.courses_toolbar XML. So we create a spinner with this
-         layout from the courses_toolbar and then upload the strings to the spinner as well as set
-         the adapter to the spinner. */
-        spin=(Spinner) rootView.findViewById(R.id.spinner_nav);
         if (toolbar != null){
             ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
+
+        spin=(Spinner) rootView.findViewById(R.id.spinner_nav);
         /* Populate this spinner by calling fillData()*/
         fillData();
+        dropdownHandler drpHandler = new dropdownHandler();
+        spin.setOnItemSelectedListener(drpHandler);
 
         /* Programatically changing the text/design of tab widget because of issues changing the
         text & design via themes and styles
@@ -120,6 +119,46 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         return rootView;
     }
 
+
+    /**
+     * ITEM SELECTION LISTENER FOR CLASS NAME SPINNER
+     */
+    private class dropdownHandler implements AdapterView.OnItemSelectedListener {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view,
+                                   int position, long id) {
+
+            Cursor cursor = (Cursor) adapter.getItem(position);
+            String course_name = cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME));
+                    Toast.makeText(getActivity().getBaseContext(), "string " + course_name,
+                            Toast.LENGTH_SHORT).show();
+
+            /*Iterate through all the fragments and update info*/
+            FragmentPagerAdapter fragmentPagerAdapter = (FragmentPagerAdapter) courseViewPager.getAdapter();
+            for(int i = 0; i < fragmentPagerAdapter.getCount(); i++) {
+                String name = makeFragmentName(courseViewPager.getId(), i);
+                Fragment viewPagerFragment = getChildFragmentManager().findFragmentByTag(name);
+                if (viewPagerFragment instanceof ClassInfoFragment) {
+                    ((ClassInfoFragment)viewPagerFragment).test(course_name);
+                }
+                if (viewPagerFragment instanceof  AssignmentsFragment){
+                    ((AssignmentsFragment)viewPagerFragment).test(course_name);
+                }
+            }
+        }
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+        }
+
+    }
+
+    private static String makeFragmentName(int viewId, int position) {
+        return "android:switcher:" + viewId + ":" + position;
+    }
+
+    /**
+     * ON CLICK LISTENER FOR BUTTONS LOCATED IN COURSES FRAGMENT
+     */
     private class clickHandler implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
@@ -185,7 +224,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             mViewPager = pager;
             mTabHost.setOnTabChangedListener(this);
             mViewPager.setAdapter(this);
-            mViewPager.addOnPageChangeListener(this);//changed from original
+            mViewPager.addOnPageChangeListener(this);
         }
 
         //adds a Tab
@@ -207,9 +246,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
             TabInfo info = mTabs.get(position);
-
             return android.support.v4.app.Fragment.instantiate(mContext, info.clss.getName(), info.args);
-
         }
 
         public void onTabChanged(String tabId) {
@@ -234,6 +271,10 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         }
 
         public void onPageScrollStateChanged(int state) {
+        }
+
+        public int getPosition(){
+            return mTabHost.getCurrentTab();
         }
     }
 
@@ -285,8 +326,6 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
          */
         getLoaderManager().restartLoader(0, null, this);
     }
-
-
 
 
 

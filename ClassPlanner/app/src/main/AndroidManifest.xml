@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".local_database.AddClass"
+        <activity android:name=".fragments.CoursePages.AddClass"
             android:label="Add Class"
             android:parentActivityName=".nav_drawer.MainActivity" >
         </activity>

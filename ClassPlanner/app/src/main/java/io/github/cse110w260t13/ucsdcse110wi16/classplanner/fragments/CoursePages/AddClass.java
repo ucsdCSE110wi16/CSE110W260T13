@@ -1,4 +1,4 @@
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages;
 
 
 import android.content.ContentValues;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarDbHelper;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarInfo;
 
 public class AddClass extends AppCompatActivity{
     private SQLiteDatabase db;
@@ -32,10 +34,9 @@ public class AddClass extends AppCompatActivity{
                 EditText editText = (EditText) findViewById(R.id.text_coursename);
                 String val = editText.getText().toString();
                 values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME, val);
-                db.insert(
-                        CourseCalendarInfo.FeedEntry.TABLE_NAME,
-                        null,
-                        values);
+                db.insert(CourseCalendarInfo.FeedEntry.TABLE_NAME, null, values);
+
+
                 finish();
                 break;
             //case R.id.cancel:
