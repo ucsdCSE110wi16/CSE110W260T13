@@ -3,6 +3,7 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePage
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.CursorLoader;

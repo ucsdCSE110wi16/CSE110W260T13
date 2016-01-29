@@ -101,15 +101,6 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             tv.setTypeface(face);
         }
 
-        //Adds a FAB TODO:Remove FAB later
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.courses_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), AddClass.class));
-            }
-        });
-
         ImageButton add = (ImageButton)rootView.findViewById(R.id.add_course_button);
         ImageButton delete = (ImageButton)rootView.findViewById(R.id.delete_course_button);
         clickHandler click_handler = new clickHandler();
