@@ -14,22 +14,20 @@ Then I don't get annoyed trying to use the app.
 
 (Imortance: 2)
 Given that I am a student,
-When I want to to add school course information to this app
+When I add school course information to this app
 Then I can have my class information all in one spot.
 
 
 (Imortance: 3)
 Given that I am an organized person,
-When I want to have a calendar that I can add events to
+When I have a calendar that I can add events to
 Then I can see what I have to do everyday.
 
 
---------------------LIST INCOMPLETE, BELOW ARE USER-STORIES... 
-
 (Imortance: 4)
-As an organized person,
-I want an assignments tab that is linked to my course information
-so that I can keep track of all my homework and deadlines over the quarter.
+Given that I am an organized person,
+When I have an assignments tab that is linked to my course information
+Then I can keep track of all my homework and deadlines over the quarter.
 
 
 (Imortance: 5)
