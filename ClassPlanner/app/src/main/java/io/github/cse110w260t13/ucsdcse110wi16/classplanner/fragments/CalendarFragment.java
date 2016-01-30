@@ -23,31 +23,20 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
  * Fragment that will contain Calendar section's features.
  */
 public class CalendarFragment extends Fragment {
-    private CalendarView calendar;
 
-    public CalendarFragment() {
-    }
-
-    //Created upon entering Fragment's view creation stage.
+    /**
+     * Created upon entering Fragment's view creation stage.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
-
-        CaldroidFragment caldroidFragment = new CaldroidFragment();
-        Bundle args = new Bundle();
-        Calendar cal = Calendar.getInstance();
-        args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
-        args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
-        caldroidFragment.setArguments(args);
-
-        FragmentTransaction t = getFragmentManager().beginTransaction();
-        t.replace(R.id.calendarView, caldroidFragment);
-        t.commit();
-
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.calendar_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +46,20 @@ public class CalendarFragment extends Fragment {
                         .setAction("Action", null).show();
             }
         });
+
+        // Create a Caldroid fragment
+        CaldroidFragment caldroidFragment = new CaldroidFragment();
+        Bundle args = new Bundle();
+        Calendar cal = Calendar.getInstance();
+        args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
+        args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
+        caldroidFragment.setArguments(args);
+
+        // Replace the default calendar with the Caldroid calendar
+        FragmentTransaction t = getFragmentManager().beginTransaction();
+        t.replace(R.id.calendarView, caldroidFragment);
+        t.commit();
+
         return rootView;
     }
 }
