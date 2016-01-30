@@ -6,37 +6,37 @@ SCENARIOS.txt was copied and modifed from USER-STORIES.txt
 
 SCENARIOS---------------------------------------------:
 
-(Imortance: 1)
+(Importance: 1)
 Given that I am a normal person,
 When I use a navigation menu
 Then I don't get annoyed trying to use the app.
 
 
-(Imortance: 2)
+(Importance: 2)
 Given that I am a student,
 When I add school course information to this app
 Then I can have my class information all in one spot.
 
 
-(Imortance: 3)
+(Importance: 3)
 Given that I am an organized person,
 When I have a calendar that I can add events to
 Then I can see what I have to do everyday.
 
 
-(Imortance: 4)
+(Importance: 4)
 Given that I am an organized person,
 When I have an assignments tab that is linked to my course information
 Then I can keep track of all my homework and deadlines over the quarter.
 
 
-(Imortance: 5)
+(Importance: 5)
 Given that I am lazy person,
 When I first open the app and see the home page
 Then I want to see the most immediate events so that I don't need to navigate through the menu.
 
 
-(Imortance: 6)
+(Importance: 6)
 Given that I am a student,
 When I have a lot of academic tasks with no due dates
 Then I want a to-do list for all of my courses so that I can keep track of them.
@@ -47,31 +47,28 @@ Given that I am a student,
 When I have tasks that are not related to school
 Then I also want a to-do list of those general items so that I can keep track of them as well.
 
-
-(Imortance: 8)
-As an organized person,
-I want the calendar to tell me when assignments are due
-so that I won't miss a deadline on accident.
-
-
-(Imortance: 9)
-As a lazy person,
-I want these school courses to be populated onto a calender for me
-so that I can see my schedule easily and without effort.
+(Importance: 8)
+Given I am a student,
+When I open the calendar,
+Then I can see when my assignments are due.
 
 
-(Imortance: 10)
-As a lazy person,
-I want to be able to choose my course from a drop-down list and have its info auto-filled
-because typing class information is a pain.
+(Importance: 9)
+Given I am a lazy person,
+When I want to populate my schedule with courses,
+Then I can do so easily and without effort.
 
 
-(Imortance: 11)
-As a student concerned about grades,
-I want to be able to track my grades for assignments and exams
-so that I can keep on top of my GPA.
+(Importance: 10)
+Given I am a lazy person,
+When I choose a course from a drop-down list,
+Then its info will be auto-filled.
 
 
+(Importance: 11)
+Given that I am concerned about grades,
+When I enter assignments and exams,
+Then I will be able to track my GPA.
 
 
 
