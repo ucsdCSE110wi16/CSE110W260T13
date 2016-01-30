@@ -24,22 +24,13 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
 
-    // Android JUnit Runner
-    androidTestCompile 'com.android.support.test:runner:0.4.1'
-    // JUnit4 Rules
-    androidTestCompile 'com.android.support.test:rules:0.4.1'
-    // Espresso core
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
-    // Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
-    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.1'
-    // Espresso-web for WebView support
-    androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.1'
-    // Espresso-idling-resource for synchronization with background jobs
-    androidTestCompile 'com.android.support.test.espresso:espresso-idling-resource:2.2.1'
-    // Resolves annotation conflict
+    // Test dependencies
     androidTestCompile 'com.android.support:support-annotations:23.1.1'
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'com.android.support.test:rules:0.4.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
 
-    // App's dependencies, including test
+    // App's dependencies
     compile 'com.android.support:support-annotations:23.1.1'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
