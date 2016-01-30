@@ -1,0 +1,27 @@
+
+(Imortance: 8)
+Given I am a student,
+When I open the calendar,
+Then I can see when my assignments are due.
+
+
+(Imortance: 9)
+Given I am a lazy person,
+When I want to populate my schedule with courses,
+Then I can do so easily and without effort.
+
+
+(Imortance: 10)
+Given I am a lazy person,
+When I choose a course from a drop-down list,
+Then its info will be auto-filled.
+
+
+(Imortance: 11)
+Given that I am concerned about grades,
+When I enter assignments and exams,
+Then I will be able to track my GPA.
+
+
+
+
