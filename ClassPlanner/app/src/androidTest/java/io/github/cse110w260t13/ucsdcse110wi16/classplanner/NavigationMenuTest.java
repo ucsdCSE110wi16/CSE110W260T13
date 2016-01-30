@@ -24,7 +24,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
- * Created by nick on 1/30/16.
+ * This intends to test scenario #1.
+ * See https://github.com/ucsdCSE110wi16/CSE110W260T13/blob/58f6644eea8052e753a35745e9aa098d3180ffed/SCENARIOS.txt#L9
+ * for scenario.
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
