@@ -15,7 +15,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -79,6 +81,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         if (toolbar != null){
             ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
 
