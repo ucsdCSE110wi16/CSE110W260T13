@@ -8,14 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <!--<item name="android:actionBarStyle">@style/ToolBarStyle</item>-->
+        <item name="android:actionBarStyle">@style/ToolBarStyle</item>
 
         <item name="actionBarItemBackground">@drawable/selectable_background_example</item>
         <item name="popupMenuStyle">@style/PopupMenu.Example</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.Example</item>
         <item name="actionBarTabStyle">@style/ActionBarTabStyle.Example</item>
         <item name="actionDropDownStyle">@style/DropDownNav.Example</item>
-        <item name="actionBarStyle">@style/ActionBar.Solid.Example</item>
     </style>
 
 

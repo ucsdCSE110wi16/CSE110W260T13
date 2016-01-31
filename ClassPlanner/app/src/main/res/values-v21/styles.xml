@@ -52,7 +52,7 @@
     </style>
 
 
-    <style parent="@style/Widget.AppCompat.ListView.DropDown" name="DropDownListView.Example">
+    <style parent="" name="DropDownListView.Example">
         <item name="android:listSelector">@drawable/selectable_background_example</item>
     </style>
 
@@ -62,7 +62,7 @@
     </style>
 
 
-    <style parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar" name="DropDownNav">
+    <style parent="" name="DropDownNav">
         <item name="android:background">@drawable/spinner_background_ab_example</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_example</item>
