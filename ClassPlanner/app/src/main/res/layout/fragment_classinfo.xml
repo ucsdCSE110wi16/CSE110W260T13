@@ -71,6 +71,8 @@
                     android:fontFamily="sans-serif-light"
                     android:text = "instructor e-mail here"
                     android:id="@+id/instr_email"
+                    android:linksClickable="true"
+                    android:autoLink="email"
                     android:singleLine="true"
                     android:layout_weight="1"/>
             </LinearLayout>
@@ -91,6 +93,8 @@
                     android:text = "class website here"
                     android:singleLine="true"
                     android:id="@+id/website"
+                    android:linksClickable="true"
+                    android:autoLink="web"
                     android:layout_weight="1"/>
             </LinearLayout>
         </LinearLayout>
@@ -186,6 +190,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
                     android:text = "S"
+                    android:gravity="center"
                     android:id="@+id/sunday"
                     android:layout_weight="1"/>
                 <TextView
@@ -193,6 +198,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
                     android:text = "M"
+                    android:gravity="center"
                     android:id="@+id/monday"
                     android:layout_weight="1"/>
                 <TextView
@@ -200,6 +206,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
                     android:text = "T"
+                    android:gravity="center"
                     android:id="@+id/tuesday"
                     android:layout_weight="1"/>
                 <TextView
@@ -207,6 +214,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
                     android:text = "W"
+                    android:gravity="center"
                     android:id="@+id/wed"
                     android:layout_weight="1"/>
                 <TextView
@@ -215,12 +223,14 @@
                     android:fontFamily="sans-serif-bold"
                     android:text = "T"
                     android:id="@+id/thur"
+                    android:gravity="center"
                     android:layout_weight="1"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
                     android:text = "F"
+                    android:gravity="center"
                     android:id="@+id/fri"
                     android:layout_weight="1"/>
                 <TextView
@@ -228,6 +238,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
                     android:text = "S"
+                    android:gravity="center"
                     android:id="@+id/sat"
                     android:layout_weight="1"/>
             </LinearLayout>
