@@ -25,6 +25,23 @@ public class CourseCalendarInfo {
         public static final String COLUMN_FRI = "ClassOnFri";
         public static final String COLUMN_SAT = "ClassOnSat";
         public static final String COLUMN_SUN = "ClassOnSun";
+
+        public static final String[] ALL_COLUMNS= {
+                _ID,
+                COLUMN_COURSE_NAME,
+                COLUMN_COURSE_LOC,
+                COLUMN_START_TIME,
+                COLUMN_END_TIME,
+                COLUMN_SUN,
+                COLUMN_MON,
+                COLUMN_TUE,
+                COLUMN_WED,
+                COLUMN_THUR,
+                COLUMN_FRI,
+                COLUMN_SAT,
+                COLUMN_SUN
+        };
+
     }
 
 }

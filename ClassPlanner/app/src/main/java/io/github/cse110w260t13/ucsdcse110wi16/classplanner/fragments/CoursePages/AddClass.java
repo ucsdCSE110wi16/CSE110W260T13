@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
@@ -28,12 +27,17 @@ public class AddClass extends AppCompatActivity{
         db = mDbHelper.getWritableDatabase();
         values = new ContentValues();
 
+        final Bundle startArguments = new Bundle();
+        final Bundle endArguments = new Bundle();
+        startArguments.putInt("time",R.id.start_time_picker);
+        endArguments.putInt("time", R.id.end_time_picker);
+
         EditText startTime = (EditText) findViewById(R.id.start_time_picker);
         startTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                DialogFragment newTimePicker = new StartTimePicker();
+                DialogFragment newTimePicker = new TimeSelector();
+                newTimePicker.setArguments(startArguments);
                 newTimePicker.show(getSupportFragmentManager(), "startTimePicker");
             }
         });
@@ -42,8 +46,8 @@ public class AddClass extends AppCompatActivity{
         endTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                DialogFragment newTimePicker = new EndTimePicker();
+                DialogFragment newTimePicker = new TimeSelector();
+                newTimePicker.setArguments(endArguments);
                 newTimePicker.show(getSupportFragmentManager(), "EndTimePicker");
             }
         });
@@ -70,6 +74,16 @@ public class AddClass extends AppCompatActivity{
                 (EditText) findViewById(R.id.end_time_picker)
         };
 
+        /* This will be the most efficient way to insert all the data
+
+        for (int i =0; i < allInfo.length; i++){
+            String val = allInfo[i].getText().toString();
+            values.put(CourseCalendarInfo.FeedEntry.ALL_COLUMNS[i], val);
+        }
+
+        db.insert(CourseCalendarInfo.FeedEntry.TABLE_NAME, null, values);
+        values.clear();*/
+
         String val = allInfo[0].getText().toString();
         values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME, val);
         val = allInfo[1].getText().toString();
@@ -79,11 +93,6 @@ public class AddClass extends AppCompatActivity{
         val = allInfo[3].getText().toString();
         values.put(CourseCalendarInfo.FeedEntry.COLUMN_END_TIME, val);
         db.insert(CourseCalendarInfo.FeedEntry.TABLE_NAME, null, values);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override

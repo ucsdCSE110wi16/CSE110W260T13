@@ -30,6 +30,7 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
     private CourseCalendarDbHelper mDbHelper;
 
     private View rootView;
+    private String currClass;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -49,6 +50,7 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
     }
 
     public void test(String class_name){
+        currClass = class_name;
         Cursor cursor = db.query(CourseCalendarInfo.FeedEntry.TABLE_NAME,
                 new String[] {
                         CourseCalendarInfo.FeedEntry._ID,

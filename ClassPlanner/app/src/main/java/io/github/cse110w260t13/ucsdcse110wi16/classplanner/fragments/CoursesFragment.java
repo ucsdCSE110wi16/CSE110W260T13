@@ -1,23 +1,17 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -27,18 +21,15 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.AddClass;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.AssignmentsFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.ClassInfoFragment;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarInfo;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.TabsAdapter;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarContentProvider;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.AddClass;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarInfo;
 
 public class CoursesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -48,15 +39,10 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
 
     private SimpleCursorAdapter adapter;
     private Spinner spin;
+    private String currentClass;
 
 
-    public CoursesFragment(){
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public CoursesFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,30 +101,19 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
 
 
     /**
-     * ITEM SELECTION LISTENER FOR CLASS NAME SPINNER
+     * spinner handler that will handle changes when a different item on the dropdown
+     * list is selected.
      */
     private class dropdownHandler implements AdapterView.OnItemSelectedListener {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view,
                                    int position, long id) {
-
             Cursor cursor = (Cursor) adapter.getItem(position);
             String course_name = cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME));
-                    Toast.makeText(getActivity().getBaseContext(), "string " + course_name,
-                            Toast.LENGTH_SHORT).show();
+            currentClass = course_name;
 
             /*Iterate through all the fragments and update info*/
-            FragmentPagerAdapter fragmentPagerAdapter = (FragmentPagerAdapter) courseViewPager.getAdapter();
-            for(int i = 0; i < fragmentPagerAdapter.getCount(); i++) {
-                String name = makeFragmentName(courseViewPager.getId(), i);
-                Fragment viewPagerFragment = getChildFragmentManager().findFragmentByTag(name);
-                if (viewPagerFragment instanceof ClassInfoFragment) {
-                    ((ClassInfoFragment)viewPagerFragment).test(course_name);
-                }
-                if (viewPagerFragment instanceof  AssignmentsFragment){
-                    ((AssignmentsFragment)viewPagerFragment).test(course_name);
-                }
-            }
+            updateChildFragments(course_name);
         }
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
@@ -146,12 +121,9 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
 
     }
 
-    private static String makeFragmentName(int viewId, int position) {
-        return "android:switcher:" + viewId + ":" + position;
-    }
 
     /**
-     * ON CLICK LISTENER FOR BUTTONS LOCATED IN COURSES FRAGMENT
+     * click handler for all buttons in the Courses Page
      */
     private class clickHandler implements View.OnClickListener {
         public void onClick(View v) {
@@ -165,116 +137,40 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
-    /* IMPLEMENTATION OF ADAPTER THAT IS NECESSARY FOR TABS TO WORK CORRECTLY
-    ViewPager requires an implementation of PagerAdapter to generate the pages that the
-    view shows so TabsAdapter extends FragmentPagerAdapter.
-    It listens to changes to the tabs.
-    Then it changes pages accordingly.
-    */
-    public static class TabsAdapter extends FragmentPagerAdapter
-            implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
-        private final FragmentActivity mContext;
-        private final TabHost mTabHost;
-        private final ViewPager mViewPager;
-        private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
 
-        static final class TabInfo {
-            private final String tag;
-            private final Class<?> clss;
-            private final Bundle args;
-
-            TabInfo(String _tag, Class<?> _class, Bundle _args) {
-                tag = _tag;
-                clss = _class;
-                args = _args;
+    /**
+     * Updates the child fragments(CLASS INFO and ASSIGNMENT) using what the current dropdown
+     * list is set to
+     * @param course_name
+     */
+    private void updateChildFragments(String course_name){
+        FragmentPagerAdapter fragmentPagerAdapter = (FragmentPagerAdapter) courseViewPager.getAdapter();
+        for(int i = 0; i < fragmentPagerAdapter.getCount(); i++) {
+            String name = makeFragmentName(courseViewPager.getId(), i);
+            Fragment viewPagerFragment = getChildFragmentManager().findFragmentByTag(name);
+            if (viewPagerFragment instanceof ClassInfoFragment) {
+                ((ClassInfoFragment)viewPagerFragment).test(course_name);
             }
-        }
-
-        /*Supplies dummy view that is shown as the tab content. TabHost has a
-        * simplistic way of supplying the view/intent that each tab will show and
-        * its not sufficient for switching between pages. So we can get around that by
-        * setting the tabhost view to size 0 (invisible) and create our own view.*/
-        static class DummyTabFactory implements TabHost.TabContentFactory {
-            private final Context mContext;
-
-            public DummyTabFactory(Context context) {
-                mContext = context;
+            if (viewPagerFragment instanceof  AssignmentsFragment){
+                ((AssignmentsFragment)viewPagerFragment).test(course_name);
             }
-
-            public View createTabContent(String tag) {
-                View v = new View(mContext);
-                v.setMinimumWidth(0);
-                v.setMinimumHeight(0);
-                return v;
-            }
-        }
-
-        //Constructor for TabsAdapter
-        public TabsAdapter(FragmentActivity activity, TabHost tabHost,
-                           ViewPager pager, FragmentManager mng) {
-            super(mng);
-            mContext = activity;
-            mTabHost = tabHost;
-            mViewPager = pager;
-            mTabHost.setOnTabChangedListener(this);
-            mViewPager.setAdapter(this);
-            mViewPager.addOnPageChangeListener(this);
-        }
-
-        //adds a Tab
-        public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
-            tabSpec.setContent(new DummyTabFactory(mContext));
-            String tag = tabSpec.getTag();
-
-            TabInfo info = new TabInfo(tag, clss, args);
-            mTabs.add(info);
-            mTabHost.addTab(tabSpec);
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public int getCount() {
-            return mTabs.size();
-        }
-
-        @Override
-        public android.support.v4.app.Fragment getItem(int position) {
-            TabInfo info = mTabs.get(position);
-            return android.support.v4.app.Fragment.instantiate(mContext, info.clss.getName(), info.args);
-        }
-
-        public void onTabChanged(String tabId) {
-            int position = mTabHost.getCurrentTab();
-            mViewPager.setCurrentItem(position);
-        }
-
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        }
-
-        public void onPageSelected(int position) {
-            // Unfortunately when TabHost changes the current tab, it kindly
-            // also takes care of putting focus on it when not in touch mode.
-            // The jerk.
-            // This hack tries to prevent this from pulling focus out of our
-            // ViewPager.
-            TabWidget widget = mTabHost.getTabWidget();
-            int oldFocusability = widget.getDescendantFocusability();
-            widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-            mTabHost.setCurrentTab(position);
-            widget.setDescendantFocusability(oldFocusability);
-        }
-
-        public void onPageScrollStateChanged(int state) {
-        }
-
-        public int getPosition(){
-            return mTabHost.getCurrentTab();
         }
     }
 
 
     /**
-     * METHODS TO UPDATE INFORMATION OF SPINNER
+     * Helper method for updateChildFragments
+     * @param viewId
+     * @param position
+     * @return
+     */
+    private static String makeFragmentName(int viewId, int position) {
+        return "android:switcher:" + viewId + ":" + position;
+    }
+
+
+    /**
+     * Updates data on the current screen
      */
     private void fillData() {
         // Must include the _id column for the adapter to work
@@ -288,7 +184,13 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         spin.setAdapter(adapter);
     }
 
-    // creates a new loader after the initLoader () call
+
+    /**
+     * Creates a new loader after the initLoader () call
+     * @param id
+     * @param args
+     * @return
+     */
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = { CourseCalendarInfo.FeedEntry._ID, CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME};
@@ -297,16 +199,31 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         return cursor_ld;
     }
 
+
+    /**
+     * Swaps the data in the adapter
+     * @param loader
+     * @param data
+     */
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         adapter.swapCursor(data);
     }
 
+
+    /**
+     * Defines what happens when loader is reset
+     * @param loader
+     */
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         // data is not available anymore, delete reference
         adapter.swapCursor(null);
     }
 
+
+    /**
+     * Defines what happens when fragment resumes running
+     */
     @Override
     public void onResume(){
         super.onResume();
@@ -319,10 +236,6 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
          * single onResume() call
          */
         getLoaderManager().restartLoader(0, null, this);
+        updateChildFragments(currentClass);
     }
-
-
-
-
-
 }

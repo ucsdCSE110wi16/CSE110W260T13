@@ -156,12 +156,7 @@ public class CourseCalendarContentProvider extends ContentProvider{
     }
 
     private void checkColumns(String[] projection) {
-        String[] available = {
-                CourseCalendarInfo.FeedEntry._ID,
-                CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME,
-                CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC,
-                CourseCalendarInfo.FeedEntry.COLUMN_START_TIME,
-                CourseCalendarInfo.FeedEntry.COLUMN_END_TIME};
+        String[] available = CourseCalendarInfo.FeedEntry.ALL_COLUMNS;
         if (projection != null) {
             HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
             HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));
