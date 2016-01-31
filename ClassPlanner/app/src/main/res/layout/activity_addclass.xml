@@ -2,6 +2,7 @@
 <RelativeLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:focusableInTouchMode="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <android.support.design.widget.AppBarLayout
@@ -43,23 +44,21 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp">
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ti_course">
                     <!--User input course name-->
                     <EditText
                         android:id="@+id/text_coursename"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text"
+                        android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:hint="Course Name"
-                        android:background="@drawable/bg_edit_text_normal"
-                        android:fontFamily="sans-serif-light"/>
+                        android:fontFamily="sans-serif-light"
+                        />
                 </android.support.design.widget.TextInputLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#d2d2d2"/>
 
                 <!--Instructor Name-->
                 <android.support.design.widget.TextInputLayout
@@ -71,42 +70,34 @@
                         android:layout_height="@dimen/edit_text"
                         android:singleLine="true"
                         android:hint="Instructor"
-                        android:background="@drawable/bg_edit_text_normal"
                         android:fontFamily="sans-serif-light"/>
                 </android.support.design.widget.TextInputLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#d2d2d2"/>
                 <!--Instructor E-mail-->
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ti_email">
                     <EditText
                         android:id="@+id/edit_instr_email"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text"
+                        android:layout_height="wrap_content"
                         android:hint="Instructor E-mail"
                         android:singleLine="true"
                         android:inputType="textEmailAddress"
-                        android:background="@drawable/bg_edit_text_normal"
                         android:fontFamily="sans-serif-light"/>
                 </android.support.design.widget.TextInputLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#d2d2d2"/>
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ti_website">
                     <!--Course Website-->
                     <EditText
                         android:id="@+id/website"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text"
+                        android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:hint="Class Website"
-                        android:background="@drawable/bg_edit_text_normal"
                         android:fontFamily="sans-serif-light"
                         android:imeOptions="actionDone"/>
                 </android.support.design.widget.TextInputLayout>
@@ -129,7 +120,8 @@
                 android:layout_marginRight="10dp">
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ti_loc">
                     <!--Location-->
                     <EditText
                         android:id="@+id/edit_loc"
@@ -137,7 +129,6 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:hint="Location"
-                        android:background="@drawable/bg_edit_text_normal"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -145,77 +136,46 @@
                         android:imeOptions="actionDone"/>
                 </android.support.design.widget.TextInputLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#d2d2d2"/>
-
                 <!-- Select the time -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                    <LinearLayout
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Start: "
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:fontFamily="sans-serif-light"/>
-
+                        android:id="@+id/ti_start">
                         <EditText
                             android:id="@+id/start_time_picker"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:hint="HH:MM"
+                            android:hint="Start Time:"
                             android:focusable="false"
-                            android:background="@drawable/bg_edit_text_normal"
                             android:layout_marginBottom="10dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:fontFamily="sans-serif-light"/>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#d2d2d2"/>
-                    </LinearLayout>
-                    <LinearLayout
+                    </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="End: "
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:fontFamily="sans-serif-light"/>
-
+                        android:id="@+id/ti_end">
                         <EditText
                             android:id="@+id/end_time_picker"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:focusable="false"
-                            android:hint="HH:MM"
-                            android:background="@drawable/bg_edit_text_normal"
+                            android:hint="End:"
                             android:layout_marginBottom="10dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:fontFamily="sans-serif-light"/>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#d2d2d2"/>
-                    </LinearLayout>
+                    </android.support.design.widget.TextInputLayout>
+
                 </LinearLayout>
                 <!-- Select the days of the week -->
                 <TextView
