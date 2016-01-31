@@ -1,6 +1,7 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages;
 
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,22 +15,15 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarDbHelper;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarInfo;
 
 public class AddClassActivity extends AppCompatActivity{
-    private SQLiteDatabase db;
-    private ContentValues values;
-    private CourseCalendarDbHelper mDbHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addclass);
-
-        mDbHelper = new CourseCalendarDbHelper(this.getBaseContext());
-        db = mDbHelper.getWritableDatabase();
-        values = new ContentValues();
 
         final Bundle startArguments = new Bundle();
         final Bundle endArguments = new Bundle();
@@ -72,11 +66,9 @@ public class AddClassActivity extends AppCompatActivity{
             switch (v.getId()) {
                 case R.id.add:
                     insertAllData();
-                    db.close();
                     finish();
                     break;
                 case R.id.cancel:
-                    db.close();
                     finish();
                     break;
             }
@@ -101,6 +93,7 @@ public class AddClassActivity extends AppCompatActivity{
         db.insert(CourseCalendarInfo.FeedEntry.TABLE_NAME, null, values);
         values.clear();*/
 
+        ContentValues values = new ContentValues();
         String val = allInfo[0].getText().toString();
         values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME, val);
         val = allInfo[1].getText().toString();
@@ -109,12 +102,13 @@ public class AddClassActivity extends AppCompatActivity{
         values.put(CourseCalendarInfo.FeedEntry.COLUMN_START_TIME, val);
         val = allInfo[3].getText().toString();
         values.put(CourseCalendarInfo.FeedEntry.COLUMN_END_TIME, val);
-        db.insert(CourseCalendarInfo.FeedEntry.TABLE_NAME, null, values);
+
+        ContentResolver cr = getContentResolver();
+        cr.insert(CourseCalendarContentProvider.CONTENT_URI,values);
     }
 
     @Override
     protected void onPause() {
-        mDbHelper.close();
         super.onPause();
     }
 

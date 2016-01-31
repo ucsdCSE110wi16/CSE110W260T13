@@ -1,6 +1,7 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -25,23 +26,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.Course
 
 public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
-    private SQLiteDatabase db;
-    private ContentValues values;
-    private CourseCalendarDbHelper mDbHelper;
-
     private View rootView;
-    private String currClass;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-
-        mDbHelper = new CourseCalendarDbHelper(getActivity().getBaseContext());
-        db = mDbHelper.getWritableDatabase();
-        values = new ContentValues();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -50,8 +35,8 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
     }
 
     public void test(String class_name){
-        currClass = class_name;
-        Cursor cursor = db.query(CourseCalendarInfo.FeedEntry.TABLE_NAME,
+        ContentResolver cr = getActivity().getContentResolver();
+        Cursor cursor = cr.query(CourseCalendarContentProvider.CONTENT_URI,
                 new String[] {
                         CourseCalendarInfo.FeedEntry._ID,
                         CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME,
@@ -61,9 +46,6 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
                 },
                 CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
                 new String[] { class_name + "" },
-                null,
-                null,
-                null,
                 null);
 
             if(cursor != null && cursor.getCount() > 0) {

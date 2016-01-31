@@ -1,7 +1,10 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +33,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.ClassInfoFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.TabsAdapter;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarContentProvider;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarDbHelper;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarInfo;
 
 public class CoursesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -41,6 +46,8 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
     private Spinner spin;
     private String currentClass;
 
+    private SQLiteDatabase db;
+    private CourseCalendarDbHelper mDbHelper;
 
     public CoursesFragment(){}
 
@@ -132,6 +139,11 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
                     startActivity(new Intent(getActivity(), AddClassActivity.class));
                     break;
                 case R.id.delete_course_button:
+                    Log.d("on click", currentClass);
+                    ContentResolver cr = getActivity().getContentResolver();
+                    cr.delete(CourseCalendarContentProvider.CONTENT_URI,
+                            CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
+                            new String[]{currentClass});
                     break;
             }
         }
@@ -146,6 +158,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
     private void updateChildFragments(String course_name){
         FragmentPagerAdapter fragmentPagerAdapter = (FragmentPagerAdapter) courseViewPager.getAdapter();
         for(int i = 0; i < fragmentPagerAdapter.getCount(); i++) {
+            Log.d("updateChildFragments", "testing");
             String name = makeFragmentName(courseViewPager.getId(), i);
             Fragment viewPagerFragment = getChildFragmentManager().findFragmentByTag(name);
             if (viewPagerFragment instanceof ClassInfoFragment) {
@@ -201,7 +214,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
 
 
     /**
-     * Swaps the data in the adapter
+     * Swaps the data in the adapter when loader is finished.
      * @param loader
      * @param data
      */
@@ -236,6 +249,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
          * single onResume() call
          */
         getLoaderManager().restartLoader(0, null, this);
+        Log.d("onResume", "string is " + currentClass);
         updateChildFragments(currentClass);
     }
 }
