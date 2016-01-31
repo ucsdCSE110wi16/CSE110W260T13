@@ -13,6 +13,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.Course
 
 public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
+    private String currName = null;
     private View rootView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -35,6 +37,8 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
     }
 
     public void test(String class_name){
+        currName=class_name;
+        Log.d("teststringclass_name ", "class name is " + class_name);
         ContentResolver cr = getActivity().getContentResolver();
         Cursor cursor = cr.query(CourseCalendarContentProvider.CONTENT_URI,
                 new String[] {
@@ -87,8 +91,21 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
                 CourseCalendarInfo.FeedEntry.COLUMN_START_TIME,
                 CourseCalendarInfo.FeedEntry.COLUMN_END_TIME
         };
-        CursorLoader cursor_ld = new CursorLoader(getContext(),
-                CourseCalendarContentProvider.CONTENT_URI, projection, null, null, null);
+
+
+        CursorLoader cursor_ld;
+        if(currName == null) {
+            cursor_ld = new CursorLoader(getContext(),
+                    CourseCalendarContentProvider.CONTENT_URI, projection,
+                    null, null, null);
+        }
+        else{
+            cursor_ld = new CursorLoader(getContext(),
+                    CourseCalendarContentProvider.CONTENT_URI, projection,
+                    CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
+                    new String[]{currName}, null);
+
+        }
         return cursor_ld;
     }
 

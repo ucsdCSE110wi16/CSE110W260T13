@@ -119,6 +119,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             String course_name = cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME));
             currentClass = course_name;
 
+            Log.d("dropdwnHandler", "Current course_name is "+ currentClass);
             /*Iterate through all the fragments and update info*/
             updateChildFragments(course_name);
         }
@@ -158,7 +159,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
     private void updateChildFragments(String course_name){
         FragmentPagerAdapter fragmentPagerAdapter = (FragmentPagerAdapter) courseViewPager.getAdapter();
         for(int i = 0; i < fragmentPagerAdapter.getCount(); i++) {
-            Log.d("updateChildFragments", "testing");
+            Log.d("updateChildFragments", "testing " + course_name);
             String name = makeFragmentName(courseViewPager.getId(), i);
             Fragment viewPagerFragment = getChildFragmentManager().findFragmentByTag(name);
             if (viewPagerFragment instanceof ClassInfoFragment) {
