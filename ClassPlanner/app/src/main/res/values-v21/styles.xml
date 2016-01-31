@@ -31,7 +31,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
@@ -68,6 +68,7 @@
         <item name="android:dropDownSelector">@drawable/selectable_background_example</item>
 
     </style>
+
 
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
 

@@ -24,7 +24,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.AddClass;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.AddClassActivity;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.AssignmentsFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.ClassInfoFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePages.TabsAdapter;
@@ -129,7 +129,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.add_course_button:
-                    startActivity(new Intent(getActivity(), AddClass.class));
+                    startActivity(new Intent(getActivity(), AddClassActivity.class));
                     break;
                 case R.id.delete_course_button:
                     break;

@@ -2,18 +2,22 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePage
 
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarDbHelper;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarInfo;
 
-public class AddClass extends AppCompatActivity{
+public class AddClassActivity extends AppCompatActivity{
     private SQLiteDatabase db;
     private ContentValues values;
     private CourseCalendarDbHelper mDbHelper;
@@ -21,7 +25,7 @@ public class AddClass extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_database);
+        setContentView(R.layout.activity_addclass);
 
         mDbHelper = new CourseCalendarDbHelper(this.getBaseContext());
         db = mDbHelper.getWritableDatabase();
@@ -52,17 +56,30 @@ public class AddClass extends AppCompatActivity{
             }
         });
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null){
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+        Button add = (Button)findViewById(R.id.add);
+        Button cancel = (Button) findViewById(R.id.cancel);
+        clickHandler click_handler = new clickHandler();
+        add.setOnClickListener(click_handler);
+        cancel.setOnClickListener(click_handler);
     }
-
-    public void onClick(View view){
-        switch(view.getId()){
-            case R.id.add:
-                insertAllData();
-
-                db.close();
-                finish();
-                break;
-            //case R.id.cancel:
+    private class clickHandler implements View.OnClickListener {
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.add:
+                    insertAllData();
+                    db.close();
+                    finish();
+                    break;
+                case R.id.cancel:
+                    db.close();
+                    finish();
+                    break;
+            }
         }
     }
 
