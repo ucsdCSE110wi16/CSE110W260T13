@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text = "instructor e-mail here"
-                    android:id="@+id/textView4"
+                    android:id="@+id/instr_email"
                     android:singleLine="true"
                     android:layout_weight="1"/>
             </LinearLayout>
@@ -90,7 +90,7 @@
                     android:fontFamily="sans-serif-light"
                     android:text = "class website here"
                     android:singleLine="true"
-                    android:id="@+id/textView5"
+                    android:id="@+id/website"
                     android:layout_weight="1"/>
             </LinearLayout>
         </LinearLayout>
@@ -186,7 +186,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
                     android:text = "S"
-                    android:id="@+id/sun"
+                    android:id="@+id/sunday"
                     android:layout_weight="1"/>
                 <TextView
                     android:layout_width="0dp"
@@ -230,7 +230,6 @@
                     android:text = "S"
                     android:id="@+id/sat"
                     android:layout_weight="1"/>
-
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -258,6 +257,11 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:fontFamily="sans-serif-light"
                 android:text="Student Notes"/>
+            <TextView
+                android:id="@+id/notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"/>
         </LinearLayout>
 
 

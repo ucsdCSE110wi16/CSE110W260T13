@@ -10,11 +10,6 @@ public class CourseCalendarInfo {
         public static final String TABLE_NAME = "CourseList";
         public static final String COLUMN_COURSE_NAME = "CourseName";
         public static final String COLUMN_COURSE_LOC = "CourseLocation";
-        public static final String COLUMN_START_HOUR = "CourseStartHour";
-        public static final String COLUMN_START_MIN = "CourseStartMin";
-        public static final String COLUMN_END_HOUR = "CourseEndHour";
-        public static final String COLUMN_END_MIN = "CourseEndMin";
-
         public static final String COLUMN_START_TIME = "CourseStartTime";
         public static final String COLUMN_END_TIME = "CourseEndTime";
 
@@ -25,6 +20,11 @@ public class CourseCalendarInfo {
         public static final String COLUMN_FRI = "ClassOnFri";
         public static final String COLUMN_SAT = "ClassOnSat";
         public static final String COLUMN_SUN = "ClassOnSun";
+
+        public static final String COLUMN_NOTES = "ClassNotes";
+        public static final String COLUMN_INSTR_NAME = "ClassInstr";
+        public static final String COLUMN_INSTR_EMAIL = "InstrEmail";
+        public static final String COLUMN_WEBSITE = "ClassSite";
 
         public static final String[] ALL_COLUMNS= {
                 _ID,
@@ -39,9 +39,11 @@ public class CourseCalendarInfo {
                 COLUMN_THUR,
                 COLUMN_FRI,
                 COLUMN_SAT,
-                COLUMN_SUN
+                COLUMN_NOTES,
+                COLUMN_INSTR_NAME,
+                COLUMN_INSTR_EMAIL,
+                COLUMN_WEBSITE
         };
-
     }
 
 }

@@ -39,6 +39,7 @@ public class CourseCalendarContentProvider extends ContentProvider{
     @Override
     public boolean onCreate() {
         db_helper = new CourseCalendarDbHelper(getContext());
+        db = db_helper.getWritableDatabase();
         return false;
     }
 
@@ -62,8 +63,6 @@ public class CourseCalendarContentProvider extends ContentProvider{
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
-
-        SQLiteDatabase db = db_helper.getWritableDatabase();
         Cursor cursor = queryBuilder.query(db, projection, selection,
                 selectionArgs, null, null, sortOrder);
         //makes sure that potential listeners are getting notified
@@ -80,12 +79,11 @@ public class CourseCalendarContentProvider extends ContentProvider{
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         int uriType = sURIMatcher.match(uri);
-        SQLiteDatabase sqlDB = db_helper.getWritableDatabase();
         long id = 0;
 
         switch (uriType) {
             case COURSE_INFO:
-                id = sqlDB.insert(CourseCalendarInfo.FeedEntry.TABLE_NAME, null, values);
+                id = db.insert(CourseCalendarInfo.FeedEntry.TABLE_NAME, null, values);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -98,21 +96,20 @@ public class CourseCalendarContentProvider extends ContentProvider{
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs){
         int uriType = sURIMatcher.match(uri);
-        SQLiteDatabase sqlDB = db_helper.getWritableDatabase();
         int rowsDeleted = 0;
         switch (uriType) {
             case COURSE_INFO:
-                rowsDeleted = sqlDB.delete(CourseCalendarInfo.FeedEntry.TABLE_NAME, selection,
+                rowsDeleted = db.delete(CourseCalendarInfo.FeedEntry.TABLE_NAME, selection,
                         selectionArgs);
                 break;
             case COURSE_ID:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)){
-                    rowsDeleted = sqlDB.delete(CourseCalendarInfo.FeedEntry.TABLE_NAME,
+                    rowsDeleted = db.delete(CourseCalendarInfo.FeedEntry.TABLE_NAME,
                             CourseCalendarInfo.FeedEntry._ID + "=" + id, null);
                 }
                 else {
-                    rowsDeleted = sqlDB.delete(CourseCalendarInfo.FeedEntry.TABLE_NAME,
+                    rowsDeleted = db.delete(CourseCalendarInfo.FeedEntry.TABLE_NAME,
                             CourseCalendarInfo.FeedEntry._ID + "=" + id + "and"
                             + selection, selectionArgs);
                 }
@@ -128,22 +125,21 @@ public class CourseCalendarContentProvider extends ContentProvider{
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs){
         int uriType = sURIMatcher.match(uri);
-        SQLiteDatabase sqlDB = db_helper.getWritableDatabase();
         int rowsUpdated = 0;
 
         switch (uriType) {
             case COURSE_INFO:
-                rowsUpdated = sqlDB.update(CourseCalendarInfo.FeedEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(CourseCalendarInfo.FeedEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             case COURSE_ID:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)){
-                    rowsUpdated = sqlDB.update(CourseCalendarInfo.FeedEntry.TABLE_NAME, values,
+                    rowsUpdated = db.update(CourseCalendarInfo.FeedEntry.TABLE_NAME, values,
                             CourseCalendarInfo.FeedEntry._ID + "=" + id, null);
                 }
                 else {
-                    rowsUpdated = sqlDB.update(CourseCalendarInfo.FeedEntry.TABLE_NAME, values,
+                    rowsUpdated = db.update(CourseCalendarInfo.FeedEntry.TABLE_NAME, values,
                             CourseCalendarInfo.FeedEntry._ID + "=" + id + "and"
                                     + selection, selectionArgs);
                 }
@@ -165,5 +161,4 @@ public class CourseCalendarContentProvider extends ContentProvider{
             }
         }
     }
-
 }

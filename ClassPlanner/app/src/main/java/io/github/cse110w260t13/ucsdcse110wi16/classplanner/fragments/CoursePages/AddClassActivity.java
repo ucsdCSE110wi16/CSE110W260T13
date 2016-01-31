@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
@@ -76,15 +77,24 @@ public class AddClassActivity extends AppCompatActivity{
     }
 
     private void insertAllData(){
-        EditText[] allInfo = {
-                (EditText) findViewById(R.id.text_coursename),
-                (EditText) findViewById(R.id.edit_loc),
-                (EditText) findViewById(R.id.start_time_picker),
-                (EditText) findViewById(R.id.end_time_picker)
-        };
+        EditText course = (EditText) findViewById(R.id.text_coursename);
+        EditText loc = (EditText) findViewById(R.id.edit_loc);
+        EditText startTime = (EditText) findViewById(R.id.start_time_picker);
+        EditText endTime = (EditText) findViewById(R.id.end_time_picker);
+        CheckBox sun = (CheckBox) findViewById(R.id.sun);
+        CheckBox mon = (CheckBox) findViewById(R.id.mon);
+        CheckBox tue = (CheckBox) findViewById(R.id.tue);
+        CheckBox wed = (CheckBox) findViewById(R.id.wed);
+        CheckBox thur = (CheckBox) findViewById(R.id.thur);
+        CheckBox fri = (CheckBox) findViewById(R.id.fri);
+        CheckBox sat = (CheckBox) findViewById(R.id.sat);
+        EditText notes = (EditText) findViewById(R.id.notes);
+        EditText instr = (EditText) findViewById(R.id.edit_instr);
+        EditText email = (EditText) findViewById(R.id.edit_instr_email);
+        EditText web = (EditText) findViewById(R.id.website);
+
 
         /* This will be the most efficient way to insert all the data
-
         for (int i =0; i < allInfo.length; i++){
             String val = allInfo[i].getText().toString();
             values.put(CourseCalendarInfo.FeedEntry.ALL_COLUMNS[i], val);
@@ -94,22 +104,41 @@ public class AddClassActivity extends AppCompatActivity{
         values.clear();*/
 
         ContentValues values = new ContentValues();
-        String val = allInfo[0].getText().toString();
+
+        String val = course.getText().toString();
         values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME, val);
-        val = allInfo[1].getText().toString();
+        val = loc.getText().toString();
         values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC, val);
-        val = allInfo[2].getText().toString();
+        val = startTime.getText().toString();
         values.put(CourseCalendarInfo.FeedEntry.COLUMN_START_TIME, val);
-        val = allInfo[3].getText().toString();
+        val = endTime.getText().toString();
         values.put(CourseCalendarInfo.FeedEntry.COLUMN_END_TIME, val);
+
+        boolean checked = sun.isChecked();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_SUN, checked);
+        checked = mon.isChecked();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_MON, checked);
+        checked = tue.isChecked();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_TUE, checked);
+        checked = wed.isChecked();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_WED, checked);
+        checked = thur.isChecked();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_THUR, checked);
+        checked = fri.isChecked();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_FRI, checked);
+        checked = sat.isChecked();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_SAT, checked);
+
+        val=notes.getText().toString();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_NOTES, val);
+        val=instr.getText().toString();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME, val);
+        val=email.getText().toString();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_EMAIL, val);
+        val=web.getText().toString();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE, val);
 
         ContentResolver cr = getContentResolver();
         cr.insert(CourseCalendarContentProvider.CONTENT_URI,values);
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
 }

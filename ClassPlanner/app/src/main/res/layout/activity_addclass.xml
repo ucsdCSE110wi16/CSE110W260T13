@@ -237,44 +237,44 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="S"
-                        android:id="@+id/checkBox" />
+                        android:id="@+id/sun" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="M"
-                        android:id="@+id/checkBox2"
+                        android:id="@+id/mon"
                         android:layout_gravity="center_horizontal" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="T"
-                        android:id="@+id/checkBox3" />
+                        android:id="@+id/tue" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="W"
-                        android:id="@+id/checkBox4" />
+                        android:id="@+id/wed" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="T"
-                        android:id="@+id/checkBox5" />
+                        android:id="@+id/thur" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="F"
-                        android:id="@+id/checkBox6" />
+                        android:id="@+id/fri" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="S"
-                        android:id="@+id/checkBox7" />
+                        android:id="@+id/sat" />
                 </LinearLayout>
             </LinearLayout>
             <TextView

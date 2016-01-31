@@ -29,7 +29,7 @@
             android:textSize="18sp"
             android:textColor="#ffffff"
             android:layout_gravity="center"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="1sp"/>
         <Spinner
             android:id="@+id/spinner_nav"
             android:layout_width="fill_parent"
