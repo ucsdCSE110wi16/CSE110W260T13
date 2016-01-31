@@ -4,8 +4,10 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursePage
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
@@ -26,21 +28,57 @@ public class AddClass extends AppCompatActivity{
         db = mDbHelper.getWritableDatabase();
         values = new ContentValues();
 
+        EditText startTime = (EditText) findViewById(R.id.start_time_picker);
+        startTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                DialogFragment newTimePicker = new StartTimePicker();
+                newTimePicker.show(getSupportFragmentManager(), "startTimePicker");
+            }
+        });
+
+        EditText endTime = (EditText) findViewById(R.id.end_time_picker);
+        endTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                DialogFragment newTimePicker = new EndTimePicker();
+                newTimePicker.show(getSupportFragmentManager(), "EndTimePicker");
+            }
+        });
+
     }
 
     public void onClick(View view){
         switch(view.getId()){
             case R.id.add:
-                EditText editText = (EditText) findViewById(R.id.text_coursename);
-                String val = editText.getText().toString();
-                values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME, val);
-                db.insert(CourseCalendarInfo.FeedEntry.TABLE_NAME, null, values);
+                insertAllData();
 
-
+                db.close();
                 finish();
                 break;
             //case R.id.cancel:
         }
+    }
+
+    private void insertAllData(){
+        EditText[] allInfo = {
+                (EditText) findViewById(R.id.text_coursename),
+                (EditText) findViewById(R.id.edit_loc),
+                (EditText) findViewById(R.id.start_time_picker),
+                (EditText) findViewById(R.id.end_time_picker)
+        };
+
+        String val = allInfo[0].getText().toString();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME, val);
+        val = allInfo[1].getText().toString();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC, val);
+        val = allInfo[2].getText().toString();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_START_TIME, val);
+        val = allInfo[3].getText().toString();
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_END_TIME, val);
+        db.insert(CourseCalendarInfo.FeedEntry.TABLE_NAME, null, values);
     }
 
     @Override

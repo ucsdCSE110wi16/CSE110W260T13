@@ -15,6 +15,9 @@ public class CourseCalendarInfo {
         public static final String COLUMN_END_HOUR = "CourseEndHour";
         public static final String COLUMN_END_MIN = "CourseEndMin";
 
+        public static final String COLUMN_START_TIME = "CourseStartTime";
+        public static final String COLUMN_END_TIME = "CourseEndTime";
+
         public static final String COLUMN_MON = "ClassOnMon";
         public static final String COLUMN_TUE = "ClassOnTue";
         public static final String COLUMN_WED = "ClassOnWed";

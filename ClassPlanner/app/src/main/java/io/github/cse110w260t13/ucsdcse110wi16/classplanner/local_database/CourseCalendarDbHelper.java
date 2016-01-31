@@ -12,13 +12,15 @@ public class CourseCalendarDbHelper extends SQLiteOpenHelper{
 
     private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " +
             CourseCalendarInfo.FeedEntry.TABLE_NAME + " (" +
-            CourseCalendarInfo.FeedEntry._ID + " TEXT PRIMARY KEY," +
+            CourseCalendarInfo.FeedEntry._ID + " INTEGER PRIMARY KEY," +
             CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + " TEXT," +
             CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC + " TEXT," +
             CourseCalendarInfo.FeedEntry.COLUMN_START_HOUR + " INTEGER," +
             CourseCalendarInfo.FeedEntry.COLUMN_START_MIN + " INTEGER," +
             CourseCalendarInfo.FeedEntry.COLUMN_END_HOUR + " INTEGER," +
             CourseCalendarInfo.FeedEntry.COLUMN_END_MIN + " INTEGER," +
+            CourseCalendarInfo.FeedEntry.COLUMN_START_TIME + " TEXT," +
+            CourseCalendarInfo.FeedEntry.COLUMN_END_TIME + " TEXT," +
             CourseCalendarInfo.FeedEntry.COLUMN_SUN + " INTEGER," +
             CourseCalendarInfo.FeedEntry.COLUMN_MON + " INTEGER," +
             CourseCalendarInfo.FeedEntry.COLUMN_TUE + " INTEGER," +
