@@ -136,7 +136,7 @@ public class AddClassActivity extends AppCompatActivity{
             TIstart.setError("Time is required.");
             timeValid=false;
         }
-        else {
+        if(TextUtils.isEmpty(endStr)){
             TIend.setError("End time required.");
             timeValid=false;
         }
@@ -223,5 +223,22 @@ public class AddClassActivity extends AppCompatActivity{
         cr.insert(CourseCalendarContentProvider.CONTENT_URI,values);
 
         return true;
+    }
+
+    @Override
+    protected void onPause(){
+        TextInputLayout TICourseName = (TextInputLayout) findViewById(R.id.ti_course);
+        TextInputLayout TIEmail = (TextInputLayout) findViewById(R.id.ti_email);
+        TextInputLayout TIWebsite = (TextInputLayout) findViewById(R.id.ti_website);
+        TextInputLayout TIstart = (TextInputLayout) findViewById(R.id.ti_start);
+        TextInputLayout TIend = (TextInputLayout) findViewById(R.id.ti_end);
+
+        TICourseName.setError(null);
+        TIEmail.setError(null);
+        TIWebsite.setError(null);
+        TIstart.setError(null);
+        TIend.setError(null);
+
+        super.onPause();
     }
 }
