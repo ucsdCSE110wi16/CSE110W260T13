@@ -56,7 +56,8 @@ public class CalendarFragment extends Fragment {
         caldroidFragment.setArguments(args);
 
         // Replace the default calendar with the Caldroid calendar
-        FragmentTransaction t = getFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction t
+                = getActivity().getSupportFragmentManager().beginTransaction();
         t.replace(R.id.calendarView, caldroidFragment);
         t.commit();
 
