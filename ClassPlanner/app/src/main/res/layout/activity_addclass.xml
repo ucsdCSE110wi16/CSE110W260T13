@@ -67,7 +67,7 @@
                     <EditText
                         android:id="@+id/edit_instr"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text"
+                        android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:hint="Instructor"
                         android:fontFamily="sans-serif-light"/>

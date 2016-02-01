@@ -158,7 +158,7 @@ public class AddClassActivity extends AppCompatActivity{
     }
 
     private boolean isEmailValid(String email){
-        Pattern pattern = Pattern.compile("^.+@.+(\\\\.[^\\\\.]+)+$");
+        Pattern pattern = Pattern.compile("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
