@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.widget.RelativeLayout;
 
 import com.roomorama.caldroid.CaldroidFragment;
 
@@ -47,6 +48,18 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        /*
+        // Create original CalendarView to be replaced
+        CalendarView calendarView = new CalendarView(this.getContext());
+        calendarView.setId(R.id.calendarView);
+        RelativeLayout.LayoutParams layout_830 =
+                (RelativeLayout.LayoutParams) rootView.findViewById(R.id.fragment_calendar_layout).getLayoutParams();
+        layout_830.width = RelativeLayout.LayoutParams.WRAP_CONTENT;
+        layout_830.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
+        layout_830.topMargin = 71;
+        calendarView.setLayoutParams(layout_830);
+        */
+
         // Create a Caldroid fragment
         CaldroidFragment caldroidFragment = new CaldroidFragment();
         Bundle args = new Bundle();
@@ -58,7 +71,7 @@ public class CalendarFragment extends Fragment {
         // Replace the default calendar with the Caldroid calendar
         android.support.v4.app.FragmentTransaction t
                 = getActivity().getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.calendarView, caldroidFragment);
+        t.replace(R.id.caldroidContainer, caldroidFragment);
         t.commit();
 
         return rootView;
