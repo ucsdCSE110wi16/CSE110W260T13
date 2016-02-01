@@ -1,5 +1,6 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer;
 
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
+
+    private final Handler mDrawerHandler = new Handler();
 
     // nav drawer title
     private CharSequence mDrawerTitle;
@@ -132,9 +135,10 @@ public class MainActivity extends AppCompatActivity {
     private class SlideMenuClickListener implements
             ListView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,
+        public void onItemClick(AdapterView<?> parent, View view, final int position,
                                 long id) {
             // display view for selected nav drawer item
+            mDrawerHandler.removeCallbacksAndMessages(null);
             displayView(position);
         }
     }
@@ -220,10 +224,15 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.frame_container, fragment).commit();
 
             // update selected item and title, then close the drawer
-            mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);
             setTitle(navMenuTitles[position]);
-            mDrawerLayout.closeDrawer(mDrawerList);
+            mDrawerList.setItemChecked(position, true);
+            mDrawerHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                }
+            }, 50);
         } else {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");

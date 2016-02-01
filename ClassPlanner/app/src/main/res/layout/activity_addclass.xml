@@ -56,8 +56,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:hint="Course Name"
-                        android:fontFamily="sans-serif-light"
-                        />
+                        android:fontFamily="sans-serif-light" />
                 </android.support.design.widget.TextInputLayout>
 
                 <!--Instructor Name-->
@@ -70,6 +69,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:hint="Instructor"
+                        android:inputType="textPersonName"
                         android:fontFamily="sans-serif-light"/>
                 </android.support.design.widget.TextInputLayout>
                 <!--Instructor E-mail-->
@@ -169,7 +169,7 @@
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:focusable="false"
-                            android:hint="End:"
+                            android:hint="End Time:"
                             android:layout_marginBottom="10dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
