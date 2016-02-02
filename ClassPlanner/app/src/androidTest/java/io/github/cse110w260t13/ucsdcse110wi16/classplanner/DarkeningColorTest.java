@@ -58,4 +58,26 @@ public class DarkeningColorTest extends TestCase {
         Log.d(logTag, "lightened color by five percent: " + darkeningColor.darkenColorByDeltaPercent());
     }
 
+    @Test
+    public void testLightenColorByTenPercent() {
+        String expected = "#6bd3f5";
+
+        darkeningColor.setRGB(81, 185, 219);
+        darkeningColor.setDeltaPercent(10);
+        assertEquals(expected, darkeningColor.lightenColorByDeltaPercent());
+
+        Log.d(logTag, "lightened color by ten percent: " + darkeningColor.lightenColorByDeltaPercent());
+    }
+
+    @Test
+    public void testDarkenColorByTenPercent() {
+        String expected = "#379fc1";
+
+        darkeningColor.setRGB(81, 185, 219);
+        darkeningColor.setDeltaPercent(10);
+        assertEquals(expected, darkeningColor.darkenColorByDeltaPercent());
+
+        Log.d(logTag, "lightened color by ten percent: " + darkeningColor.darkenColorByDeltaPercent());
+    }
+
 }
