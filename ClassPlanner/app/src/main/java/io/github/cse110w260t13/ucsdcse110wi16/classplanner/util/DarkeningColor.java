@@ -27,24 +27,16 @@ public class DarkeningColor {
     }
 
     public String getHexColor() {
-        return String.format("#%02x%02x%02x", red, blue, green);
+        return String.format("#%02x%02x%02x", red, green, blue);
     }
 
-    public void setRGB(int red, int blue, int green) {
+    public void setRGB(int red, int green, int blue) {
         if(red < RGB_COMPONENT_MIN) {
             redIsUnder = true;
         }
 
         if(red > RGB_COMPONENT_MAX) {
             redIsOver = true;
-        }
-
-        if(blue < RGB_COMPONENT_MIN) {
-            blueIsUnder = true;
-        }
-
-        if(blue > RGB_COMPONENT_MAX) {
-            blueIsOver = true;
         }
 
         if(green < RGB_COMPONENT_MIN) {
@@ -55,17 +47,25 @@ public class DarkeningColor {
             greenIsOver = true;
         }
 
+        if(blue < RGB_COMPONENT_MIN) {
+            blueIsUnder = true;
+        }
+
+        if(blue > RGB_COMPONENT_MAX) {
+            blueIsOver = true;
+        }
+
         if(redIsUnder || redIsOver
-                || blueIsUnder || blueIsOver
-                || greenIsUnder || greenIsOver) {
+                || greenIsUnder || greenIsOver
+                || blueIsUnder || blueIsOver) {
 
             this.correctOutOfRange();
 
         } else {
 
             this.red = red;
-            this.blue = blue;
             this.green = green;
+            this.blue = blue;
 
         }
     }
@@ -78,20 +78,20 @@ public class DarkeningColor {
         this.deltaPercent = deltaPercent;
     }
 
-    public String brightenColorByDeltaPercent() {
+    public String lightenColorByDeltaPercent() {
 
-        this.setRGB(this.red + ((this.red * (100 - deltaPercent)) / 100),
-                this.green + ((this.green * (100 - deltaPercent)) / 100),
-                this.blue + ((this.blue * (100 - deltaPercent)) / 100));
+        this.setRGB((int)(this.red + (RGB_COMPONENT_MAX * (deltaPercent / 100.0))) + 1,
+                (int)(this.green + (RGB_COMPONENT_MAX * (deltaPercent / 100.0))) + 1,
+                (int)(this.blue + (RGB_COMPONENT_MAX * (deltaPercent / 100.0))) + 1);
 
         return this.getHexColor();
     }
 
     public String darkenColorByDeltaPercent() {
 
-        this.setRGB(this.red - ((this.red * (100 - deltaPercent)) / 100),
-                this.green - ((this.green * (100 - deltaPercent)) / 100),
-                this.blue - ((this.blue * (100 - deltaPercent)) / 100));
+        this.setRGB((int)(this.red - (RGB_COMPONENT_MAX * (deltaPercent / 100.0))),
+                (int)(this.green - (RGB_COMPONENT_MAX * (deltaPercent / 100.0))),
+                (int)(this.blue - (RGB_COMPONENT_MAX * (deltaPercent / 100.0))));
 
         return this.getHexColor();
     }
@@ -106,20 +106,20 @@ public class DarkeningColor {
             this.red = RGB_COMPONENT_MAX;
         }
 
-        if(blueIsUnder) {
-            this.blue = RGB_COMPONENT_MIN;
-        }
-
-        if(blueIsOver) {
-            this.blue = RGB_COMPONENT_MAX;
-        }
-
         if(greenIsUnder) {
             this.green = RGB_COMPONENT_MIN;
         }
 
         if(greenIsOver) {
             this.green = RGB_COMPONENT_MAX;
+        }
+
+        if(blueIsUnder) {
+            this.blue = RGB_COMPONENT_MIN;
+        }
+
+        if(blueIsOver) {
+            this.blue = RGB_COMPONENT_MAX;
         }
 
     }
