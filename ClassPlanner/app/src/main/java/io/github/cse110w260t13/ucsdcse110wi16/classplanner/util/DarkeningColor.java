@@ -80,18 +80,18 @@ public class DarkeningColor {
 
     public String brightenColorByDeltaPercent() {
 
-        this.setRGB(this.red + (this.red * (100 - deltaPercent)),
-                this.green + (this.green * (100 - deltaPercent)),
-                this.blue + (this.blue * (100 - deltaPercent)));
+        this.setRGB(this.red + ((this.red * (100 - deltaPercent)) / 100),
+                this.green + ((this.green * (100 - deltaPercent)) / 100),
+                this.blue + ((this.blue * (100 - deltaPercent)) / 100));
 
         return this.getHexColor();
     }
 
     public String darkenColorByDeltaPercent() {
 
-        this.setRGB(this.red - (this.red * (100 - deltaPercent)),
-                this.green - (this.green * (100 - deltaPercent)),
-                this.blue - (this.blue * (100 - deltaPercent)));
+        this.setRGB(this.red - ((this.red * (100 - deltaPercent)) / 100),
+                this.green - ((this.green * (100 - deltaPercent)) / 100),
+                this.blue - ((this.blue * (100 - deltaPercent)) / 100));
 
         return this.getHexColor();
     }
