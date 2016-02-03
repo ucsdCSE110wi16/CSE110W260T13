@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.custom_views.CustomCaldroidFragment;
 
 /**
  * Fragment that will contain Calendar section's features.
@@ -59,7 +60,7 @@ public class CalendarFragment extends Fragment {
         });
 
         // Create a Caldroid fragment
-        CaldroidFragment caldroidFragment = new CaldroidFragment();
+        CustomCaldroidFragment caldroidFragment = new CustomCaldroidFragment();
         Bundle args = new Bundle();
         Calendar cal = Calendar.getInstance();
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
@@ -73,7 +74,7 @@ public class CalendarFragment extends Fragment {
         t.commit();
 
         // Set colors for dates
-        //caldroidFragment.setBackgroundColorForDate(0xFF00FF00, new Date());
+        caldroidFragment.setBackgroundResourceForDate(0xff00ff00, new Date());
 
         // Must refresh after changing the appearance of the View
         caldroidFragment.refreshView();
