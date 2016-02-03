@@ -97,17 +97,17 @@ public class CalendarFragment extends Fragment {
         HashMap<DateTime, Integer> mappedColors = new HashMap<DateTime, Integer>();
 
         int[] eventsPerDayDummyData = {
-                1, 3, 1, 7, 1, 4, 3,
-                1, 1, 1, 1, 1, 1, 2,
-                1, 0, 1, 5, 0, 11111, 10,
-                1, 4, 1, 3, 1, 2, 3,
-                3, 2, 2, 9, 5, 2, 2,
-                4, 1, 155, 4, 1, 1, 0,
+                1, 3, 0, 7, 0, 4, 3,
+                0, 5, 0, 1, 0, 11, 2,
+                1, 0, 1, 0, 0, 20, 10,
+                1, 4, 0, 3, 1, 2, 3,
+                3, 0, 2, 9, 5, 2, 2,
+                4, 1, 20, 4, 1, 1, 5,
         };
 
         DateTime today = CalendarHelper.convertDateToDateTime(new Date());
 
-        ArrayList<DateTime> monthList = CalendarHelper.getFullWeeks(
+        ArrayList<DateTime> gridDayList = CalendarHelper.getFullWeeks(
                 today.getMonth(),
                 today.getYear(),
                 (Integer) caldroidData
@@ -115,8 +115,36 @@ public class CalendarFragment extends Fragment {
                 true
         );
 
+        ArrayList<DateTime> monthDayList = new ArrayList<DateTime>();
+        boolean firstDayOfMonthFound = false;
+
+        // Remove days not in the current month
+        for(int i = 0; i < gridDayList.size(); i++) {
+
+            if(!firstDayOfMonthFound && (gridDayList.get(i).getDay() == 1)) {
+
+                // Found the first day of the month, add it to the new list
+                monthDayList.add(gridDayList.get(i));
+                firstDayOfMonthFound = true;
+
+            } else if(firstDayOfMonthFound && (gridDayList.get(i).getDay() != 1)) {
+
+                // Found a day that isn't in next month, add it to the new list
+                monthDayList.add(gridDayList.get(i));
+
+            } else if(firstDayOfMonthFound && (gridDayList.get(i).getDay() == 1)) {
+
+                // We've reached next month
+                break;
+
+            }
+
+        }
+
+        Log.d(LOG_TAG, gridDayList.get(0).getDay().toString());
+
         ChangeableColor changeableColor;
-        int colorIntForDay = 0;
+        int colorIntForDay;
 
         int color = ContextCompat.getColor(
                 this.getContext(),
@@ -127,7 +155,7 @@ public class CalendarFragment extends Fragment {
         int b =  (color >> 0) & 0xFF;
 
 
-        for(int i = 0; i < monthList.size(); i++) {
+        for(int i = 0; i < monthDayList.size(); i++) {
 
             changeableColor = new ChangeableColor(r, g, b, COLOR_DELTA);
             colorIntForDay = 0;
@@ -140,7 +168,7 @@ public class CalendarFragment extends Fragment {
 
             }
 
-            mappedColors.put(monthList.get(i), colorIntForDay);
+            mappedColors.put(monthDayList.get(i), colorIntForDay);
         }
 
         return mappedColors;
