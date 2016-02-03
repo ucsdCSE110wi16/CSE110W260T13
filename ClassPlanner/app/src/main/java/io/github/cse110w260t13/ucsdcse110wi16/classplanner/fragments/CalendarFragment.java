@@ -1,9 +1,11 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -115,9 +117,21 @@ public class CalendarFragment extends Fragment {
         ChangeableColor changeableColor;
         int colorIntForDay = 0;
 
+        int color = ContextCompat.getColor(
+                this.getContext(),
+                R.color.colorPrimaryDark);
+
+        Log.d(LOG_TAG, "" + color);
+
+        int r = 179;
+        int g = 229;
+        int b = 252;
+
+        Log.d(LOG_TAG, "" + r + " " + g  + " " + b);
+
         for(int i = 0; i < monthList.size(); i++) {
 
-            changeableColor = new ChangeableColor(81, 185, 219, 5);
+            changeableColor = new ChangeableColor(r, g, b, 3);
 
             for(int j = 0; j < eventsPerDayDummyData[i]; j++) {
 
@@ -128,10 +142,6 @@ public class CalendarFragment extends Fragment {
             }
 
             mappedColors.put(monthList.get(i), colorIntForDay);
-        }
-
-        for (DateTime p : monthList) {
-            Log.d(LOG_TAG, p.toString());
         }
 
         return mappedColors;
