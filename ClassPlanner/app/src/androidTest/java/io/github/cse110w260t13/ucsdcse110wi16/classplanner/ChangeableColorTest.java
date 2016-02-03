@@ -80,61 +80,8 @@ public class ChangeableColorTest extends TestCase {
         Log.d(logTag, "lightened color by ten percent: " + darkeningColor.darkenColorByDeltaPercent());
     }
 
-
     @Test
-    public void testInverseColorByAFivePercent() {
-        String expected = "#51b9db 5";
-
-        darkeningColor.setRGB(81, 185, 219);
-        darkeningColor.setDeltaPercent(5);
-
-        assertEquals(
-                expected,
-                darkeningColor
-                        .darkenColorByDeltaPercent()
-                        .lightenColorByDeltaPercent()
-                        .toString()
-        );
-
-        Log.d(
-                logTag,
-                "original and doubly inverted: "
-                        + expected
-                        + ", "
-                        + darkeningColor
-                        .darkenColorByDeltaPercent()
-                        .lightenColorByDeltaPercent()
-        );
-    }
-
-    @Test
-    public void testInverseColorByTenPercent() {
-        String expected = "#51b9db 10";
-
-        darkeningColor.setRGB(81, 185, 219);
-        darkeningColor.setDeltaPercent(10);
-
-        assertEquals(
-                expected,
-                darkeningColor
-                        .darkenColorByDeltaPercent()
-                        .lightenColorByDeltaPercent()
-                        .toString()
-        );
-
-        Log.d(
-                logTag,
-                "original and doubly inverted: "
-                        + expected
-                        + ", "
-                        + darkeningColor
-                        .darkenColorByDeltaPercent()
-                        .lightenColorByDeltaPercent()
-        );
-    }
-
-    @Test
-    public void testInverseColorByAnyPercent() {
+    public void testInverseColorByPercent() {
 
         for(int i = 0; i > 256; i++) {
 
