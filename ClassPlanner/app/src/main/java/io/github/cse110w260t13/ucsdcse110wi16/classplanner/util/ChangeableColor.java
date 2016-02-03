@@ -62,6 +62,10 @@ public class ChangeableColor {
         return ((this.red&0x0ff)<<16)|((this.green&0x0ff)<<8)|(this.blue&0x0ff);
     }
 
+    public String toHex() {
+        return String.format("0xff%02x%02x%02x", this.red, this.green, this.blue);
+    }
+
     public void setRGB(int red, int green, int blue) {
         if(red < RGB_COMPONENT_MIN) {
             redIsUnder = true;

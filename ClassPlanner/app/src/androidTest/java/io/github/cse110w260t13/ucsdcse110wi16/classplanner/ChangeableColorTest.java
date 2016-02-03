@@ -12,72 +12,88 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.util.ChangeableColor;
  */
 public class ChangeableColorTest extends TestCase {
 
-    private String logTag = "DarkeningColorTest";
-    private ChangeableColor darkeningColor;
+    private String logTag = "ChangeableColorTest";
+    private ChangeableColor changeableColor;
 
     // assigning value to darkeningColor
     protected void setUp(){
-        darkeningColor = new ChangeableColor(0, 0, 0, 5);
+        changeableColor = new ChangeableColor(0, 0, 0, 5);
+    }
+
+    @Test
+    public void testToInt() {
+        int expected = 5355995;
+        changeableColor.setRGB(81, 185, 219);
+        assertEquals(expected, changeableColor.toInt());
+        Log.d(logTag, "Integer representation of color: " + changeableColor.toInt());
+    }
+
+    @Test
+    public void testToHex() {
+        String expected = "0xff51b9db";
+        changeableColor.setRGB(81, 185, 219);
+        assertEquals(expected, changeableColor.toHex());
+        Log.d(logTag, "Integer representation of color: " + changeableColor.toInt());
     }
 
     @Test
     public void testDarkenColorAtAllMin() {
-        darkeningColor.setRGB(0, 0, 0);
-        assertEquals(darkeningColor, darkeningColor.darkenColorByDeltaPercent());
+        changeableColor.setRGB(0, 0, 0);
+        assertEquals(changeableColor, changeableColor.darkenColorByDeltaPercent());
 
-        Log.d(logTag, "darken all min: " + darkeningColor);
+        Log.d(logTag, "darken all min: " + changeableColor);
     }
 
     @Test
     public void testLightenColorAtAllMax() {
-        darkeningColor.setRGB(255, 255, 255);
-        assertEquals(darkeningColor, darkeningColor.lightenColorByDeltaPercent());
+        changeableColor.setRGB(255, 255, 255);
+        assertEquals(changeableColor, changeableColor.lightenColorByDeltaPercent());
 
-        Log.d(logTag, "lighten all max: " + darkeningColor);
+        Log.d(logTag, "lighten all max: " + changeableColor);
     }
 
     @Test
      public void testLightenColorByFivePercent() {
         String expected = "#5ec6e8 5";
 
-        darkeningColor.setRGB(81, 185, 219);
-        darkeningColor.setDeltaPercent(5);
-        assertEquals(expected, darkeningColor.lightenColorByDeltaPercent().toString());
+        changeableColor.setRGB(81, 185, 219);
+        changeableColor.setDeltaPercent(5);
+        assertEquals(expected, changeableColor.lightenColorByDeltaPercent().toString());
 
-        Log.d(logTag, "lightened color by five percent: " + darkeningColor.lightenColorByDeltaPercent());
+        Log.d(logTag, "lightened color by five percent: " + changeableColor.lightenColorByDeltaPercent());
     }
 
     @Test
     public void testDarkenColorByFivePercent() {
         String expected = "#44acce 5";
 
-        darkeningColor.setRGB(81, 185, 219);
-        darkeningColor.setDeltaPercent(5);
-        assertEquals(expected, darkeningColor.darkenColorByDeltaPercent().toString());
+        changeableColor.setRGB(81, 185, 219);
+        changeableColor.setDeltaPercent(5);
+        assertEquals(expected, changeableColor.darkenColorByDeltaPercent().toString());
 
-        Log.d(logTag, "lightened color by five percent: " + darkeningColor.darkenColorByDeltaPercent());
+        Log.d(logTag, "lightened color by five percent: " + changeableColor.darkenColorByDeltaPercent());
     }
 
     @Test
     public void testLightenColorByTenPercent() {
         String expected = "#6bd3f5 10";
 
-        darkeningColor.setRGB(81, 185, 219);
-        darkeningColor.setDeltaPercent(10);
-        assertEquals(expected, darkeningColor.lightenColorByDeltaPercent().toString());
+        changeableColor.setRGB(81, 185, 219);
+        changeableColor.setDeltaPercent(10);
+        assertEquals(expected, changeableColor.lightenColorByDeltaPercent().toString());
 
-        Log.d(logTag, "lightened color by ten percent: " + darkeningColor.lightenColorByDeltaPercent());
+        Log.d(logTag, "lightened color by ten percent: " + changeableColor.lightenColorByDeltaPercent());
     }
 
     @Test
     public void testDarkenColorByTenPercent() {
         String expected = "#379fc1 10";
 
-        darkeningColor.setRGB(81, 185, 219);
-        darkeningColor.setDeltaPercent(10);
-        assertEquals(expected, darkeningColor.darkenColorByDeltaPercent().toString());
+        changeableColor.setRGB(81, 185, 219);
+        changeableColor.setDeltaPercent(10);
+        assertEquals(expected, changeableColor.darkenColorByDeltaPercent().toString());
 
-        Log.d(logTag, "lightened color by ten percent: " + darkeningColor.darkenColorByDeltaPercent());
+        Log.d(logTag, "lightened color by ten percent: " + changeableColor.darkenColorByDeltaPercent());
     }
 
     @Test
@@ -87,12 +103,12 @@ public class ChangeableColorTest extends TestCase {
 
             String expected = "#51b9db " + i;
 
-            darkeningColor.setRGB(81, 185, 219);
-            darkeningColor.setDeltaPercent(i);
+            changeableColor.setRGB(81, 185, 219);
+            changeableColor.setDeltaPercent(i);
 
             assertEquals(
                     expected,
-                    darkeningColor
+                    changeableColor
                             .darkenColorByDeltaPercent()
                             .lightenColorByDeltaPercent()
                             .toString()
@@ -103,12 +119,15 @@ public class ChangeableColorTest extends TestCase {
                     "original and doubly inverted: "
                             + expected
                             + ", "
-                            + darkeningColor
+                            + changeableColor
                             .darkenColorByDeltaPercent()
                             .lightenColorByDeltaPercent()
             );
 
         }
+
     }
+
+
 
 }
