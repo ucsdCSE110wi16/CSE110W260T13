@@ -30,7 +30,7 @@ public class ChangeableColorTest extends TestCase {
 
     @Test
     public void testToHex() {
-        String expected = "ff51b9db";
+        String expected = "0xff51b9db";
         changeableColor.setRGB(81, 185, 219);
         assertEquals(expected, changeableColor.toHex());
         Log.d(logTag, "Integer representation of color: " + changeableColor.toInt());
