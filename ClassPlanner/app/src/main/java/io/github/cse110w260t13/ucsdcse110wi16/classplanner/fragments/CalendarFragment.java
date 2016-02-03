@@ -25,6 +25,15 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
  */
 public class CalendarFragment extends Fragment {
 
+    private int[] eventsPerDayDummyData = {
+            1, 3, 1, 7, 1, 4, 3,
+            1, 1, 1, 1, 1, 1, 2,
+            1, 0, 1, 5, 0, 1, 0,
+            1, 4, 1, 3, 1, 2, 0,
+            3, 2, 2, 9, 5, 2, 2,
+            4, 1, 1, 4, 1, 1, 0,
+    };
+
     /**
      * Created upon entering Fragment's view creation stage.
      *
@@ -61,6 +70,10 @@ public class CalendarFragment extends Fragment {
                 = getActivity().getSupportFragmentManager().beginTransaction();
         t.replace(R.id.caldroidContainer, caldroidFragment);
         t.commit();
+
+        // Set colors for dates
+
+        caldroidFragment.refreshView();
 
         return rootView;
     }

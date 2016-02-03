@@ -128,6 +128,4 @@ public class ChangeableColorTest extends TestCase {
 
     }
 
-
-
 }
