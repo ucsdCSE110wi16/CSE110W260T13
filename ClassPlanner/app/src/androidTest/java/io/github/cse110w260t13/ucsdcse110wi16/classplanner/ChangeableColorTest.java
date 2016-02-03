@@ -80,10 +80,36 @@ public class ChangeableColorTest extends TestCase {
         Log.d(logTag, "lightened color by ten percent: " + darkeningColor.darkenColorByDeltaPercent());
     }
 
-    /*
+
+    @Test
+    public void testInverseColorByAFivePercent() {
+        String expected = "#51b9db 5";
+
+        darkeningColor.setRGB(81, 185, 219);
+        darkeningColor.setDeltaPercent(5);
+
+        assertEquals(
+                expected,
+                darkeningColor
+                        .darkenColorByDeltaPercent()
+                        .lightenColorByDeltaPercent()
+                        .toString()
+        );
+
+        Log.d(
+                logTag,
+                "original and doubly inverted: "
+                        + expected
+                        + ", "
+                        + darkeningColor
+                        .darkenColorByDeltaPercent()
+                        .lightenColorByDeltaPercent()
+        );
+    }
+
     @Test
     public void testInverseColorByTenPercent() {
-        String expected = "#379fc1";
+        String expected = "#51b9db 10";
 
         darkeningColor.setRGB(81, 185, 219);
         darkeningColor.setDeltaPercent(10);
@@ -93,6 +119,7 @@ public class ChangeableColorTest extends TestCase {
                 darkeningColor
                         .darkenColorByDeltaPercent()
                         .lightenColorByDeltaPercent()
+                        .toString()
         );
 
         Log.d(
@@ -101,10 +128,40 @@ public class ChangeableColorTest extends TestCase {
                         + expected
                         + ", "
                         + darkeningColor
-                                .darkenColorByDeltaPercent()
-                                .lightenColorByDeltaPercent()
+                        .darkenColorByDeltaPercent()
+                        .lightenColorByDeltaPercent()
         );
     }
-    */
+
+    @Test
+    public void testInverseColorByAnyPercent() {
+
+        for(int i = 0; i > 256; i++) {
+
+            String expected = "#51b9db " + i;
+
+            darkeningColor.setRGB(81, 185, 219);
+            darkeningColor.setDeltaPercent(i);
+
+            assertEquals(
+                    expected,
+                    darkeningColor
+                            .darkenColorByDeltaPercent()
+                            .lightenColorByDeltaPercent()
+                            .toString()
+            );
+
+            Log.d(
+                    logTag,
+                    "original and doubly inverted: "
+                            + expected
+                            + ", "
+                            + darkeningColor
+                            .darkenColorByDeltaPercent()
+                            .lightenColorByDeltaPercent()
+            );
+
+        }
+    }
 
 }

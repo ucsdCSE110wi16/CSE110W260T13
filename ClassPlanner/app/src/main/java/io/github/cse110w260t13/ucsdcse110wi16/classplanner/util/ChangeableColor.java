@@ -112,18 +112,18 @@ public class ChangeableColor {
 
     public ChangeableColor lightenColorByDeltaPercent() {
 
-        this.setRGB((int)(this.red + (RGB_COMPONENT_MAX * (deltaPercent / 100.0))) + 1,
-                (int)(this.green + (RGB_COMPONENT_MAX * (deltaPercent / 100.0))) + 1,
-                (int)(this.blue + (RGB_COMPONENT_MAX * (deltaPercent / 100.0))) + 1);
+        this.setRGB((int)(this.red + (RGB_COMPONENT_MAX * (getDeltaPercent() / 100.0))) + 1,
+                (int)(this.green + (RGB_COMPONENT_MAX * (getDeltaPercent() / 100.0))) + 1,
+                (int)(this.blue + (RGB_COMPONENT_MAX * (getDeltaPercent() / 100.0))) + 1);
 
         return this;
     }
 
     public ChangeableColor darkenColorByDeltaPercent() {
 
-        this.setRGB((int)(this.red - (RGB_COMPONENT_MAX * (deltaPercent / 100.0))),
-                (int)(this.green - (RGB_COMPONENT_MAX * (deltaPercent / 100.0))),
-                (int)(this.blue - (RGB_COMPONENT_MAX * (deltaPercent / 100.0))));
+        this.setRGB((int)(this.red - (RGB_COMPONENT_MAX * (getDeltaPercent() / 100.0))),
+                (int)(this.green - (RGB_COMPONENT_MAX * (getDeltaPercent() / 100.0))),
+                (int)(this.blue - (RGB_COMPONENT_MAX * (getDeltaPercent() / 100.0))));
 
         return this;
     }
