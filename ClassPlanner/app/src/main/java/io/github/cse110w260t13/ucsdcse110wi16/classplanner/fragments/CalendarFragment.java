@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,16 @@ import android.support.design.widget.Snackbar;
 import android.widget.RelativeLayout;
 
 import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CalendarHelper;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import hirondelle.date4j.DateTime;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.custom_views.CustomCaldroidFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.util.ChangeableColor;
@@ -28,14 +35,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.util.ChangeableColor;
  */
 public class CalendarFragment extends Fragment {
 
-    private int[] eventsPerDayDummyData = {
-            1, 3, 1, 7, 1, 4, 3,
-            1, 1, 1, 1, 1, 1, 2,
-            1, 0, 1, 5, 0, 1, 0,
-            1, 4, 1, 3, 1, 2, 0,
-            3, 2, 2, 9, 5, 2, 2,
-            4, 1, 1, 4, 1, 1, 0,
-    };
+    private static final String LOG_TAG = "CalendarFragment";
 
     /**
      * Created upon entering Fragment's view creation stage.
@@ -75,10 +75,12 @@ public class CalendarFragment extends Fragment {
         t.commit();
 
         // Set colors for dates
-        ChangeableColor changeableColor = new ChangeableColor(255, 185, 219, 5);
-        caldroidFragment.setBackgroundResourceForDate(
-                Long.decode(changeableColor.toHex()).intValue(),
-                new Date()
+        Map<String, Object> caldroidData = caldroidFragment.getCaldroidData();
+        getDummyData(caldroidData);
+
+        // Set colors for dates
+        caldroidFragment.setBackgroundResourceForDateTimes(
+                getDummyData(caldroidData)
         );
 
         // Must refresh after changing the appearance of the View
@@ -86,4 +88,54 @@ public class CalendarFragment extends Fragment {
 
         return rootView;
     }
+
+    private HashMap<DateTime, Integer> getDummyData(Map<String, Object> caldroidData) {
+
+        HashMap<DateTime, Integer> mappedColors = new HashMap<DateTime, Integer>();
+
+        int[] eventsPerDayDummyData = {
+                1, 3, 1, 7, 1, 4, 3,
+                1, 1, 1, 1, 1, 1, 2,
+                1, 0, 1, 5, 0, 1, 0,
+                1, 4, 1, 3, 1, 2, 0,
+                3, 2, 2, 9, 5, 2, 2,
+                4, 1, 1, 4, 1, 1, 0,
+        };
+
+        DateTime today = CalendarHelper.convertDateToDateTime(new Date());
+
+        ArrayList<DateTime> monthList = CalendarHelper.getFullWeeks(
+                today.getMonth(),
+                today.getYear(),
+                (Integer) caldroidData
+                        .get(CaldroidFragment.START_DAY_OF_WEEK),
+                true
+        );
+
+        ChangeableColor changeableColor;
+        int colorIntForDay = 0;
+
+        for(int i = 0; i < monthList.size(); i++) {
+
+            changeableColor = new ChangeableColor(81, 185, 219, 5);
+
+            for(int j = 0; j < eventsPerDayDummyData[i]; j++) {
+
+                colorIntForDay = Long.decode(
+                        changeableColor.darkenColorByDeltaPercent().toHex()
+                ).intValue();
+
+            }
+
+            mappedColors.put(monthList.get(i), colorIntForDay);
+        }
+
+        for (DateTime p : monthList) {
+            Log.d(LOG_TAG, p.toString());
+        }
+
+        return mappedColors;
+
+    }
+
 }
