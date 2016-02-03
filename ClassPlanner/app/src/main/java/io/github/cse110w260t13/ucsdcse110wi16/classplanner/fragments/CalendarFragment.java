@@ -21,6 +21,7 @@ import java.util.Date;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.custom_views.CustomCaldroidFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.util.ChangeableColor;
 
 /**
  * Fragment that will contain Calendar section's features.
@@ -74,7 +75,11 @@ public class CalendarFragment extends Fragment {
         t.commit();
 
         // Set colors for dates
-        caldroidFragment.setBackgroundResourceForDate(0xff00ff00, new Date());
+        ChangeableColor changeableColor = new ChangeableColor(255, 185, 219, 5);
+        caldroidFragment.setBackgroundResourceForDate(
+                Long.decode(changeableColor.toHex()).intValue(),
+                new Date()
+        );
 
         // Must refresh after changing the appearance of the View
         caldroidFragment.refreshView();
