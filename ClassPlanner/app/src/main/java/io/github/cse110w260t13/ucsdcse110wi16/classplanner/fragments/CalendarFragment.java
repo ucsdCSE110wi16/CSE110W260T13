@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.roomorama.caldroid.CaldroidFragment;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 
@@ -72,7 +73,9 @@ public class CalendarFragment extends Fragment {
         t.commit();
 
         // Set colors for dates
+        //caldroidFragment.setBackgroundColorForDate(0xFF00FF00, new Date());
 
+        // Must refresh after changing the appearance of the View
         caldroidFragment.refreshView();
 
         return rootView;
