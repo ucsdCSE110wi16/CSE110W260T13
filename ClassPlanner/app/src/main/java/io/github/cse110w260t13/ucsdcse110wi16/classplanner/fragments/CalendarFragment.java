@@ -38,6 +38,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.util.ChangeableColor;
 public class CalendarFragment extends Fragment {
 
     private static final String LOG_TAG = "CalendarFragment";
+    private static final int COLOR_DELTA = 3;
 
     /**
      * Created upon entering Fragment's view creation stage.
@@ -98,10 +99,10 @@ public class CalendarFragment extends Fragment {
         int[] eventsPerDayDummyData = {
                 1, 3, 1, 7, 1, 4, 3,
                 1, 1, 1, 1, 1, 1, 2,
-                1, 0, 1, 5, 0, 1, 0,
-                1, 4, 1, 3, 1, 2, 0,
+                1, 0, 1, 5, 0, 11111, 10,
+                1, 4, 1, 3, 1, 2, 3,
                 3, 2, 2, 9, 5, 2, 2,
-                4, 1, 1, 4, 1, 1, 0,
+                4, 1, 155, 4, 1, 1, 0,
         };
 
         DateTime today = CalendarHelper.convertDateToDateTime(new Date());
@@ -119,19 +120,17 @@ public class CalendarFragment extends Fragment {
 
         int color = ContextCompat.getColor(
                 this.getContext(),
-                R.color.colorPrimaryDark);
+                R.color.colorPrimaryLight);
 
-        Log.d(LOG_TAG, "" + color);
+        int r =   (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b =  (color >> 0) & 0xFF;
 
-        int r = 179;
-        int g = 229;
-        int b = 252;
-
-        Log.d(LOG_TAG, "" + r + " " + g  + " " + b);
 
         for(int i = 0; i < monthList.size(); i++) {
 
-            changeableColor = new ChangeableColor(r, g, b, 3);
+            changeableColor = new ChangeableColor(r, g, b, COLOR_DELTA);
+            colorIntForDay = 0;
 
             for(int j = 0; j < eventsPerDayDummyData[i]; j++) {
 
