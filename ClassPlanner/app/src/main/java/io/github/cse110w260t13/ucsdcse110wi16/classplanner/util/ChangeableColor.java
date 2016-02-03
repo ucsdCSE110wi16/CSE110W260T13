@@ -3,7 +3,7 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.util;
 /**
  * Created by nick on 2/1/16.
  */
-public class DarkeningColor {
+public class ChangeableColor {
 
     private static final int RGB_COMPONENT_MAX = 255;
     private static final int RGB_COMPONENT_MIN = 0;
@@ -21,13 +21,45 @@ public class DarkeningColor {
     private boolean blueIsUnder;
     private boolean greenIsUnder;
 
-    public DarkeningColor(int red, int blue, int green, int deltaPercent) {
+    public ChangeableColor(int red, int blue, int green, int deltaPercent) {
         this.setRGB(red, blue, green);
         this.setDeltaPercent(deltaPercent);
     }
 
-    public String getHexColor() {
-        return String.format("#%02x%02x%02x", red, green, blue);
+    @Override
+    public String toString() {
+
+        return String.format("#%02x%02x%02x", this.red, this.green, this.blue)
+                + " "
+                + this.getDeltaPercent();
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if((o instanceof ChangeableColor)
+                && (o.toString().equals(this.toString()))) {
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+
+    }
+
+    @Override
+    public int hashCode() {
+
+        return this.toString().hashCode();
+
+    }
+
+    public int toInt() {
+        return ((this.red&0x0ff)<<16)|((this.green&0x0ff)<<8)|(this.blue&0x0ff);
     }
 
     public void setRGB(int red, int green, int blue) {
@@ -78,22 +110,22 @@ public class DarkeningColor {
         this.deltaPercent = deltaPercent;
     }
 
-    public String lightenColorByDeltaPercent() {
+    public ChangeableColor lightenColorByDeltaPercent() {
 
         this.setRGB((int)(this.red + (RGB_COMPONENT_MAX * (deltaPercent / 100.0))) + 1,
                 (int)(this.green + (RGB_COMPONENT_MAX * (deltaPercent / 100.0))) + 1,
                 (int)(this.blue + (RGB_COMPONENT_MAX * (deltaPercent / 100.0))) + 1);
 
-        return this.getHexColor();
+        return this;
     }
 
-    public String darkenColorByDeltaPercent() {
+    public ChangeableColor darkenColorByDeltaPercent() {
 
         this.setRGB((int)(this.red - (RGB_COMPONENT_MAX * (deltaPercent / 100.0))),
                 (int)(this.green - (RGB_COMPONENT_MAX * (deltaPercent / 100.0))),
                 (int)(this.blue - (RGB_COMPONENT_MAX * (deltaPercent / 100.0))));
 
-        return this.getHexColor();
+        return this;
     }
 
     private void correctOutOfRange() {
