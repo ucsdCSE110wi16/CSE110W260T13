@@ -20,7 +20,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2">
+            android:layout_weight="1.75">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,14 +29,13 @@
             android:textSize="18sp"
             android:textColor="#ffffff"
             android:layout_gravity="center"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="1sp"/>
         <Spinner
             android:id="@+id/spinner_nav"
             android:layout_width="fill_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/spinner_background_ab_example"
-            android:popupBackground="@drawable/menu_dropdown_panel_example"
-            android:layout_marginRight="15dp"/>
+            android:popupBackground="@drawable/menu_dropdown_panel_example"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -45,19 +44,18 @@
             android:gravity="end">
             <ImageButton
                 android:id="@+id/add_course_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/ic_add_white_24dp"
-                android:background="@color/colorPrimary"
-                android:layout_marginRight="35dp"/>
+                android:background="@drawable/button_bg"/>
             <ImageButton
                 android:id="@+id/delete_course_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/ic_delete_white_24dp"
-                android:background="@color/colorPrimary"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"/>
+                android:background="@drawable/button_bg"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"/>
 
         </LinearLayout>
     </LinearLayout>

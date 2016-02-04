@@ -1,0 +1,104 @@
+NOTES----------------------------------------------------:
+SCENARIOS.txt was copied and modifed from USER-STORIES.txt
+
+
+
+
+SCENARIOS---------------------------------------------:
+
+(Importance: 1)
+Given that I am a normal person,
+When I use a navigation menu
+Then I don't get annoyed trying to use the app.
+
+
+(Importance: 2)
+Given that I am a student,
+When I add school course information to this app
+Then I can have my class information all in one spot.
+
+
+(Importance: 3)
+Given that I am an organized person,
+When I have a calendar that I can add events to
+Then I can see what I have to do everyday.
+
+
+(Importance: 4)
+Given that I am an organized person,
+When I have an assignments tab that is linked to my course information
+Then I can keep track of all my homework and deadlines over the quarter.
+
+
+(Importance: 5)
+Given that I am lazy person,
+When I first open the app and see the home page
+Then I want to see the most immediate events so that I don't need to navigate through the menu.
+
+
+(Importance: 6)
+Given that I am a student,
+When I have a lot of academic tasks with no due dates
+Then I want a to-do list for all of my courses so that I can keep track of them.
+
+
+(Imortance: 7)
+Given that I am a student,
+When I have tasks that are not related to school
+Then I also want a to-do list of those general items so that I can keep track of them as well.
+
+(Importance: 8)
+Given I am a student,
+When I open the calendar,
+Then I can see when my assignments are due.
+
+
+(Importance: 9)
+Given I am a lazy person,
+When I want to populate my schedule with courses,
+Then I can do so easily and without effort.
+
+
+(Importance: 10)
+Given I am a lazy person,
+When I choose a course from a drop-down list,
+Then its info will be auto-filled.
+
+
+(Importance: 11)
+Given that I am concerned about grades,
+When I enter assignments and exams,
+Then I will be able to track my GPA.
+
+
+
+INDEX OF TERMS---------------------------------------------:
+
+the application, the app, application, app,: The academic calendar Android application being developed by team #13 in CSE 110, Winter 2016.
+
+user: The individual using the application.
+
+added course, add a course: An academic course that the user has input into the application.
+
+calendar: A feature of the application which displays stately information in regards to the application.
+
+added assignment, add an assignment: A subset of stately data that should be associated with a course.
+
+assignments tab: A feature of the application that allows the user to view an added assignment.
+
+navigate: A means by which the user can transition from one presentation of information in the application to another.
+
+main menu: The primary means of navigation in the application.
+
+immediate events: Upcoming courses, assignments, todo list items, etc.
+
+add a todo list, added todo list: A miscellaneous collection of data that may or may not be assiciated with a course.
+
+todo list item: A specific element in a todo list.
+
+due: In reference to an assignment, todo list item, or course that is upcoming.
+
+
+
+
+

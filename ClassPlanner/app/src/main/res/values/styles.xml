@@ -8,14 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <!--<item name="android:actionBarStyle">@style/ToolBarStyle</item>-->
+        <item name="android:actionBarStyle">@style/ToolBarStyle</item>
 
         <item name="actionBarItemBackground">@drawable/selectable_background_example</item>
         <item name="popupMenuStyle">@style/PopupMenu.Example</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.Example</item>
         <item name="actionBarTabStyle">@style/ActionBarTabStyle.Example</item>
         <item name="actionDropDownStyle">@style/DropDownNav.Example</item>
-        <item name="actionBarStyle">@style/ActionBar.Solid.Example</item>
     </style>
 
 
@@ -31,25 +30,25 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style parent="@style/Widget.AppCompat.ActionBar.Solid" name="ActionBar.Solid.Example">
-    <item name="background">@drawable/ab_solid_example</item>
-    <item name="backgroundStacked">@drawable/ab_stacked_solid_example</item>
-    <item name="backgroundSplit">@drawable/ab_bottom_solid_example</item>
-</style>
+        <item name="background">@drawable/ab_solid_example</item>
+        <item name="backgroundStacked">@drawable/ab_stacked_solid_example</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_example</item>
+    </style>
 
 
     <style parent="@style/Widget.AppCompat.ActionBar" name="ActionBar.Transparent.Example">
-    <item name="background">@drawable/ab_transparent_example</item>
-</style>
+        <item name="background">@drawable/ab_transparent_example</item>
+    </style>
 
 
     <style parent="@style/Widget.AppCompat.PopupMenu" name="PopupMenu.Example">
-    <item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>
-</style>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>
+    </style>
 
 
     <style parent="@style/Widget.AppCompat.ListView.DropDown" name="DropDownListView.Example">
@@ -58,24 +57,25 @@
 
 
     <style parent="@style/Widget.AppCompat.ActionBar.TabView" name="ActionBarTabStyle.Example">
-    <item name="android:background">@drawable/tab_indicator_ab_example</item>
-</style>
+        <item name="android:background">@drawable/tab_indicator_ab_example</item>
+    </style>
 
 
     <style parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar" name="DropDownNav.Example">
-    <item name="android:background">@drawable/spinner_background_ab_example</item>
-    <item name="android:dropDownSelector">@drawable/selectable_background_example</item>
+        <item name="android:background">@drawable/spinner_background_ab_example</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_example</item>
 
-</style>
+    </style>
+
 
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
 
 
 
     <style parent="@style/Theme.AppCompat" name="Theme.Example.Widget">
-    <item name="popupMenuStyle">@style/PopupMenu.Example</item>
-    <item name="dropDownListViewStyle">@style/DropDownListView.Example</item>
+        <item name="popupMenuStyle">@style/PopupMenu.Example</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Example</item>
 
-</style>
+    </style>
 
 </resources>

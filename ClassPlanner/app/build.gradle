@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "io.github.cse110w260t13.ucsdcse110wi16.classplanner"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -24,23 +24,22 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
 
-    // Android JUnit Runner
-    androidTestCompile 'com.android.support.test:runner:0.4.1'
-    // JUnit4 Rules
-    androidTestCompile 'com.android.support.test:rules:0.4.1'
-    // Espresso core
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
-    // Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
-    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.1'
-    // Espresso-web for WebView support
-    androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.1'
-    // Espresso-idling-resource for synchronization with background jobs
-    androidTestCompile 'com.android.support.test.espresso:espresso-idling-resource:2.2.1'
-    // Resolves annotation conflict
+    // Test dependencies
     androidTestCompile 'com.android.support:support-annotations:23.1.1'
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'com.android.support.test:rules:0.4.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.1'){
+        exclude module: 'support-annotations'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'recyclerview-v7'
+    }
 
-    // App's dependencies, including test
+    // App's dependencies
     compile 'com.android.support:support-annotations:23.1.1'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
+    compile 'com.roomorama:caldroid:2.3.1'
+
 }

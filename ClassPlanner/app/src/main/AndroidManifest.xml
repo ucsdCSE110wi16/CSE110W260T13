@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".fragments.CoursePages.AddClass"
+        <activity android:name=".fragments.CoursePages.AddClassActivity"
             android:label="Add Class"
             android:parentActivityName=".nav_drawer.MainActivity" >
         </activity>
