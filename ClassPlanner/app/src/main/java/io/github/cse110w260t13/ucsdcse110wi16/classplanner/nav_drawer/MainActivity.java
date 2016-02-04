@@ -20,6 +20,7 @@ import android.widget.ListView;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CalendarFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursesFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.HomeFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.ToDoFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.NavDrawerItem;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.NavDrawerListAdapter;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
@@ -209,6 +210,9 @@ public class MainActivity extends AppCompatActivity {
             case 2:
                 fragment = new CoursesFragment();
 
+                break;
+            case 4:
+                fragment = new ToDoFragment();
                 break;
             default:
                 break;
