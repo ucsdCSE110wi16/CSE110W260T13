@@ -163,7 +163,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             String name = makeFragmentName(courseViewPager.getId(), i);
             Fragment viewPagerFragment = getChildFragmentManager().findFragmentByTag(name);
             if (viewPagerFragment instanceof ClassInfoFragment) {
-                ((ClassInfoFragment)viewPagerFragment).test(course_name);
+                ((ClassInfoFragment)viewPagerFragment).selectClass(course_name);
             }
             if (viewPagerFragment instanceof  AssignmentsFragment){
                 ((AssignmentsFragment)viewPagerFragment).test(course_name);
