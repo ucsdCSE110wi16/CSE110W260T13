@@ -38,9 +38,6 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.Course
 
 public class AssignmentFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private TabHost assignmentTabHost;
-    private ViewPager assignmentViewPager;
-
     private SimpleCursorAdapter adapter;
     private String assignment;
 
@@ -55,24 +52,8 @@ public class AssignmentFragment extends Fragment implements LoaderManager.Loader
 
         View rootView = inflater.inflate(R.layout.fragment_assignments, container, false);
 
-        //TabHost is the container for a tabbed window view
-        assignmentTabHost = (TabHost) rootView.findViewById(android.R.id.tabhost);
-        assignmentTabHost.setup();
-
-        //ViewPager is a layout manager that lets you flip right and left through tabs
-        assignmentViewPager = (ViewPager) rootView.findViewById(R.id.pager);
-
-        /* Creating the assignment toolbar (actionbar).*/
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        if (toolbar != null){
-            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-
-        ImageButton add = (ImageButton)rootView.findViewById(R.id.add_assignment_button);
-        ImageButton delete = (ImageButton)rootView.findViewById(R.id.delete_assignment_button);
+        ImageButton add = (ImageButton)rootView.findViewById(R.id.addButton);
+        ImageButton delete = (ImageButton)rootView.findViewById(R.id.deleteButton);
         clickHandler click_handler = new clickHandler();
         add.setOnClickListener(click_handler);
         delete.setOnClickListener(click_handler);
@@ -87,10 +68,10 @@ public class AssignmentFragment extends Fragment implements LoaderManager.Loader
     private class clickHandler implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.add_assignment_button:
+                case R.id.addButton:
                     startActivity(new Intent(getActivity(), AddClassActivity.class));
                     break;
-                case R.id.delete_assignment_button:
+                case R.id.deleteButton:
                     Log.d("on click", assignment);
                     ContentResolver cr = getActivity().getContentResolver();
                     /*need to write database*/
