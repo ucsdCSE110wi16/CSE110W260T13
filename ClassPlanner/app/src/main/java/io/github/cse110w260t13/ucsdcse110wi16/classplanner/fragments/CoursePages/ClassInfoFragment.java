@@ -39,7 +39,7 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
         return rootView;
     }
 
-    public void test(String class_name){
+    public void selectClass(String class_name){
         currName=class_name;
         Log.d("teststringclass_name ", "class name is " + class_name);
         ContentResolver cr = getActivity().getContentResolver();
@@ -56,15 +56,6 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
             for(int i=0; i < CourseCalendarInfo.FeedEntry.ALL_COLUMNS.length; i++){
                 columnIndices[i] = cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.ALL_COLUMNS[i]);
             }
-               /* int nameIndex = cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME);
-                int locIndex = cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC);
-                int startHrIndex = cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_START_TIME);
-                int endHrIndex = cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_END_TIME);
-
-            String name = cursor.getString(nameIndex);
-            String loc = cursor.getString(locIndex);
-            String start = cursor.getString(startHrIndex);
-            String end = cursor.getString(endHrIndex);*/
 
             update_info(
                     /*Schedule info*/
