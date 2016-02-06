@@ -2,11 +2,15 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -35,12 +39,16 @@ import java.util.Map;
 import hirondelle.date4j.DateTime;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.custom_views.CustomCaldroidFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.calendar_database.CalendarContentProvider;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.calendar_database.CalendarInfo;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarContentProvider;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarInfo;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.util.ChangeableColor;
 
 /**
  * Fragment that will contain Calendar section's features.
  */
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String LOG_TAG = "CalendarFragment";
     private static final int COLOR_DELTA = 3;
@@ -84,6 +92,10 @@ public class CalendarFragment extends Fragment {
 
         // Set colors for dates
         Map<String, Object> caldroidData = caldroidFragment.getCaldroidData();
+
+        /**
+         * ToDo: find a way to populate data for the color change quickly
+         */
         getDummyData(caldroidData);
 
         // Set colors for dates
@@ -94,6 +106,7 @@ public class CalendarFragment extends Fragment {
         // Must refresh after changing the appearance of the View
         caldroidFragment.refreshView();
 
+        //Create onClickListener for Caldroid
         final CaldroidListener listener = new CaldroidListener() {
 
             //Format day to YYYY-MM-DD format. Should use this to store events.
@@ -105,6 +118,7 @@ public class CalendarFragment extends Fragment {
                 Toast.makeText(getActivity().getBaseContext(), formatter.format(date),
                         Toast.LENGTH_SHORT).show();
                 //db.query formatter.format(date)
+                select(formatter.format(date));
             }
 
             @Override
@@ -112,15 +126,16 @@ public class CalendarFragment extends Fragment {
                 String text = "month: " + month + " year: " + year;
                 Toast.makeText(getActivity().getBaseContext(), text,
                         Toast.LENGTH_SHORT).show();
+                //When Months are changed, need to repopulate the colors
             }
 
 
-            //Use long click to edit events on a day?
             @Override
             public void onLongClickDate(Date date, View view) {
                 Toast.makeText(getActivity().getBaseContext(),
                         "Long click " + formatter.format(date),
                         Toast.LENGTH_SHORT).show();
+                //Use long click to edit events on a day?
             }
 
             @Override
@@ -128,6 +143,7 @@ public class CalendarFragment extends Fragment {
                 Toast.makeText(getActivity().getBaseContext(),
                         "Caldroid view is created",
                         Toast.LENGTH_SHORT).show();
+                //Should automatically select Today
             }
 
         };
@@ -221,21 +237,36 @@ public class CalendarFragment extends Fragment {
 
     }
 
-    /**
-     * Likely have to calculate the # of events per month in a background thread.
-     */
-    /*private class CalendarDataLoader extends AsyncTask<String, Void, ArrayList<CalendarEvent>>{
-        @Override
-        protected String doInBackground(Void... params){
 
-        }
+    public void select(String date){
 
-        @Override
-        protected void onPostExecute(String... values){
-
-        }
-    }*/
+    }
 
 
+    // creates a new loader after the initLoader () call
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String[] projection = CalendarInfo.FeedEntry.ALL_COLUMNS;
+
+        CursorLoader cursor_ld = new CursorLoader(getContext(),
+                    CalendarContentProvider.CONTENT_URI, projection,
+                    null, null, null);
+
+        return cursor_ld;
+    }
+
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    }
+
+    //Release any references/resources that are not needed anymore
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getLoaderManager().restartLoader(0, null, this);
+    }
 
 }

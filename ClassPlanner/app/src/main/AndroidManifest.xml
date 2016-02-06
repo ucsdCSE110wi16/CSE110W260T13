@@ -31,6 +31,10 @@
             android:name=".local_database.CourseCalendarContentProvider"
             android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database">
         </provider>
+        <provider
+            android:name=".fragments.calendar_database.CalendarContentProvider"
+            android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.calendar_database">
+        </provider>
 
 
 </application>
