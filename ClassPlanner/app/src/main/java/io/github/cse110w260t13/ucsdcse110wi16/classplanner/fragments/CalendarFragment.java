@@ -2,6 +2,7 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -95,12 +96,15 @@ public class CalendarFragment extends Fragment {
 
         final CaldroidListener listener = new CaldroidListener() {
 
+            //Format day to YYYY-MM-DD format. Should use this to store events.
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
+            //OnSelectDate, I want events for that day to pop up.
             @Override
             public void onSelectDate(Date date, View view) {
                 Toast.makeText(getActivity().getBaseContext(), formatter.format(date),
                         Toast.LENGTH_SHORT).show();
+                //db.query formatter.format(date)
             }
 
             @Override
@@ -110,6 +114,8 @@ public class CalendarFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
             }
 
+
+            //Use long click to edit events on a day?
             @Override
             public void onLongClickDate(Date date, View view) {
                 Toast.makeText(getActivity().getBaseContext(),
@@ -214,5 +220,22 @@ public class CalendarFragment extends Fragment {
         return mappedColors;
 
     }
+
+    /**
+     * Likely have to calculate the # of events per month in a background thread.
+     */
+    /*private class CalendarDataLoader extends AsyncTask<String, Void, ArrayList<CalendarEvent>>{
+        @Override
+        protected String doInBackground(Void... params){
+
+        }
+
+        @Override
+        protected void onPostExecute(String... values){
+
+        }
+    }*/
+
+
 
 }
