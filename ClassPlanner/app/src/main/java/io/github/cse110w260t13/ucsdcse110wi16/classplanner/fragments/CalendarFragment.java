@@ -22,6 +22,7 @@ import android.widget.CalendarView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.widget.RelativeLayout;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidFragment;
@@ -53,7 +54,9 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
 
     private static final String LOG_TAG = "CalendarFragment";
     private static final int COLOR_DELTA = 3;
+
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    private static final int URL_LOADER = 0;
 
 
     /**
@@ -69,6 +72,9 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
+
+        //Initialize a CursorLoader. URL_LOADER to be passed into OnCreateLoader()
+        getLoaderManager().initLoader(URL_LOADER, null, this);
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.calendar_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +123,6 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
             public void onSelectDate(Date date, View view) {
                 Toast.makeText(getActivity().getBaseContext(), formatter.format(date),
                         Toast.LENGTH_SHORT).show();
-                //db.query formatter.format(date)
                 select(date);
             }
 
@@ -147,9 +152,7 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
             }
 
         };
-
         caldroidFragment.setCaldroidListener(listener);
-
 
         return rootView;
     }
@@ -238,6 +241,7 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
 
+    //This should be handled asynchronously.
     public void select(Date date){
         ContentResolver cr = getActivity().getContentResolver();
 
@@ -258,12 +262,31 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
                 null,
                 CalendarInfo.FeedEntry.START_TIME + " DESC");
 
+        /*CursorLoader crLoader = new CursorLoader(getContext(), CalendarContentProvider.CONTENT_URI,
+                CalendarInfo.FeedEntry.ALL_COLUMNS,
+                CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND " +
+                        CalendarInfo.FeedEntry.DATE + " < '" + endDate + "'", null,
+                CalendarInfo.FeedEntry.START_TIME + " DESC");
+
+        Cursor cursor = crLoader.loadInBackground();*/
+
+        String[] from = {CalendarInfo.FeedEntry.EVENT_TITLE,
+        CalendarInfo.FeedEntry.EVENT_DESCR,
+        CalendarInfo.FeedEntry.START_TIME,
+        CalendarInfo.FeedEntry.END_TIME};
+        int[] to = new int[] { android.R.id.text1 };
+
+        SimpleCursorAdapter listView = new SimpleCursorAdapter(getContext(), R.layout.layout_calendar_list,
+                cursor, from, to, 0);
+
+
+
         if(cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             //get the number of rows AKA number of events
             int numOfEvents = cursor.getCount();
             for(int i=0; i< numOfEvents; i++){
-                //Do stuff to set textview of the event here
+                //Do stuff to set TextView of the event here
                 cursor.moveToNext();
             }
         }
@@ -275,14 +298,19 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = CalendarInfo.FeedEntry.ALL_COLUMNS;
 
-        CursorLoader cursor_ld = new CursorLoader(getContext(),
-                    CalendarContentProvider.CONTENT_URI, projection,
-                    null, null, null);
+        switch(id) {
+            case URL_LOADER:
+                return new CursorLoader(getContext(),
+                        CalendarContentProvider.CONTENT_URI, projection,
+                        null, null, null);
+            default:
+                return null;
+        }
 
-        return cursor_ld;
     }
 
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
     }
 
     //Release any references/resources that are not needed anymore

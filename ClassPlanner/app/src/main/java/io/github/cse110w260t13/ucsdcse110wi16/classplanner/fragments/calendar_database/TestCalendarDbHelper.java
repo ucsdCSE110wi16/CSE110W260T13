@@ -68,8 +68,8 @@ public class TestCalendarDbHelper {
     }
 
     /**Create event - Add an event to our calendar
-     * @param dtstart Event start time (in millis)
-     * @param dtend Event end time (in millis)
+     * @param dtstart CalendarEvent start time (in millis)
+     * @param dtend CalendarEvent end time (in millis)
      */
     public static void addEvent(Context ctx, String title, String description, String location,
                                 long dtstart, long dtend) {

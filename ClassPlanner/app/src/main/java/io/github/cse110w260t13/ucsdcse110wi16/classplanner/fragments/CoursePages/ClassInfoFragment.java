@@ -30,12 +30,16 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.Course
 
 public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
+    private static final int URL_LOADER = 0;
     private String currName = null;
     private View rootView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         rootView = inflater.inflate(R.layout.fragment_classinfo, container, false);
+
+        getLoaderManager().initLoader(URL_LOADER, null, this);
+
         return rootView;
     }
 
