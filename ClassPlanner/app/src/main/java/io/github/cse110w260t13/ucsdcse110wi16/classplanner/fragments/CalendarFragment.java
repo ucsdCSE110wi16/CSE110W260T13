@@ -16,15 +16,19 @@ import android.widget.CalendarView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CaldroidListener;
 import com.roomorama.caldroid.CalendarHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import hirondelle.date4j.DateTime;
@@ -88,6 +92,42 @@ public class CalendarFragment extends Fragment {
 
         // Must refresh after changing the appearance of the View
         caldroidFragment.refreshView();
+
+        final CaldroidListener listener = new CaldroidListener() {
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+            @Override
+            public void onSelectDate(Date date, View view) {
+                Toast.makeText(getActivity().getBaseContext(), formatter.format(date),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onChangeMonth(int month, int year) {
+                String text = "month: " + month + " year: " + year;
+                Toast.makeText(getActivity().getBaseContext(), text,
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClickDate(Date date, View view) {
+                Toast.makeText(getActivity().getBaseContext(),
+                        "Long click " + formatter.format(date),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCaldroidViewCreated() {
+                Toast.makeText(getActivity().getBaseContext(),
+                        "Caldroid view is created",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+        };
+
+        caldroidFragment.setCaldroidListener(listener);
+
 
         return rootView;
     }
