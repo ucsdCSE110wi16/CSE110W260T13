@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 
 import com.roomorama.caldroid.CaldroidFragment;
@@ -40,6 +42,9 @@ public class CalendarFragment extends Fragment {
     private static final String LOG_TAG = "CalendarFragment";
     private static final int COLOR_DELTA = 3;
 
+    private CustomCaldroidFragment caldroidFragment;
+    private CheckBox personalTodoCheckbox;
+
     /**
      * Created upon entering Fragment's view creation stage.
      *
@@ -63,8 +68,21 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        // Get the personal todolist checkbox
+        personalTodoCheckbox = (CheckBox) rootView.findViewById(R.id.todo_checkBox);
+
+        // Set the change listener to update the colors
+        personalTodoCheckbox.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            updateCalendarColors();
+                    }
+                }
+        );
+
         // Create a Caldroid fragment
-        CustomCaldroidFragment caldroidFragment = new CustomCaldroidFragment();
+        caldroidFragment = new CustomCaldroidFragment();
         Bundle args = new Bundle();
         Calendar cal = Calendar.getInstance();
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
@@ -77,14 +95,7 @@ public class CalendarFragment extends Fragment {
         t.replace(R.id.caldroidContainer, caldroidFragment);
         t.commit();
 
-        // Set colors for dates
-        Map<String, Object> caldroidData = caldroidFragment.getCaldroidData();
-        getDummyData(caldroidData);
-
-        // Set colors for dates
-        caldroidFragment.setBackgroundResourceForDateTimes(
-                getDummyData(caldroidData)
-        );
+        this.updateCalendarColors();
 
         // Must refresh after changing the appearance of the View
         caldroidFragment.refreshView();
@@ -92,7 +103,34 @@ public class CalendarFragment extends Fragment {
         return rootView;
     }
 
-    private HashMap<DateTime, Integer> getDummyData(Map<String, Object> caldroidData) {
+    private void updateCalendarColors() {
+
+        // Reset colors for dates
+        DateTime today = CalendarHelper.convertDateToDateTime(new Date());
+        caldroidFragment.clearBackgroundResourceForDateTimes(
+                CalendarHelper.getFullWeeks(
+                        today.getMonth(),
+                        today.getYear(),
+                        (Integer) caldroidFragment.getCaldroidData()
+                                .get(CaldroidFragment.START_DAY_OF_WEEK),
+                        true
+                )
+        );
+
+        Log.d(LOG_TAG, "calling updateCalendarColors");
+
+        // Set colors for dates
+        caldroidFragment.setBackgroundResourceForDateTimes(
+                this.getCalendarColors(
+                        caldroidFragment.getCaldroidData()
+                )
+        );
+
+        // Must refresh after changing the appearance of the View
+        caldroidFragment.refreshView();
+    }
+
+    private HashMap<DateTime, Integer> getCalendarColors(Map<String, Object> caldroidData) {
 
         HashMap<DateTime, Integer> mappedColors = new HashMap<DateTime, Integer>();
 
@@ -104,6 +142,27 @@ public class CalendarFragment extends Fragment {
                 3, 0, 2, 9, 5, 2, 2,
                 4, 1, 20, 4, 1, 1, 5,
         };
+
+        int[] eventsPerDayWithTodoListDummyData = {
+                5, 3, 5, 7, 2, 4, 3,
+                3, 5, 5, 3, 4, 12, 2,
+                4, 3, 8, 3, 4, 25, 12,
+                6, 4, 5, 3, 4, 2, 3,
+                3, 4, 2, 9, 5, 2, 2,
+                4, 3, 28, 4, 4, 5, 5,
+        };
+
+        int[] itemsPerDayInMonth;
+
+        if(personalTodoCheckbox.isChecked()) {
+
+            itemsPerDayInMonth = eventsPerDayWithTodoListDummyData;
+
+        } else {
+
+            itemsPerDayInMonth = eventsPerDayDummyData;
+
+        }
 
         DateTime today = CalendarHelper.convertDateToDateTime(new Date());
 
@@ -160,7 +219,7 @@ public class CalendarFragment extends Fragment {
             changeableColor = new ChangeableColor(r, g, b, COLOR_DELTA);
             colorIntForDay = 0;
 
-            for(int j = 0; j < eventsPerDayDummyData[i]; j++) {
+            for(int j = 0; j < itemsPerDayInMonth[i]; j++) {
 
                 colorIntForDay = Long.decode(
                         changeableColor.darkenColorByDeltaPercent().toHex()

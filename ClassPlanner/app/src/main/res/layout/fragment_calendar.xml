@@ -27,4 +27,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="71dp" />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_calendar_personal_todo_checkbox"
+        android:id="@+id/todo_checkBox"
+        android:layout_below="@+id/caldroidContainer"
+        android:layout_alignLeft="@+id/caldroidContainer"
+        android:layout_margin="16dp" />
+
 </RelativeLayout>
