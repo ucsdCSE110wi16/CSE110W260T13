@@ -39,7 +39,7 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
         return rootView;
     }
 
-    public void select(String class_name){
+    public void selectClass(String class_name){
         currName=class_name;
         Log.d("teststringclass_name ", "class name is " + class_name);
         ContentResolver cr = getActivity().getContentResolver();

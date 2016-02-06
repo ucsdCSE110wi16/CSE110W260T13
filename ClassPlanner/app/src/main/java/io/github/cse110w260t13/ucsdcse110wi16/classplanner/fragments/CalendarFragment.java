@@ -1,6 +1,7 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -52,6 +53,8 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
 
     private static final String LOG_TAG = "CalendarFragment";
     private static final int COLOR_DELTA = 3;
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
 
     /**
      * Created upon entering Fragment's view creation stage.
@@ -109,16 +112,13 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
         //Create onClickListener for Caldroid
         final CaldroidListener listener = new CaldroidListener() {
 
-            //Format day to YYYY-MM-DD format. Should use this to store events.
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-
             //OnSelectDate, I want events for that day to pop up.
             @Override
             public void onSelectDate(Date date, View view) {
                 Toast.makeText(getActivity().getBaseContext(), formatter.format(date),
                         Toast.LENGTH_SHORT).show();
                 //db.query formatter.format(date)
-                select(formatter.format(date));
+                select(date);
             }
 
             @Override
@@ -238,8 +238,35 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
 
-    public void select(String date){
+    public void select(Date date){
+        ContentResolver cr = getActivity().getContentResolver();
 
+        //Find the upper bound for the query (the next day)
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, 1);
+
+        //Convert it to string format for the db (unnecessary?)
+        String startDate = formatter.format(date);
+        String endDate = formatter.format(cal.getTime());
+
+        //Query for all entries within date
+        Cursor cursor = cr.query(CalendarContentProvider.CONTENT_URI,
+                CalendarInfo.FeedEntry.ALL_COLUMNS,
+                CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND " +
+                CalendarInfo.FeedEntry.DATE + " < '" + endDate + "'",
+                null,
+                CalendarInfo.FeedEntry.START_TIME + " DESC");
+
+        if(cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            //get the number of rows AKA number of events
+            int numOfEvents = cursor.getCount();
+            for(int i=0; i< numOfEvents; i++){
+                //Do stuff to set textview of the event here
+                cursor.moveToNext();
+            }
+        }
     }
 
 
