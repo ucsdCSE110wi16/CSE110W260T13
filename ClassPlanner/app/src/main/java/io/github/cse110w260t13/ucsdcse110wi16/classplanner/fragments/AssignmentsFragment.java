@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.Assign
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.AssignmentContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.AssignmentDbHelper;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.AssignmentInfo;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarInfo;
 
 public class AssignmentsFragment extends Fragment{
 
@@ -51,13 +53,13 @@ public class AssignmentsFragment extends Fragment{
 
 
     /**
-     * click handler for all buttons in the Courses Page
+     * click handler for all buttons in the Assignments Page
      */
     private class clickHandler implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.add_button:
-                    startActivity(new Intent(getActivity(), AddClassActivity.class));
+                    startActivity(new Intent(getActivity(), AddAssignment.class));
                     break;
                 case R.id.delete_button:
                     Log.d("on click", AssignmentName);
@@ -69,4 +71,6 @@ public class AssignmentsFragment extends Fragment{
             }
         }
     }
+
+
 }
