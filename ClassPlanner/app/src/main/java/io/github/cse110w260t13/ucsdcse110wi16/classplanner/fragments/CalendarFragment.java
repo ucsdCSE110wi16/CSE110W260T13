@@ -144,6 +144,7 @@ public class CalendarFragment extends Fragment {
 
         HashMap<DateTime, Integer> mappedColors = new HashMap<DateTime, Integer>();
 
+        // TODO use actual SQLite data
         int[] eventsPerDayDummyData = {
                 1, 3, 0, 7, 0, 4, 3,
                 0, 5, 0, 1, 0, 11, 2,
@@ -152,7 +153,6 @@ public class CalendarFragment extends Fragment {
                 3, 0, 2, 9, 5, 2, 2,
                 4, 1, 20, 4, 1, 1, 5,
         };
-
         int[] eventsPerDayWithTodoListDummyData = {
                 5, 3, 5, 7, 2, 4, 3,
                 3, 5, 5, 3, 4, 12, 2,
@@ -161,7 +161,6 @@ public class CalendarFragment extends Fragment {
                 3, 4, 2, 9, 5, 2, 2,
                 4, 3, 28, 4, 4, 5, 5,
         };
-
         int[] itemsPerDayInMonth;
 
         if(personalTodoCheckbox.isChecked()) {
