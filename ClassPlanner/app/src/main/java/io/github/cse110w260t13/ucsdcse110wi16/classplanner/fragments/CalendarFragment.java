@@ -97,6 +97,7 @@ public class CalendarFragment extends Fragment {
         t.replace(R.id.caldroidContainer, caldroidFragment);
         t.commit();
 
+        // Updates the calendar with tje ;atest visualization
         this.updateCalendarColors();
 
         // Must refresh after changing the appearance of the View
@@ -105,6 +106,9 @@ public class CalendarFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Resets and then updates the calendar visualization corresponding to the most recent data
+     */
     private void updateCalendarColors() {
 
         // Reset colors for dates
@@ -123,16 +127,20 @@ public class CalendarFragment extends Fragment {
 
         // Set colors for dates
         caldroidFragment.setBackgroundResourceForDateTimes(
-                this.getCalendarColors(
-                        caldroidFragment.getCaldroidData()
-                )
+                this.getCalendarColors()
         );
 
         // Must refresh after changing the appearance of the View
         caldroidFragment.refreshView();
     }
 
-    private HashMap<DateTime, Integer> getCalendarColors(Map<String, Object> caldroidData) {
+
+    /**
+     * Gets the colors for the calendar visualization and assigns them to DateTime objects
+     *
+     * @return DateTime objects assigned to color integers
+     */
+    private HashMap<DateTime, Integer> getCalendarColors() {
 
         HashMap<DateTime, Integer> mappedColors = new HashMap<DateTime, Integer>();
 
@@ -171,7 +179,7 @@ public class CalendarFragment extends Fragment {
         ArrayList<DateTime> gridDayList = CalendarHelper.getFullWeeks(
                 today.getMonth(),
                 today.getYear(),
-                (Integer) caldroidData
+                (Integer) caldroidFragment.getCaldroidData()
                         .get(CaldroidFragment.START_DAY_OF_WEEK),
                 true
         );
