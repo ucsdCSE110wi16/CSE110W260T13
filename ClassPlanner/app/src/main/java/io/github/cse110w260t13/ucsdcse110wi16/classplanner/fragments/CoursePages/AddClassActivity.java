@@ -34,42 +34,25 @@ public class AddClassActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addclass);
 
-        final Bundle startArguments = new Bundle();
-        final Bundle endArguments = new Bundle();
-        startArguments.putInt("time",R.id.start_time_picker);
-        endArguments.putInt("time", R.id.end_time_picker);
-
-        EditText startTime = (EditText) findViewById(R.id.start_time_picker);
-        startTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment newTimePicker = new TimeSelector();
-                newTimePicker.setArguments(startArguments);
-                newTimePicker.show(getSupportFragmentManager(), "startTimePicker");
-            }
-        });
-
-        EditText endTime = (EditText) findViewById(R.id.end_time_picker);
-        endTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment newTimePicker = new TimeSelector();
-                newTimePicker.setArguments(endArguments);
-                newTimePicker.show(getSupportFragmentManager(), "EndTimePicker");
-            }
-        });
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null){
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+
+        EditText startTime = (EditText) findViewById(R.id.start_time_picker);
+        EditText endTime = (EditText) findViewById(R.id.end_time_picker);
         Button add = (Button)findViewById(R.id.add);
         Button cancel = (Button) findViewById(R.id.cancel);
+
         clickHandler click_handler = new clickHandler();
+
         add.setOnClickListener(click_handler);
         cancel.setOnClickListener(click_handler);
+        startTime.setOnClickListener(click_handler);
+        endTime.setOnClickListener(click_handler);
     }
+
     private class clickHandler implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
@@ -80,6 +63,20 @@ public class AddClassActivity extends AppCompatActivity{
                     break;
                 case R.id.cancel:
                     finish();
+                    break;
+                case R.id.start_time_picker:
+                    final Bundle startArguments = new Bundle();
+                    startArguments.putInt("time",R.id.start_time_picker);
+                    DialogFragment startTimePicker = new TimeSelector();
+                    startTimePicker.setArguments(startArguments);
+                    startTimePicker.show(getSupportFragmentManager(), "startTimePicker");
+                    break;
+                case R.id.end_time_picker:
+                    final Bundle endArguments = new Bundle();
+                    endArguments.putInt("time", R.id.end_time_picker);
+                    DialogFragment endTimePicker = new TimeSelector();
+                    endTimePicker.setArguments(endArguments);
+                    endTimePicker.show(getSupportFragmentManager(), "EndTimePicker");
                     break;
             }
         }
@@ -184,6 +181,16 @@ public class AddClassActivity extends AppCompatActivity{
             return false;
         }
 
+        insertCourseData(course, loc, startTime, endTime, sun, mon, tue, wed, thur,
+                fri, sat, notes, instr, email, web);
+        return true;
+    }
+
+    private void insertCourseData(EditText course, EditText loc, EditText startTime, EditText endTime,
+                                  CheckBox sun, CheckBox mon, CheckBox tue, CheckBox wed,
+                                  CheckBox thur, CheckBox fri, CheckBox sat,
+                                  EditText notes, EditText instr, EditText email, EditText web){
+
         ContentValues values = new ContentValues();
 
         String val = course.getText().toString();
@@ -221,8 +228,12 @@ public class AddClassActivity extends AppCompatActivity{
 
         ContentResolver cr = getContentResolver();
         cr.insert(CourseCalendarContentProvider.CONTENT_URI,values);
+    }
 
-        return true;
+    private void insertCalendarData(EditText course, EditText loc, EditText startTime, EditText endTime,
+                                    CheckBox sun, CheckBox mon, CheckBox tue, CheckBox wed,
+                                    CheckBox thur, CheckBox fri, CheckBox sat){
+
     }
 
     @Override
