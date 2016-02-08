@@ -1,34 +1,21 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
 
-import android.app.Activity;
-<<<<<<< HEAD
 import android.content.ContentResolver;
-=======
-import android.content.Context;
->>>>>>> origin
-import android.content.res.Resources;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.CalendarView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
@@ -38,38 +25,31 @@ import com.roomorama.caldroid.CalendarHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import hirondelle.date4j.DateTime;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.custom_views.CustomCaldroidFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.calendar_database.CalendarInfo;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarContentProvider;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarInfo;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.util.ChangeableColor;
 
 /**
  * Fragment that will contain Calendar section's features.
  */
-public class CalendarFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class CalendarFragment extends Fragment{
 
     private static final String LOG_TAG = "CalendarFragment";
     private static final int COLOR_DELTA = 3;
 
-<<<<<<< HEAD
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private static final int URL_LOADER = 0;
 
-=======
     private CustomCaldroidFragment caldroidFragment;
     private CheckBox personalTodoCheckbox;
->>>>>>> origin
 
     /**
      * Created upon entering Fragment's view creation stage.
@@ -84,9 +64,6 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
                              Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
-
-        //Initialize a CursorLoader. URL_LOADER to be passed into OnCreateLoader()
-        getLoaderManager().initLoader(URL_LOADER, null, this);
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.calendar_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -124,62 +101,20 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
         t.replace(R.id.caldroidContainer, caldroidFragment);
         t.commit();
 
-<<<<<<< HEAD
-        // Set colors for dates
-        Map<String, Object> caldroidData = caldroidFragment.getCaldroidData();
-
-        /**
-         * ToDo: find a way to populate data for the color change quickly
-         */
-        getDummyData(caldroidData);
-=======
         // Updates the calendar with tje ;atest visualization
         this.updateCalendarColors();
 
         // Must refresh after changing the appearance of the View
         caldroidFragment.refreshView();
 
-        return rootView;
-    }
-
-    /**
-     * Resets and then updates the calendar visualization corresponding to the most recent data
-     */
-    private void updateCalendarColors() {
-
-        // Reset colors for dates
-        DateTime today = CalendarHelper.convertDateToDateTime(new Date());
-        caldroidFragment.clearBackgroundResourceForDateTimes(
-                CalendarHelper.getFullWeeks(
-                        today.getMonth(),
-                        today.getYear(),
-                        (Integer) caldroidFragment.getCaldroidData()
-                                .get(CaldroidFragment.START_DAY_OF_WEEK),
-                        true
-                )
-        );
-
-        Log.d(LOG_TAG, "calling updateCalendarColors");
->>>>>>> origin
-
-        // Set colors for dates
-        caldroidFragment.setBackgroundResourceForDateTimes(
-                this.getCalendarColors()
-        );
-
-        // Must refresh after changing the appearance of the View
-        caldroidFragment.refreshView();
-<<<<<<< HEAD
-
         //Create onClickListener for Caldroid
         final CaldroidListener listener = new CaldroidListener() {
-
             //OnSelectDate, I want events for that day to pop up.
             @Override
             public void onSelectDate(Date date, View view) {
                 Toast.makeText(getActivity().getBaseContext(), formatter.format(date),
                         Toast.LENGTH_SHORT).show();
-                select(date);
+                //select(date);
             }
 
             @Override
@@ -209,10 +144,35 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
 
         };
         caldroidFragment.setCaldroidListener(listener);
-
         return rootView;
-=======
->>>>>>> origin
+    }
+
+    /**
+     * Resets and then updates the calendar visualization corresponding to the most recent data
+     */
+    private void updateCalendarColors() {
+
+        // Reset colors for dates
+        DateTime today = CalendarHelper.convertDateToDateTime(new Date());
+        caldroidFragment.clearBackgroundResourceForDateTimes(
+                CalendarHelper.getFullWeeks(
+                        today.getMonth(),
+                        today.getYear(),
+                        (Integer) caldroidFragment.getCaldroidData()
+                        .get(CaldroidFragment.START_DAY_OF_WEEK),
+                        true
+                )
+        );
+
+        Log.d(LOG_TAG, "calling updateCalendarColors");
+
+        // Set colors for dates
+        caldroidFragment.setBackgroundResourceForDateTimes(
+                this.getCalendarColors()
+        );
+
+        // Must refresh after changing the appearance of the View
+        caldroidFragment.refreshView();
     }
 
 
@@ -346,14 +306,6 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
                 null,
                 CalendarInfo.FeedEntry.START_TIME + " DESC");
 
-        /*CursorLoader crLoader = new CursorLoader(getContext(), CalendarContentProvider.CONTENT_URI,
-                CalendarInfo.FeedEntry.ALL_COLUMNS,
-                CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND " +
-                        CalendarInfo.FeedEntry.DATE + " < '" + endDate + "'", null,
-                CalendarInfo.FeedEntry.START_TIME + " DESC");
-
-        Cursor cursor = crLoader.loadInBackground();*/
-
         String[] from = {CalendarInfo.FeedEntry.EVENT_TITLE,
         CalendarInfo.FeedEntry.EVENT_DESCR,
         CalendarInfo.FeedEntry.START_TIME,
@@ -374,38 +326,6 @@ public class CalendarFragment extends Fragment implements LoaderManager.LoaderCa
                 cursor.moveToNext();
             }
         }
-    }
-
-
-    // creates a new loader after the initLoader () call
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] projection = CalendarInfo.FeedEntry.ALL_COLUMNS;
-
-        switch(id) {
-            case URL_LOADER:
-                return new CursorLoader(getContext(),
-                        CalendarContentProvider.CONTENT_URI, projection,
-                        null, null, null);
-            default:
-                return null;
-        }
-
-    }
-
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    //Release any references/resources that are not needed anymore
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        getLoaderManager().restartLoader(0, null, this);
     }
 
 }
