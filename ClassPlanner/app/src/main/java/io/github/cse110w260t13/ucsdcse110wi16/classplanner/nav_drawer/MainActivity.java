@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.AssignmentsFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CalendarFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursesFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.HomeFragment;
@@ -212,7 +213,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 2:
                 fragment = new CoursesFragment();
-
+                break;
+            case 3:
+                fragment = new AssignmentsFragment();
                 break;
             default:
                 break;
