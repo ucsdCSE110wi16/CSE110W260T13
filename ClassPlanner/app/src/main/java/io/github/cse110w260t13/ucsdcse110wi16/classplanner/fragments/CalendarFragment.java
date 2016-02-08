@@ -1,7 +1,9 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
@@ -31,6 +34,8 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import hirondelle.date4j.DateTime;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.CalendarEvent;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.CalendarEventsAdapter;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.custom_views.CustomCaldroidFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.calendar_database.CalendarContentProvider;
@@ -47,6 +52,8 @@ public class CalendarFragment extends Fragment{
 
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private static final int URL_LOADER = 0;
+    private ListView listView;
+    private CalendarEventsAdapter adapter;
 
     private CustomCaldroidFragment caldroidFragment;
     private CheckBox personalTodoCheckbox;
@@ -101,11 +108,14 @@ public class CalendarFragment extends Fragment{
         t.replace(R.id.caldroidContainer, caldroidFragment);
         t.commit();
 
-        // Updates the calendar with tje ;atest visualization
+        // Updates the calendar with the latest visualization
         this.updateCalendarColors();
 
         // Must refresh after changing the appearance of the View
         caldroidFragment.refreshView();
+
+        //assign listView's layout
+        /**listView = (ListView) rootView.findViewById(android.R.id.list);**/
 
         //Create onClickListener for Caldroid
         final CaldroidListener listener = new CaldroidListener() {
@@ -114,7 +124,16 @@ public class CalendarFragment extends Fragment{
             public void onSelectDate(Date date, View view) {
                 Toast.makeText(getActivity().getBaseContext(), formatter.format(date),
                         Toast.LENGTH_SHORT).show();
-                //select(date);
+                /**
+                 * ToDo: Add ListView to layout. For now, go back to courses page
+                 * and create functionality to add the course information into the
+                 * calendar db before proceeding further.
+                 */
+                /*UpdateEventsTask eventUpdater = new UpdateEventsTask(
+                        getActivity().getBaseContext(),
+                        listView,
+                        getActivity().getContentResolver());
+                eventUpdater.execute();*/
             }
 
             @Override
@@ -144,6 +163,7 @@ public class CalendarFragment extends Fragment{
 
         };
         caldroidFragment.setCaldroidListener(listener);
+
         return rootView;
     }
 
@@ -285,46 +305,80 @@ public class CalendarFragment extends Fragment{
     }
 
 
-    //This should be handled asynchronously.
-    public void select(Date date){
-        ContentResolver cr = getActivity().getContentResolver();
+    private class UpdateEventsTask extends AsyncTask<Date, Void, ArrayList<CalendarEvent>> {
+        private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        private ContentResolver cr;
+        private Context context;
+        private ListView listView;
 
-        //Find the upper bound for the query (the next day)
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, 1);
+        //Need context in order to create a new adapter. Pass it in from parent
+        public UpdateEventsTask(Context context, ListView listView, ContentResolver cr) {
+            super();
+            this.cr = cr;
+            this.context = context;
+            this.listView = listView;
+        }
 
-        //Convert it to string format for the db (unnecessary?)
-        String startDate = formatter.format(date);
-        String endDate = formatter.format(cal.getTime());
+        @Override
+        protected ArrayList<CalendarEvent> doInBackground(Date... date) {
+            //To Change Later
+            ArrayList<CalendarEvent> returnList = new ArrayList<CalendarEvent>();
 
-        //Query for all entries within date
-        Cursor cursor = cr.query(CalendarContentProvider.CONTENT_URI,
-                CalendarInfo.FeedEntry.ALL_COLUMNS,
-                CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND " +
-                CalendarInfo.FeedEntry.DATE + " < '" + endDate + "'",
-                null,
-                CalendarInfo.FeedEntry.START_TIME + " DESC");
+            for (int i = 0; i < date.length; i++) {
+                //Find the upper bound for the query (the next day)
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date[i]);
+                cal.add(Calendar.DATE, 1);
 
-        String[] from = {CalendarInfo.FeedEntry.EVENT_TITLE,
-        CalendarInfo.FeedEntry.EVENT_DESCR,
-        CalendarInfo.FeedEntry.START_TIME,
-        CalendarInfo.FeedEntry.END_TIME};
-        int[] to = new int[] { android.R.id.text1 };
+                //Convert it to string format for the db (unnecessary?)
+                String startDate = formatter.format(date);
+                String endDate = formatter.format(cal.getTime());
 
-        SimpleCursorAdapter listView = new SimpleCursorAdapter(getContext(), R.layout.layout_calendar_list,
-                cursor, from, to, 0);
+                String daySelection = CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND "
+                        + CalendarInfo.FeedEntry.DATE + " < '" + endDate + "'";
 
+                //Query for all entries within date. Should be sorted by start time descending
+                Cursor cursor = cr.query(CalendarContentProvider.CONTENT_URI,
+                        CalendarInfo.FeedEntry.ALL_COLUMNS,
+                        daySelection,
+                        null,
+                        CalendarInfo.FeedEntry.START_TIME + " DESC");
 
+                if (cursor != null && cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    //get the number of rows AKA number of events
+                    int numOfEvents = cursor.getCount();
 
-        if(cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            //get the number of rows AKA number of events
-            int numOfEvents = cursor.getCount();
-            for(int i=0; i< numOfEvents; i++){
-                //Do stuff to set TextView of the event here
-                cursor.moveToNext();
+                    while (!cursor.isAfterLast()) {
+                        //Add every event to the ArrayList
+                        returnList.add(new CalendarEvent(CalendarInfo.FeedEntry.EVENT_TITLE,
+                                CalendarInfo.FeedEntry.EVENT_DESCR,
+                                CalendarInfo.FeedEntry.START_TIME,
+                                CalendarInfo.FeedEntry.END_TIME));
+                        cursor.moveToNext();
+                    }
+                    cursor.close();
+                }
             }
+            //Now we have a list of our CalendarEvent items
+            return returnList;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<CalendarEvent> calendarEventList) {
+            //Create a new adapter if there is no prior instance
+            if(adapter == null){
+                adapter = new CalendarEventsAdapter(context, calendarEventList);
+                listView.setAdapter(adapter);
+            }
+            //otherwise clear the adapter and re-add new events
+            else {
+                adapter.clear();
+                for (CalendarEvent event : calendarEventList) {
+                    adapter.add(event);
+                }
+            }
+            adapter.notifyDataSetChanged();
         }
     }
 

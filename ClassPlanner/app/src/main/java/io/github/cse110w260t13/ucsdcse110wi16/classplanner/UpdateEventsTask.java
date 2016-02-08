@@ -1,8 +1,17 @@
+/**
+ * MOVED TO PRIVATE CLASS IN CALENDAR FRAGMENT.
+ * Issues with variable access and whatnot.
+ * May move back to separate class in the future.
+ * Will leave this in files for now.
+ */
+
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,9 +25,15 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.calendar_da
 public class UpdateEventsTask extends AsyncTask<Date, Void, ArrayList<CalendarEvent>>{
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private ContentResolver cr;
+    private Context context;
+    private ListView listView;
 
-    public UpdateEventsTask(ContentResolver cr){
+    //Need context in order to create a new adapter. Pass it in from parent
+    public UpdateEventsTask(Context context, ListView listView, ContentResolver cr){
+        super();
         this.cr = cr;
+        this.context = context;
+        this.listView = listView;
     }
 
     @Override
@@ -65,8 +80,7 @@ public class UpdateEventsTask extends AsyncTask<Date, Void, ArrayList<CalendarEv
 
     @Override
     protected void onPostExecute(ArrayList<CalendarEvent> calendarEventList){
-        //We should update the UI here
-
-
+        CalendarEventsAdapter adapter = new CalendarEventsAdapter(context, calendarEventList);
+        listView.setAdapter(adapter);
     }
 }
