@@ -15,7 +15,7 @@ public class CalendarInfo {
         public static final String EVENT_DESCR = "EventDescr";
 
         public static final String[] ALL_COLUMNS = {
-                TABLE_NAME,
+                _ID,
                 DATE,
                 START_TIME,
                 END_TIME,

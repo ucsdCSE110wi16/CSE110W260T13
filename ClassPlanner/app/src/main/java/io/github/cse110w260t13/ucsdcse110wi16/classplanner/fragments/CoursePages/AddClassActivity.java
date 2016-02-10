@@ -259,10 +259,30 @@ public class AddClassActivity extends AppCompatActivity {
                                     EditText endTime, EditText endDate,
                                     CheckBox sun, CheckBox mon, CheckBox tue, CheckBox wed,
                                     CheckBox thur, CheckBox fri, CheckBox sat) {
+        Log.d("insertCalendarData", "inserting");
         ContentValues values = new ContentValues();
         String val = null;
 
-        ArrayList<Integer> daysOfWeek = new ArrayList<Integer>();
+        LocalDate startdate = new LocalDate();
+        val = startdate.toString();
+        values.put(CalendarInfo.FeedEntry.DATE,val);
+
+        val = startTime.getText().toString();
+        values.put(CalendarInfo.FeedEntry.START_TIME, val);
+
+        val = endTime.getText().toString();
+        values.put(CalendarInfo.FeedEntry.END_TIME, val);
+
+        val = course.getText().toString();
+        values.put(CalendarInfo.FeedEntry.EVENT_TITLE, val);
+
+        val = loc.getText().toString();
+        values.put(CalendarInfo.FeedEntry.EVENT_DESCR, val);
+
+        ContentResolver cr = getContentResolver();
+        cr.insert(CalendarContentProvider.CONTENT_URI, values);
+
+        /*ArrayList<Integer> daysOfWeek = new ArrayList<Integer>();
         if (sun.isChecked()) daysOfWeek.add(Calendar.SUNDAY);
         if (mon.isChecked()) daysOfWeek.add(Calendar.MONDAY);
         if (tue.isChecked()) daysOfWeek.add(Calendar.TUESDAY);
@@ -305,7 +325,7 @@ public class AddClassActivity extends AppCompatActivity {
                 }
             }
             startdate.plusDays(1);
-        }
+        }*/
     }
 
 

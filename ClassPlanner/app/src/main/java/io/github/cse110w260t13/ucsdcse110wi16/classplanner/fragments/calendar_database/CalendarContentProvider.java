@@ -17,7 +17,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.Course
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.CourseCalendarInfo;
 
 public class CalendarContentProvider extends ContentProvider {
-    private CourseCalendarDbHelper db_helper;
+    private CalendarDbHelper db_helper;
     private SQLiteDatabase db;
 
     //used for UriMatcher
@@ -41,7 +41,7 @@ public class CalendarContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        db_helper = new CourseCalendarDbHelper(getContext());
+        db_helper = new CalendarDbHelper(getContext());
         db = db_helper.getWritableDatabase();
         return false;
     }

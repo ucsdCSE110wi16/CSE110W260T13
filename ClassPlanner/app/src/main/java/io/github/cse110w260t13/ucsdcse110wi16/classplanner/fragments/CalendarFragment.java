@@ -115,13 +115,14 @@ public class CalendarFragment extends Fragment{
         caldroidFragment.refreshView();
 
         //assign listView's layout
-        /**listView = (ListView) rootView.findViewById(android.R.id.list);**/
+        listView = (ListView) rootView.findViewById(R.id.List);
 
         //Create onClickListener for Caldroid
         final CaldroidListener listener = new CaldroidListener() {
             //OnSelectDate, I want events for that day to pop up.
             @Override
             public void onSelectDate(Date date, View view) {
+                Log.d("onSelectDate: ", "shortpress");
                 Toast.makeText(getActivity().getBaseContext(), formatter.format(date),
                         Toast.LENGTH_SHORT).show();
                 /**
@@ -129,11 +130,11 @@ public class CalendarFragment extends Fragment{
                  * and create functionality to add the course information into the
                  * calendar db before proceeding further.
                  */
-                /*UpdateEventsTask eventUpdater = new UpdateEventsTask(
+                UpdateEventsTask eventUpdater = new UpdateEventsTask(
                         getActivity().getBaseContext(),
                         listView,
                         getActivity().getContentResolver());
-                eventUpdater.execute();*/
+                eventUpdater.execute(date, null, null);
             }
 
             @Override
@@ -306,7 +307,10 @@ public class CalendarFragment extends Fragment{
 
 
     private class UpdateEventsTask extends AsyncTask<Date, Void, ArrayList<CalendarEvent>> {
-        private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        private SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm",Locale.getDefault());
+
+
         private ContentResolver cr;
         private Context context;
         private ListView listView;
@@ -317,55 +321,77 @@ public class CalendarFragment extends Fragment{
             this.cr = cr;
             this.context = context;
             this.listView = listView;
+            Log.d("UpdateEventsTask: ", "constructor");
+
         }
 
         @Override
         protected ArrayList<CalendarEvent> doInBackground(Date... date) {
+            Log.d("UpdateEventsTask: ", "doInBackground");
             //To Change Later
             ArrayList<CalendarEvent> returnList = new ArrayList<CalendarEvent>();
+            Log.d("UpdateEventsTask: ", "doInBg  date param" + date[0]);
 
-            for (int i = 0; i < date.length; i++) {
+            //for (int i = 0; i < date.length; i++) {
                 //Find the upper bound for the query (the next day)
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date[i]);
-                cal.add(Calendar.DATE, 1);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date[0]);
+            Log.d("UpdateEventsTask: ", "doInBg  time" + date[0]);
 
-                //Convert it to string format for the db (unnecessary?)
-                String startDate = formatter.format(date);
-                String endDate = formatter.format(cal.getTime());
+            cal.add(Calendar.DATE, 1);
 
-                String daySelection = CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND "
-                        + CalendarInfo.FeedEntry.DATE + " < '" + endDate + "'";
+            //Convert it to string format for the db (unnecessary?)
+            String startDate = dayFormat.format(date[0]);
+            String endDate = dayFormat.format(cal.getTime());
+            Log.d("UpdateEventsTask: ", "doInBg  start date" + startDate);
+            Log.d("UpdateEventsTask: ", "doInBg  end date" + endDate);
 
-                //Query for all entries within date. Should be sorted by start time descending
-                Cursor cursor = cr.query(CalendarContentProvider.CONTENT_URI,
-                        CalendarInfo.FeedEntry.ALL_COLUMNS,
-                        daySelection,
-                        null,
-                        CalendarInfo.FeedEntry.START_TIME + " DESC");
 
-                if (cursor != null && cursor.getCount() > 0) {
-                    cursor.moveToFirst();
-                    //get the number of rows AKA number of events
-                    int numOfEvents = cursor.getCount();
 
-                    while (!cursor.isAfterLast()) {
-                        //Add every event to the ArrayList
-                        returnList.add(new CalendarEvent(CalendarInfo.FeedEntry.EVENT_TITLE,
-                                CalendarInfo.FeedEntry.EVENT_DESCR,
-                                CalendarInfo.FeedEntry.START_TIME,
-                                CalendarInfo.FeedEntry.END_TIME));
-                        cursor.moveToNext();
-                    }
-                    cursor.close();
+            String daySelection = CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND "
+                    + CalendarInfo.FeedEntry.DATE + " < '" + endDate + "'";
+
+            //Query for all entries within date. Should be sorted by start time descending
+            Cursor cursor = cr.query(CalendarContentProvider.CONTENT_URI,
+                    CalendarInfo.FeedEntry.ALL_COLUMNS,
+                    daySelection,
+                    null,
+                    CalendarInfo.FeedEntry.START_TIME + " DESC");
+
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                //get the number of rows AKA number of events
+                int numOfEvents = cursor.getCount();
+
+                while (!cursor.isAfterLast()) {
+                    int eventTitle = cursor.getColumnIndex(CalendarInfo.FeedEntry.EVENT_TITLE);
+                    int eventDesc = cursor.getColumnIndex(CalendarInfo.FeedEntry.EVENT_DESCR);
+                    int startTime = cursor.getColumnIndex(CalendarInfo.FeedEntry.START_TIME);
+                    int endTime = cursor.getColumnIndex(CalendarInfo.FeedEntry.END_TIME);
+                    Log.d("UpdateEventsTask: ", "doInBg " + cursor.getString(eventTitle));
+
+                    //Add every event to the ArrayList
+                    returnList.add(new CalendarEvent(
+                            cursor.getString(eventTitle),
+                            cursor.getString(eventDesc),
+                            cursor.getString(startTime),
+                            cursor.getString(endTime)));
+                    cursor.moveToNext();
                 }
+                cursor.close();
             }
+            //}
             //Now we have a list of our CalendarEvent items
+            for(CalendarEvent item: returnList){
+                Log.d("UpdateEventsTask: ", "doInBg " + item.eventTitle);
+            }
             return returnList;
         }
 
         @Override
         protected void onPostExecute(ArrayList<CalendarEvent> calendarEventList) {
+            Log.d("UpdateEventsTask: ", " onPostExecute");
+
             //Create a new adapter if there is no prior instance
             if(adapter == null){
                 adapter = new CalendarEventsAdapter(context, calendarEventList);
