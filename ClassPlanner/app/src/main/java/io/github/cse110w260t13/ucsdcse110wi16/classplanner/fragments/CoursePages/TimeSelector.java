@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import org.w3c.dom.Text;
 
