@@ -96,6 +96,7 @@ public class CalendarFragment extends Fragment{
         Calendar cal = Calendar.getInstance();
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
         args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
+        args.putBoolean(CaldroidFragment.SQUARE_TEXT_VIEW_CELL, false);
         caldroidFragment.setArguments(args);
 
         // Replace the default calendar with the Caldroid calendar
