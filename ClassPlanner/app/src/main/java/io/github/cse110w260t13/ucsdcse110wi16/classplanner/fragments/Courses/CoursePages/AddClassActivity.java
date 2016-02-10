@@ -16,11 +16,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -257,43 +260,30 @@ public class AddClassActivity extends AppCompatActivity {
         Log.d("insertCalendarData", "inserting");
         ContentValues values = new ContentValues();
         String val = null;
-
-        LocalDate startdate = new LocalDate();
-        val = startdate.toString();
-        values.put(CalendarInfo.FeedEntry.DATE,val);
-
-        val = startTime.getText().toString();
-        values.put(CalendarInfo.FeedEntry.START_TIME, val);
-
-        val = endTime.getText().toString();
-        values.put(CalendarInfo.FeedEntry.END_TIME, val);
-
-        val = course.getText().toString();
-        values.put(CalendarInfo.FeedEntry.EVENT_TITLE, val);
-
-        val = loc.getText().toString();
-        values.put(CalendarInfo.FeedEntry.EVENT_DESCR, val);
-
         ContentResolver cr = getContentResolver();
-        cr.insert(CalendarContentProvider.CONTENT_URI, values);
 
-        /*ArrayList<Integer> daysOfWeek = new ArrayList<Integer>();
-        if (sun.isChecked()) daysOfWeek.add(Calendar.SUNDAY);
-        if (mon.isChecked()) daysOfWeek.add(Calendar.MONDAY);
-        if (tue.isChecked()) daysOfWeek.add(Calendar.TUESDAY);
-        if (wed.isChecked()) daysOfWeek.add(Calendar.WEDNESDAY);
-        if (thur.isChecked()) daysOfWeek.add(Calendar.THURSDAY);
-        if (fri.isChecked()) daysOfWeek.add(Calendar.FRIDAY);
-        if (sat.isChecked()) daysOfWeek.add(Calendar.SATURDAY);
+        ArrayList<Integer> daysOfWeek = new ArrayList<Integer>();
+        if (sun.isChecked()) daysOfWeek.add(DateTimeConstants.SUNDAY);
+        if (mon.isChecked()) daysOfWeek.add(DateTimeConstants.MONDAY);
+        if (tue.isChecked()) daysOfWeek.add(DateTimeConstants.TUESDAY);
+        if (wed.isChecked()) daysOfWeek.add(DateTimeConstants.WEDNESDAY);
+        if (thur.isChecked()) daysOfWeek.add(DateTimeConstants.THURSDAY);
+        if (fri.isChecked()) daysOfWeek.add(DateTimeConstants.FRIDAY);
+        if (sat.isChecked()) daysOfWeek.add(DateTimeConstants.SATURDAY);
 
-        Calendar cal = Calendar.getInstance();
+        Log.d("insertCalendarData", "arraylist size is: "+daysOfWeek.size());
+
         LocalDate startdate = new LocalDate();
         String end = endDate.getText().toString();
         Log.d("enddate string is ",end);
         LocalDate enddate = new LocalDate(end);
+
         for (int i = 0; i < 7; i++) {
+            Log.d("insertCalendarData", "day is: "+i);
             for (int j = 0; j < daysOfWeek.size(); j++) {
-                if (cal.get(Calendar.DAY_OF_WEEK) == daysOfWeek.get(j)) {
+                Log.d("Day of Week", startdate.getDayOfWeek() + " & " + daysOfWeek.get(j));
+                if (startdate.getDayOfWeek() == daysOfWeek.get(j)) {
+                    Log.d("insertCalendarData", "data insertion");
                     LocalDate copyStartDate = new LocalDate(startdate);
                     while (copyStartDate.isBefore(enddate)) {
                         val = copyStartDate.toString();
@@ -311,7 +301,6 @@ public class AddClassActivity extends AppCompatActivity {
                         val = loc.getText().toString();
                         values.put(CalendarInfo.FeedEntry.EVENT_DESCR, val);
 
-                        ContentResolver cr = getContentResolver();
                         cr.insert(CalendarContentProvider.CONTENT_URI, values);
 
                         values.clear();
@@ -319,8 +308,8 @@ public class AddClassActivity extends AppCompatActivity {
                     }
                 }
             }
-            startdate.plusDays(1);
-        }*/
+            startdate = startdate.plusDays(1);
+        }
     }
 
 
