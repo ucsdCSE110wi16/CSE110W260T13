@@ -22,17 +22,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".fragments.CoursePages.AddClassActivity"
+        <activity android:name=".fragments.Courses.CoursePages.AddClassActivity"
             android:label="Add Class"
             android:parentActivityName=".nav_drawer.MainActivity" >
         </activity>
 
         <provider
-            android:name=".local_database.CourseCalendarContentProvider"
+            android:name=".local_database.course_database.CourseCalendarContentProvider"
             android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database">
         </provider>
         <provider
-            android:name=".fragments.calendar_database.CalendarContentProvider"
+            android:name=".local_database.calendar_database.CalendarContentProvider"
             android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.calendar_database">
         </provider>
 
