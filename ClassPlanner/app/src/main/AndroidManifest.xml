@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.github.cse110w260t13.ucsdcse110wi16.classplanner">
 
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,14 +22,18 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".fragments.CoursePages.AddClassActivity"
+        <activity android:name=".fragments.Courses.CoursePages.AddClassActivity"
             android:label="Add Class"
             android:parentActivityName=".nav_drawer.MainActivity" >
         </activity>
 
         <provider
-            android:name=".local_database.CourseCalendarContentProvider"
+            android:name=".local_database.course_database.CourseCalendarContentProvider"
             android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database">
+        </provider>
+        <provider
+            android:name=".local_database.calendar_database.CalendarContentProvider"
+            android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.calendar_database">
         </provider>
 
 

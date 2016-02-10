@@ -18,12 +18,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CalendarFragment;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.CoursesFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Assignments.AssignmentsFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CalendarFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursesFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.HomeFragment;
+<<<<<<< HEAD
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.ToDoFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.NavDrawerItem;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.NavDrawerListAdapter;
+=======
+>>>>>>> f2dd9a769ad278486c1cdd75e7b7e4aeacf522b0
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 
 import java.util.ArrayList;
@@ -213,7 +217,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 2:
                 fragment = new CoursesFragment();
-
+                break;
+            case 3:
+                fragment = new AssignmentsFragment();
                 break;
             case 4:
                 fragment = new ToDoFragment();

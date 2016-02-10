@@ -37,5 +37,9 @@
     <string name= "spinner_test"> test  </string>
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
+<<<<<<< HEAD
     <string name="todo_text">To Do Text</string>
+=======
+    <string name="fragment_calendar_personal_todo_checkbox">Include personal todo list</string>
+>>>>>>> f2dd9a769ad278486c1cdd75e7b7e4aeacf522b0
 </resources>
