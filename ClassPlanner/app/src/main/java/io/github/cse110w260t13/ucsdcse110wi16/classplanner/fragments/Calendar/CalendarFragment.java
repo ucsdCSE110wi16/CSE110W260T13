@@ -128,11 +128,7 @@ public class CalendarFragment extends Fragment{
                 Log.d("onSelectDate: ", "shortpress");
                 Toast.makeText(getActivity().getBaseContext(), formatter.format(date),
                         Toast.LENGTH_SHORT).show();
-                /**
-                 * ToDo: Add ListView to layout. For now, go back to courses page
-                 * and create functionality to add the course information into the
-                 * calendar db before proceeding further.
-                 */
+
                 UpdateEventsTask eventUpdater = new UpdateEventsTask(
                         getActivity().getBaseContext(),
                         listView,
