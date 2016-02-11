@@ -83,9 +83,6 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         dropdownHandler drpHandler = new dropdownHandler();
         spin.setOnItemSelectedListener(drpHandler);
 
-        /* Programatically changing the text/design of tab widget because of issues changing the
-        text & design via themes and styles
-        TODO: Move this to be done through XML files */
         for (int i = 0; i < courseTabHost.getTabWidget().getChildCount(); i++) {
             View v = courseTabHost.getTabWidget().getChildAt(i);
             v.setBackgroundResource(R.drawable.tab_indicator_ab_example);

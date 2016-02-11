@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar toolbar;
+
 
     private final Handler mDrawerHandler = new Handler();
 
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         /*I removed the default courses_toolbar settings from the app, so I need
         to create a courses_toolbar in MainActivity in order to utilize the navdrawer.
          */
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
@@ -204,9 +206,11 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = null;
         switch (position) {
             case 0:
+                setSupportActionBar(toolbar);
                 fragment = new HomeFragment();
                 break;
             case 1:
+                setSupportActionBar(toolbar);
                 fragment = new CalendarFragment();
                 break;
             case 2:
