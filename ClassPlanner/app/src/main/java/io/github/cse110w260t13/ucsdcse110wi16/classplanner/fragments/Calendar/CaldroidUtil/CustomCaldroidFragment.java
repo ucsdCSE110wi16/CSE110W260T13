@@ -15,14 +15,4 @@ public class CustomCaldroidFragment extends CaldroidFragment {
         return new CustomCaldroidGridAdapter(getActivity(), month, year, getCaldroidData(), extraData);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        // Set custom arrow colors
-        this.getLeftArrowButton().setBackgroundResource(R.drawable.left_arrow);
-        this.getRightArrowButton().setBackgroundResource(R.drawable.right_arrow);
-
-    }
-
 }
