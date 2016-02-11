@@ -6,16 +6,26 @@ SCENARIOS.txt was copied and modifed from USER-STORIES.txt
 
 SCENARIOS---------------------------------------------:
 
-(Importance: 1)
-Given that I am a normal person,
-When I use a navigation menu
-Then I don't get annoyed trying to use the app.
+(User Story Importance: 1)
+Scenario 1.1:
+Given that I want to use the app,
+When I enter the app
+Then there should be a navigation menu that has tabs for Courses, Calendar, To-do list, and Assignments.
+When I tap any of these tabs,
+Then it takes me to the page for the given tab.
 
 
 (Importance: 2)
-Given that I am a student,
-When I add school course information to this app
-Then I can have my class information all in one spot.
+Scenario 2.1:
+Given that I have tapped the Courses page,
+And I have populated the page with at least one course,
+When I view this page,
+Then I should be able to see all of my courses on this page.
+
+Scenario 2.2:
+Given that I am on the Courses page,
+When I tap on a specific course,
+Then a new page should pop up and show all information linked to this course.
 
 
 (Importance: 3)
