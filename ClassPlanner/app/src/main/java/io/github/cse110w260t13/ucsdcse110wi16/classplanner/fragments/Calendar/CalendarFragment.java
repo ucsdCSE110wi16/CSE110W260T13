@@ -105,12 +105,6 @@ public class CalendarFragment extends Fragment{
         t.replace(R.id.caldroidContainer, caldroidFragment);
         t.commit();
 
-        // Updates the calendar with the latest visualization
-        this.updateCalendarColors();
-
-        // Must refresh after changing the appearance of the View
-        caldroidFragment.refreshView();
-
         //assign listView's layout
         listView = (ListView) rootView.findViewById(R.id.List);
 
@@ -142,26 +136,21 @@ public class CalendarFragment extends Fragment{
                 //When Months are changed, need to repopulate the colors
             }
 
-
             @Override
             public void onLongClickDate(Date date, View view) {
-                Toast.makeText(getActivity().getBaseContext(),
-                        "Long click " + formatter.format(date),
-                        Toast.LENGTH_SHORT).show();
                 //Use long click to edit events on a day?
             }
 
             @Override
             public void onCaldroidViewCreated() {
-                Toast.makeText(getActivity().getBaseContext(),
-                        "Caldroid view is created",
-                        Toast.LENGTH_SHORT).show();
 
                 // Set custom arrow colors
                 caldroidFragment.getLeftArrowButton().setBackgroundResource(R.drawable.left_arrow);
                 caldroidFragment.getRightArrowButton().setBackgroundResource(R.drawable.right_arrow);
 
-                //Should automatically select Today
+                // Updates the calendar with the latest visualization
+                updateCalendarColors();
+
             }
 
         };
@@ -182,7 +171,7 @@ public class CalendarFragment extends Fragment{
                         today.getMonth(),
                         today.getYear(),
                         (Integer) caldroidFragment.getCaldroidData()
-                        .get(CaldroidFragment.START_DAY_OF_WEEK),
+                                .get(CaldroidFragment.START_DAY_OF_WEEK),
                         true
                 )
         );
@@ -194,8 +183,14 @@ public class CalendarFragment extends Fragment{
                 this.getCalendarColors()
         );
 
+        // Should automatically select Today
+        // By default, Date() gets the time at which it was allocated
+        caldroidFragment.setSelectedDate(new Date());
+        caldroidFragment.setBackgroundResourceForDate(R.drawable.red_border, new Date());
+
         // Must refresh after changing the appearance of the View
         caldroidFragment.refreshView();
+
     }
 
 
