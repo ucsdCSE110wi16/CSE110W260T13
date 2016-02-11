@@ -210,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new HomeFragment();
                 break;
             case 1:
-                setSupportActionBar(toolbar);
                 fragment = new CalendarFragment();
                 break;
             case 2:

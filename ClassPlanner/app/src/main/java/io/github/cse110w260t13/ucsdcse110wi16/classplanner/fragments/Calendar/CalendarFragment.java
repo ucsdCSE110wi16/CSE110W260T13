@@ -16,6 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,6 +77,13 @@ public class CalendarFragment extends Fragment{
 
         final View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
 
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        if (toolbar != null){
+            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.calendar_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +128,7 @@ public class CalendarFragment extends Fragment{
         t.replace(R.id.caldroidContainer, caldroidFragment);
         t.commit();
 
+
         //assign listView's layout
         list = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         list.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -162,6 +171,7 @@ public class CalendarFragment extends Fragment{
                 // Set custom arrow colors
                 caldroidFragment.getLeftArrowButton().setBackgroundResource(R.drawable.left_arrow);
                 caldroidFragment.getRightArrowButton().setBackgroundResource(R.drawable.right_arrow);
+                //hideHeader(caldroidFragment);
 
                 // Updates the calendar with the latest visualization
                 updateCalendarColors();
@@ -172,6 +182,15 @@ public class CalendarFragment extends Fragment{
         caldroidFragment.setCaldroidListener(listener);
 
         return rootView;
+    }
+
+
+    private void hideHeader(CaldroidFragment fragCalendar) {
+        if(fragCalendar != null) {
+            fragCalendar.getMonthTitleTextView().setVisibility(View.GONE);
+            fragCalendar.getLeftArrowButton().setVisibility(View.GONE);
+            fragCalendar.getRightArrowButton().setVisibility(View.GONE);
+        }
     }
 
     /**
