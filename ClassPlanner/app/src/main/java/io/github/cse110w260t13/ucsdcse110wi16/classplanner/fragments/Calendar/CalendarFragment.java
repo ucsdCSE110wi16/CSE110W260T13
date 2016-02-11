@@ -1,14 +1,18 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar;
 
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -73,8 +77,15 @@ public class CalendarFragment extends Fragment{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // TODO maybe reuse this for something else...
                 Snackbar.make(view, "Add a new calendar item", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                // Display new calendar item dialog
+                DialogFragment dialog = new AddCalendarDialogFragment();
+                dialog.show(getFragmentManager(), "AddCalendarDialogFragment");
+
             }
         });
 
@@ -302,7 +313,6 @@ public class CalendarFragment extends Fragment{
         return mappedColors;
 
     }
-
 
     private class UpdateEventsTask extends AsyncTask<Date, Void, ArrayList<CalendarEvent>> {
         private SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
