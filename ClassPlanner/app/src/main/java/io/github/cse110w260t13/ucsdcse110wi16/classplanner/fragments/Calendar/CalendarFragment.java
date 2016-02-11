@@ -14,6 +14,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +41,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CaldroidUtil.CustomCaldroidFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarEvent;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarEventsAdapter;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarRecyclerAdapter;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CaldroidUtil.ChangeableColor;
@@ -53,8 +56,8 @@ public class CalendarFragment extends Fragment{
 
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private static final int URL_LOADER = 0;
-    private ListView listView;
-    private CalendarEventsAdapter adapter;
+    private RecyclerView list;
+    private CalendarRecyclerAdapter adapter;
 
     private CustomCaldroidFragment caldroidFragment;
     private CheckBox personalTodoCheckbox;
@@ -118,7 +121,11 @@ public class CalendarFragment extends Fragment{
         t.commit();
 
         //assign listView's layout
-        listView = (ListView) rootView.findViewById(R.id.List);
+        list = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        list.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new CalendarRecyclerAdapter();
+        list.setAdapter(adapter);
+
 
         //Create onClickListener for Caldroid
         final CaldroidListener listener = new CaldroidListener() {
@@ -131,7 +138,7 @@ public class CalendarFragment extends Fragment{
 
                 UpdateEventsTask eventUpdater = new UpdateEventsTask(
                         getActivity().getBaseContext(),
-                        listView,
+                        list,
                         getActivity().getContentResolver());
                 eventUpdater.execute(date, null, null);
             }
@@ -317,14 +324,14 @@ public class CalendarFragment extends Fragment{
 
         private ContentResolver cr;
         private Context context;
-        private ListView listView;
+        private RecyclerView list;
 
         //Need context in order to create a new adapter. Pass it in from parent
-        public UpdateEventsTask(Context context, ListView listView, ContentResolver cr) {
+        public UpdateEventsTask(Context context, RecyclerView list, ContentResolver cr) {
             super();
             this.cr = cr;
             this.context = context;
-            this.listView = listView;
+            this.list = list;
             Log.d("UpdateEventsTask: ", "constructor");
 
         }
@@ -384,7 +391,6 @@ public class CalendarFragment extends Fragment{
                 }
                 cursor.close();
             }
-            //}
             //Now we have a list of our CalendarEvent items
             for(CalendarEvent item: returnList){
                 Log.d("UpdateEventsTask: ", "doInBg " + item.eventTitle);
@@ -398,18 +404,13 @@ public class CalendarFragment extends Fragment{
 
             //Create a new adapter if there is no prior instance
             if(adapter == null){
-                adapter = new CalendarEventsAdapter(context, calendarEventList);
-                listView.setAdapter(adapter);
+                adapter = new CalendarRecyclerAdapter(calendarEventList);
+                list.setAdapter(adapter);
             }
             //otherwise clear the adapter and re-add new events
             else {
-                adapter.clear();
-                for (CalendarEvent event : calendarEventList) {
-                    adapter.add(event);
-                }
+                adapter.swap(calendarEventList);
             }
-            adapter.notifyDataSetChanged();
         }
     }
-
 }

@@ -1,4 +1,10 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil;
+/**
+ * NO LONGER USING THIS ADAPTER.
+ * Switched to using CalendarRecyclerAdapter for the purpose of displaying
+ * ArrayList events to the user. This class will be left in the files in the
+ * case that it is necessary to swap back to ListView in the future.
+ */
 
 import android.content.Context;
 import android.view.LayoutInflater;

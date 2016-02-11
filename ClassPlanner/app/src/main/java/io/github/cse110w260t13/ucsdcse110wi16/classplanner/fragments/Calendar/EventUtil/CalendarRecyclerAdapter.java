@@ -13,7 +13,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 public class CalendarRecyclerAdapter
         extends RecyclerView.Adapter<CalendarRecyclerAdapter.ViewHolder>{
 
-    private final ArrayList<CalendarEvent> calendarEvents;
+    private ArrayList<CalendarEvent> calendarEvents = null;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
@@ -32,6 +32,7 @@ public class CalendarRecyclerAdapter
     public CalendarRecyclerAdapter( ArrayList<CalendarEvent> calendarEvents ){
         this.calendarEvents = calendarEvents;
     }
+    public CalendarRecyclerAdapter(){}
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -46,16 +47,32 @@ public class CalendarRecyclerAdapter
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        CalendarEvent event = calendarEvents.get(position);
-        holder.title.setText(event.eventTitle);
-        holder.description.setText(event.eventDescr);
-        holder.start.setText(event.eventSTime);
-        holder.end.setText(event.eventETime);
+        if(calendarEvents != null) {
+            CalendarEvent event = calendarEvents.get(position);
+            holder.title.setText(event.eventTitle);
+            holder.description.setText(event.eventDescr);
+            holder.start.setText(event.eventSTime);
+            holder.end.setText(event.eventETime);
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return calendarEvents.size();
+        if(calendarEvents!=null) {
+            return calendarEvents.size();
+        }
+        return 0;
+    }
+
+    public void swap(ArrayList<CalendarEvent> events) {
+        if(calendarEvents!=null) {
+            calendarEvents.clear();
+            calendarEvents.addAll(events);
+        }
+        else{
+            calendarEvents = events;
+        }
+        notifyDataSetChanged();
     }
 }
