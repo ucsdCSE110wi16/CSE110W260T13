@@ -7,7 +7,7 @@ public class CourseCalendarInfo {
     public CourseCalendarInfo(){}
 
     public static abstract class FeedEntry implements BaseColumns {
-        public static final String TABLE_NAME = "CourseList";
+        public static final String TABLE_NAME = "CourseListCursorAdapter";
         public static final String COLUMN_COURSE_NAME = "CourseName";
         public static final String COLUMN_COURSE_LOC = "CourseLocation";
         public static final String COLUMN_START_TIME = "CourseStartTime";

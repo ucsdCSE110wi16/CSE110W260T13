@@ -21,7 +21,7 @@ import android.widget.ListView;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Assignments.AssignmentsFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CalendarFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursesFragment;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.HomeFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Home.HomeFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 
 import java.util.ArrayList;
