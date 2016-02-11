@@ -157,6 +157,11 @@ public class CalendarFragment extends Fragment{
                 Toast.makeText(getActivity().getBaseContext(),
                         "Caldroid view is created",
                         Toast.LENGTH_SHORT).show();
+
+                // Set custom arrow colors
+                caldroidFragment.getLeftArrowButton().setBackgroundResource(R.drawable.left_arrow);
+                caldroidFragment.getRightArrowButton().setBackgroundResource(R.drawable.right_arrow);
+
                 //Should automatically select Today
             }
 
