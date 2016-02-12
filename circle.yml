@@ -27,4 +27,4 @@ test:
     # copy the build outputs to artifacts
     - cp -r app/build/outputs $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
-    - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
+    - cp -r app/build/outputs/* $CIRCLE_TEST_REPORTS
