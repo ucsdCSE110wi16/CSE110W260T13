@@ -1,9 +1,5 @@
 # Team #13
 
-
-[![Circle
-CI](https://circleci.com/gh/ucsdCSE110wi16/CSE110W260T13.svg?style=svg)](https://circleci.com/gh/ucsdCSE110wi16/CSE110W260T13)
-
 Class planner Android application for CSE-110, Winter 2016 @UCSD. 
 
 Project Schedule:
