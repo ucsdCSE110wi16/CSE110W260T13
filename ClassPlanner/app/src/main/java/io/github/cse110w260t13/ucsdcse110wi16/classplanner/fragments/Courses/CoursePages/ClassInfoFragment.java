@@ -40,8 +40,7 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
         Cursor cursor = cr.query(CourseCalendarContentProvider.CONTENT_URI,
                 CourseCalendarInfo.FeedEntry.ALL_COLUMNS,
                 CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
-                new String[] { class_name + "" },
-                null);
+                new String[] { class_name + "" }, null);
 
         if(cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();

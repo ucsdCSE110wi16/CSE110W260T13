@@ -1,6 +1,5 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -137,10 +136,11 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
                     break;
                 case R.id.delete_course_button:
                     Log.d("on click", currentClass);
-                    ContentResolver cr = getActivity().getContentResolver();
-                    cr.delete(CourseCalendarContentProvider.CONTENT_URI,
-                            CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
-                            new String[]{currentClass});
+                    DeleteDialogFragment deleteDialog = new DeleteDialogFragment();
+                    Bundle args = new Bundle();
+                    args.putString("currClass", currentClass);
+                    deleteDialog.setArguments(args);
+                    deleteDialog.show(getFragmentManager(), "Delete Dialog Popup");
                     break;
             }
         }
