@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
          */
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mTitle = mDrawerTitle = getTitle();
 
@@ -207,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
         switch (position) {
             case 0:
                 setSupportActionBar(toolbar);
+                getSupportActionBar().setDisplayShowTitleEnabled(false);
                 fragment = new HomeFragment();
                 break;
             case 1:

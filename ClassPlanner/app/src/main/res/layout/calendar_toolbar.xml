@@ -24,25 +24,57 @@
                 android:orientation="vertical"
                 android:layout_below="@+id/toolbar"
                 app:layout_collapseMode="parallax" />
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/fragment_calendar_personal_todo_checkbox"
-                android:id="@+id/todo_checkBox"/>
-
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="fill_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:layout_collapseMode="pin"/>
+                android:theme="@style/ToolBarStyle"
+                app:layout_collapseMode="pin">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Calendar"
+                    android:textColor="#fff"
+                    android:textSize="20sp"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation = "horizontal">
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ToDo"
+                        android:textColor="#fff"
+                        android:id="@+id/todo_checkBox"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"/>
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hwk"
+                        android:textColor="#fff"
+                        android:id="@+id/assignments"
+                        android:layout_toLeftOf="@id/todo_checkBox"
+                        android:layout_toStartOf="@id/todo_checkBox"/>
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Class"
+                        android:textColor="#fff"
+                        android:id="@+id/classes"
+                        android:layout_toLeftOf="@id/assignments"
+                        android:layout_toStartOf="@id/assignments"/>
+
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_below="@id/todo_checkBox"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>

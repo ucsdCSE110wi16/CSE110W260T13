@@ -80,7 +80,7 @@ public class CalendarFragment extends Fragment{
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         if (toolbar != null){
             ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
