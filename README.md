@@ -1,5 +1,9 @@
 # Team #13
 
+
+[![Circle
+CI](https://circleci.com/gh/circleci/EspressoSample.svg?style=svg)](https://circleci.com/gh/circleci/EspressoSample)
+
 Class planner Android application for CSE-110, Winter 2016 @UCSD. 
 
 Project Schedule:
