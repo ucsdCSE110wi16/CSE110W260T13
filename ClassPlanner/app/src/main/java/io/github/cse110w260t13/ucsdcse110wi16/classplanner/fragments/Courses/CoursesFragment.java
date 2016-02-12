@@ -73,6 +73,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         if (toolbar != null){
             ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 

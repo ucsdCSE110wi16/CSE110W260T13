@@ -294,9 +294,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"/>
         </LinearLayout>
-
-
-
     </LinearLayout>
 
  </ScrollView>

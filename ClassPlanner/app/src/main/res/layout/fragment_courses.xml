@@ -11,7 +11,7 @@
         <include
             layout="@layout/courses_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="?attr/actionBarSize" />
 
         <TabHost
             android:id="@android:id/tabhost"
