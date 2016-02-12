@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     mDrawerLayout.closeDrawer(mDrawerList);
                 }
-            }, 50);
+            }, 100);
         } else {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");

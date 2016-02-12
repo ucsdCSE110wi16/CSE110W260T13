@@ -29,6 +29,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.AddClassActivity;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.AssignmentsFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.ClassInfoFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.DeleteDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.TabsAdapter;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarDbHelper;
