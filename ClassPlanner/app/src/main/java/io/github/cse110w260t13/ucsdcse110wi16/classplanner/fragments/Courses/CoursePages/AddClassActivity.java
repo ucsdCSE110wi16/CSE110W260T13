@@ -3,6 +3,7 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.Co
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
@@ -39,6 +40,8 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.Cou
 public class AddClassActivity extends AppCompatActivity {
     private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MMM-dd");
+    private String mode;
+    private String currName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,13 @@ public class AddClassActivity extends AppCompatActivity {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+        Intent intent = getIntent();
+        mode = intent.getStringExtra("mode");
+        if(mode.equals("update")){
+            currName = intent.getStringExtra("class");
+            //displayCurrentInfo(currName);
         }
 
         EditText startTime = (EditText) findViewById(R.id.start_time_picker);
@@ -70,6 +80,8 @@ public class AddClassActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.add:
+                    //Now add a new method to update and choose based on mode
+                    //which method to enter.
                     if (insertAllData()) {
                         finish();
                     }

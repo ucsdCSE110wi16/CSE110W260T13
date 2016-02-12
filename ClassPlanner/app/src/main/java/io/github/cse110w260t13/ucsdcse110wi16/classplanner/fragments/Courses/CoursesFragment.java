@@ -134,7 +134,9 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.add_course_button:
-                    startActivity(new Intent(getActivity(), AddClassActivity.class));
+                    Intent intent = new Intent(getActivity(), AddClassActivity.class);
+                    intent.putExtra("Mode", "create");
+                    startActivity(intent);
                     break;
                 case R.id.delete_course_button:
                     Log.d("on click", currentClass);

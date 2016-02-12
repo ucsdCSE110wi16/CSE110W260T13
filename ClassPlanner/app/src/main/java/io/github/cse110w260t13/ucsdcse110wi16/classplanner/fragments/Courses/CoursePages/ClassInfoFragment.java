@@ -1,6 +1,7 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,9 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.DeleteDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarInfo;
 
@@ -30,9 +33,28 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
 
         getLoaderManager().initLoader(URL_LOADER, null, this);
 
+        Button editButton = (Button) rootView.findViewById(R.id.edit_info);
+        clickHandler handler = new clickHandler();
+        editButton.setOnClickListener(handler);
+
         return rootView;
     }
 
+    /**
+     * click handler for all buttons in the Courses Page
+     */
+    private class clickHandler implements View.OnClickListener {
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.edit_info:
+                    Intent intent = new Intent(getActivity(), AddClassActivity.class);
+                    intent.putExtra("mode", "update");
+                    intent.putExtra("class", currName);
+                    startActivity(intent);
+                    break;
+            }
+        }
+    }
     public void selectClass(String class_name){
         currName=class_name;
         Log.d("teststringclass_name ", "class name is " + class_name);
