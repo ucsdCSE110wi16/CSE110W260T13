@@ -28,3 +28,9 @@ test:
     - cp -r app/build/outputs $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
     - cp -r app/build/outputs/* $CIRCLE_TEST_REPORTS
+
+## Customize checkout
+checkout:
+  post:
+      - git submodule sync
+          - git submodule update --init # use submodules
