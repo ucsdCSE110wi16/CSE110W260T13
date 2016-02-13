@@ -15,6 +15,15 @@
         <item >To-Do List</item>
     </string-array>
 
+    <string name="course_here">Class Name Here</string>
+    <string name="instr_name_here">instructor name here</string>
+    <string name="instr_email_here">instructor e-mail here</string>
+    <string name="web_here">class website here</string>
+    <string name="loc_here">location here</string>
+    <string name="time_here">time here</string>
+    <string name="note_here">notes here</string>
+
+
     <!-- Menu Item Icons -->
     <!-- Order of names is order they show up on menu screen-->
     <!--Icon pictures are retrieved from /res/drawable/ic_XXXXX/-->
@@ -26,15 +35,7 @@
         <item>@drawable/ic_mode_edit_black_24dp</item>
     </array>
 
-    <string-array name="test">
-        <item >CSE 100</item>
-        <item >CSE 90</item>
-        <item >Class 3</item>
-        <item >Class 4</item>
-        <item >Class 5</item>
-    </string-array>
-
-    <string name= "spinner_test"> test  </string>
+    <string name= "spinner_test"> test </string>
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="fragment_calendar_personal_todo_checkbox">Include personal todo list</string>

@@ -1,5 +1,6 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages;
 
+import android.app.DialogFragment;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.DeleteDialogFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.ErrorDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarInfo;
 
@@ -26,6 +28,7 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
     private static final int URL_LOADER = 0;
     private String currName = null;
     private View rootView;
+    private boolean disabled;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -47,16 +50,31 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.edit_info:
-                    Intent intent = new Intent(getActivity(), AddClassActivity.class);
-                    intent.putExtra("mode", "update");
-                    intent.putExtra("class", currName);
-                    startActivity(intent);
+                    if(currName!=null) {
+                        Intent intent = new Intent(getActivity(), AddClassActivity.class);
+                        intent.putExtra("mode", "update");
+                        intent.putExtra("class", currName);
+                        startActivity(intent);
+                    }
+                    else{
+                        ErrorDialogFragment error = new ErrorDialogFragment();
+                        Bundle args = new Bundle();
+                        args.putString("errorMsg", "You currently have no classes.");
+                        error.setArguments(args);
+                        error.show(getFragmentManager(), "No Classes Error Popup");
+                    }
                     break;
             }
         }
     }
     public void selectClass(String class_name){
         currName=class_name;
+
+        if(class_name==null){
+            resetInfo();
+            return;
+        }
+
         Log.d("teststringclass_name ", "class name is " + class_name);
         ContentResolver cr = getActivity().getContentResolver();
         Cursor cursor = cr.query(CourseCalendarContentProvider.CONTENT_URI,
@@ -66,12 +84,6 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
 
         if(cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-
-            int[] columnIndices = new int[CourseCalendarInfo.FeedEntry.ALL_COLUMNS.length];
-            for(int i=0; i < CourseCalendarInfo.FeedEntry.ALL_COLUMNS.length; i++){
-                columnIndices[i] = cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.ALL_COLUMNS[i]);
-            }
-
             update_info(
                     cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME)),
                     cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC)),
@@ -135,6 +147,46 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
         webTv.setText(web);
     }
 
+    private void resetInfo(){
+        TextView nameTv = (TextView) rootView.findViewById(R.id.class_info_text);
+        TextView locTv = (TextView) rootView.findViewById(R.id.location);
+        TextView startTimeTv = (TextView) rootView.findViewById(R.id.start_time);
+        TextView endTimeTv = (TextView) rootView.findViewById(R.id.end_time);
+
+        TextView sunTv = (TextView) rootView.findViewById(R.id.sunday);
+        TextView monTv = (TextView) rootView.findViewById(R.id.monday);
+        TextView tueTv = (TextView) rootView.findViewById(R.id.tuesday);
+        TextView wedTv = (TextView) rootView.findViewById(R.id.wed);
+        TextView thurTv = (TextView) rootView.findViewById(R.id.thur);
+        TextView friTv = (TextView) rootView.findViewById(R.id.fri);
+        TextView satTv = (TextView) rootView.findViewById(R.id.sat);
+
+        TextView noteTv = (TextView) rootView.findViewById(R.id.notes);
+        TextView instrTv = (TextView) rootView.findViewById(R.id.instr_name);
+        TextView emailTv = (TextView) rootView.findViewById(R.id.instr_email);
+        TextView webTv = (TextView) rootView.findViewById(R.id.website);
+
+        nameTv.setText(R.string.course_here);
+        locTv.setText(R.string.loc_here);
+        startTimeTv.setText(R.string.time_here);
+        endTimeTv.setText(R.string.time_here);
+
+        setColor(sunTv, 0);
+        setColor(monTv, 0);
+        setColor(tueTv, 0);
+        setColor(wedTv, 0);
+        setColor(thurTv, 0);
+        setColor(friTv, 0);
+        setColor(satTv, 0);
+
+        noteTv.setText(R.string.note_here);
+        instrTv.setText(R.string.instr_name_here);
+        emailTv.setText(R.string.instr_email_here);
+        webTv.setText(R.string.web_here);
+
+        currName = null;
+    }
+
     private void setColor(TextView v, int checked){
         if (checked == 1) v.setTextColor(ContextCompat.getColor(getContext(),R.color.colorAccent));
         else v.setTextColor(ContextCompat.getColor(getContext(),android.R.color.primary_text_light));
@@ -162,39 +214,30 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
     }
 
     //Update the UI with results from query
-
-    /**
-     * ToDo: It should be possible to be more compact, but let me get it working first.
-     * @param loader
-     * @param data
-     */
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if(data != null && data.getCount() > 0){
-            data.moveToFirst();
-            int[] columnIndices = new int[CourseCalendarInfo.FeedEntry.ALL_COLUMNS.length];
-            for(int i=0; i < CourseCalendarInfo.FeedEntry.ALL_COLUMNS.length; i++){
-                columnIndices[i] = data.getColumnIndex(CourseCalendarInfo.FeedEntry.ALL_COLUMNS[i]);
-            }
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        if(cursor != null && cursor.getCount() > 0){
+            cursor.moveToFirst();
             update_info(
-                    /*Schedule info*/
-                    data.getString(columnIndices[1]),
-                    data.getString(columnIndices[2]),
-                    data.getString(columnIndices[3]),
-                    data.getString(columnIndices[4]),
-                    /*Days of the week*/
-                    data.getInt(columnIndices[5]),
-                    data.getInt(columnIndices[6]),
-                    data.getInt(columnIndices[7]),
-                    data.getInt(columnIndices[8]),
-                    data.getInt(columnIndices[9]),
-                    data.getInt(columnIndices[10]),
-                    data.getInt(columnIndices[11]),
-                    /*General Info*/
-                    data.getString(columnIndices[12]),
-                    data.getString(columnIndices[13]),
-                    data.getString(columnIndices[14]),
-                    data.getString(columnIndices[15])
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_START_TIME)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_END_TIME)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_SUN)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_MON)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_TUE)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_WED)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_THUR)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_FRI)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_SAT)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_NOTES)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_EMAIL)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE))
             );
+            cursor.close();
+        }
+        else{
+            resetInfo();
         }
     }
 

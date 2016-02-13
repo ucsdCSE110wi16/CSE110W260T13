@@ -1,12 +1,16 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil;
-
+/**
+ * Currently not being used.
+ */
 
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursesFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarContentProvider;

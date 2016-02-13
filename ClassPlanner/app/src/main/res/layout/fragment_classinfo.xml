@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:fontFamily="sans-serif-light"
-            android:text = "Class Name Here"
+            android:text = "@string/course_here"
             android:textSize="30sp"
             android:gravity="center"/>
         <Button
@@ -67,7 +67,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text = "instructor name here"
+                    android:text = "@string/instr_name_here"
                     android:id="@+id/instr_name"
                     android:layout_weight="1"
                     android:singleLine="true"/>
@@ -87,7 +87,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text = "instructor e-mail here"
+                    android:text = "@string/instr_email_here"
                     android:textColorLink="@color/colorAccent"
                     android:id="@+id/instr_email"
                     android:linksClickable="true"
@@ -110,7 +110,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text = "class website here"
+                    android:text = "@string/web_here"
                     android:textColorLink="@color/colorAccent"
                     android:singleLine="true"
                     android:id="@+id/website"
@@ -148,7 +148,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text = "Location Here"
+                    android:text = "@string/loc_here"
                     android:singleLine="true"
                     android:id="@+id/location"
                     android:layout_weight="1"/>
@@ -169,7 +169,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text = "Time Here"
+                    android:text = "@string/time_here"
                     android:singleLine="true"
                     android:id="@+id/start_time"
                     android:layout_weight="1"/>
@@ -190,7 +190,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text = "Time Here"
+                    android:text = "@string/time_here"
                     android:id="@+id/end_time"
                     android:layout_weight="1"/>
             </LinearLayout>
@@ -292,6 +292,7 @@
                 android:text="Student Notes"/>
             <TextView
                 android:id="@+id/notes"
+                android:text="@string/note_here"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"/>
