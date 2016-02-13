@@ -379,7 +379,9 @@ public class AddClassActivity extends AppCompatActivity {
             cr.insert(CourseCalendarContentProvider.CONTENT_URI, values);
         }
         else{
-            cr.update(CourseCalendarContentProvider.CONTENT_URI, values, null, null);
+            cr.update(CourseCalendarContentProvider.CONTENT_URI, values,
+                    CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME+"=?",
+                    new String[]{currName});
         }
     }
 
