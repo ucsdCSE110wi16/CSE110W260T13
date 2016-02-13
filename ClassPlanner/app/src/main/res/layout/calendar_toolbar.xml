@@ -43,30 +43,74 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation = "horizontal">
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ToDo"
-                        android:textColor="#fff"
-                        android:id="@+id/todo_checkBox"
+                    <LinearLayout
+                        android:id="@+id/class_checkbox"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"/>
-                    <CheckBox
+                        android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hwk"
-                        android:textColor="#fff"
-                        android:id="@+id/assignments"
-                        android:layout_toLeftOf="@id/todo_checkBox"
-                        android:layout_toStartOf="@id/todo_checkBox"/>
-                    <CheckBox
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Class"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="#fff"
+                            android:textSize="15sp"
+                            android:gravity="bottom|clip_vertical"/>
+                        <CheckBox
+                            android:layout_marginTop = "-5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/todo_checkBox" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/hwk_check"
+                        android:layout_toLeftOf="@id/class_checkbox"
+                        android:layout_toStartOf="@id/class_checkbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Class"
-                        android:textColor="#fff"
-                        android:id="@+id/classes"
-                        android:layout_toLeftOf="@id/assignments"
-                        android:layout_toStartOf="@id/assignments"/>
+                        android:orientation="vertical"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginRight="15dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hwk"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="#fff"
+                            android:textSize="15sp"
+                            android:gravity="bottom"/>
+                        <CheckBox
+                            android:layout_marginTop = "-5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/assignments" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/todo_check"
+                        android:layout_toLeftOf="@id/hwk_check"
+                        android:layout_toStartOf="@id/hwk_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginRight="15dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ToDo"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="#fff"
+                            android:textSize="15sp"
+                            android:gravity="bottom"/>
+                        <CheckBox
+                            android:layout_marginTop = "-5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#fff"
+                            android:id="@+id/Todo" />
+                    </LinearLayout>
 
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>

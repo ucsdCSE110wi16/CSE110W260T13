@@ -19,16 +19,12 @@ import android.widget.EditText;
 
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import butterknife.Bind;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
@@ -38,10 +34,28 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.Cou
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.TimeSelector;
 
 public class AddClassActivity extends AppCompatActivity {
-    private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MMM-dd");
+    public static final String UPDATE = "update";
+    public static final String CREATE = "create";
+
     private String mode;
     private String currName;
+
+    private EditText[] editTexts;
+    private Boolean[] isChecked;
+    private String[] editTextsInfo;
+    private TextInputLayout[] errors;
+
+    private enum Edits{
+        COURSE, LOCATION, STARTTIME, ENDTIME, ENDDATE, NOTES, INSTR, EMAIL, WEB
+    }
+
+    private enum Boxes{
+        SUN, MON, TUE, WED, THUR, FRI, SAT
+    }
+
+    private enum Error{
+        COURSE, EMAIL, WEB, STARTTIME, ENDTIME, ENDDATE
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +70,14 @@ public class AddClassActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         mode = intent.getStringExtra("mode");
-        if(mode.equals("update")){
+        if(mode.contentEquals(UPDATE)){
             currName = intent.getStringExtra("class");
             //displayCurrentInfo(currName);
         }
 
-        EditText startTime = (EditText) findViewById(R.id.start_time_picker);
-        EditText endTime = (EditText) findViewById(R.id.end_time_picker);
-        EditText endDate = (EditText) findViewById(R.id.end_date_picker);
+        initializeViews();
+        initializeErrors();
+
         Button add = (Button) findViewById(R.id.add);
         Button cancel = (Button) findViewById(R.id.cancel);
 
@@ -71,9 +85,54 @@ public class AddClassActivity extends AppCompatActivity {
 
         add.setOnClickListener(click_handler);
         cancel.setOnClickListener(click_handler);
-        startTime.setOnClickListener(click_handler);
-        endTime.setOnClickListener(click_handler);
-        endDate.setOnClickListener(click_handler);
+        editTexts[Edits.STARTTIME.ordinal()].setOnClickListener(click_handler);
+        editTexts[Edits.ENDTIME.ordinal()].setOnClickListener(click_handler);
+        editTexts[Edits.ENDDATE.ordinal()].setOnClickListener(click_handler);
+    }
+
+    private void initializeViews(){
+        EditText course = (EditText) findViewById(R.id.text_coursename);
+        EditText loc = (EditText) findViewById(R.id.edit_loc);
+        EditText startTime = (EditText) findViewById(R.id.start_time_picker);
+        EditText endTime = (EditText) findViewById(R.id.end_time_picker);
+        EditText endDate = (EditText) findViewById(R.id.end_date_picker);
+        EditText notes = (EditText) findViewById(R.id.notes);
+        EditText instr = (EditText) findViewById(R.id.edit_instr);
+        EditText email = (EditText) findViewById(R.id.edit_instr_email);
+        EditText web = (EditText) findViewById(R.id.website);
+
+        editTexts = new EditText[]{course, loc, startTime, endTime, endDate,
+        notes, instr, email, web};
+    }
+
+    private void initializeBoxes(){
+        CheckBox sun = (CheckBox) findViewById(R.id.sun);
+        CheckBox mon = (CheckBox) findViewById(R.id.mon);
+        CheckBox tue = (CheckBox) findViewById(R.id.tue);
+        CheckBox wed = (CheckBox) findViewById(R.id.wed);
+        CheckBox thur = (CheckBox) findViewById(R.id.thur);
+        CheckBox fri = (CheckBox) findViewById(R.id.fri);
+        CheckBox sat = (CheckBox) findViewById(R.id.sat);
+
+        isChecked = new Boolean[]{sun.isChecked(), mon.isChecked(), tue.isChecked(),
+                wed.isChecked(), thur.isChecked(), fri.isChecked(), sat.isChecked()};
+    }
+
+    private void initializeStrings(){
+        editTextsInfo = new String[editTexts.length];
+        for(int i=0; i < editTextsInfo.length; i++){
+            editTextsInfo[i] = editTexts[i].getText().toString();
+        }
+    }
+
+    private void initializeErrors(){
+        TextInputLayout TICourseName = (TextInputLayout) findViewById(R.id.ti_course);
+        TextInputLayout TIEmail = (TextInputLayout) findViewById(R.id.ti_email);
+        TextInputLayout TIWebsite = (TextInputLayout) findViewById(R.id.ti_website);
+        TextInputLayout TIstart = (TextInputLayout) findViewById(R.id.ti_start);
+        TextInputLayout TIend = (TextInputLayout) findViewById(R.id.ti_end);
+
+        errors = new TextInputLayout[]{TICourseName, TIEmail, TIWebsite, TIstart, TIend};
     }
 
     private class clickHandler implements View.OnClickListener {
@@ -82,7 +141,9 @@ public class AddClassActivity extends AppCompatActivity {
                 case R.id.add:
                     //Now add a new method to update and choose based on mode
                     //which method to enter.
-                    if (insertAllData()) {
+                    initializeBoxes();
+                    initializeStrings();
+                    if (insertAllData(mode)) {
                         finish();
                     }
                     break;
@@ -114,39 +175,28 @@ public class AddClassActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkValidity(EditText course, EditText email, EditText website,
-                                  EditText strt, EditText end) {
-        String courseStr = course.getText().toString();
-        String emailStr = email.getText().toString();
-        String webStr = website.getText().toString();
-        String startStr = strt.getText().toString();
-        String endStr = end.getText().toString();
-
-        TextInputLayout TICourseName = (TextInputLayout) findViewById(R.id.ti_course);
-        TextInputLayout TIEmail = (TextInputLayout) findViewById(R.id.ti_email);
-        TextInputLayout TIWebsite = (TextInputLayout) findViewById(R.id.ti_website);
-        TextInputLayout TIstart = (TextInputLayout) findViewById(R.id.ti_start);
-        TextInputLayout TIend = (TextInputLayout) findViewById(R.id.ti_end);
-
+    private boolean checkValidity() {
         boolean valid = true;
 
-        if (TextUtils.isEmpty(courseStr)) {
-            TICourseName.setError("Course name is required.");
+        if (TextUtils.isEmpty(editTextsInfo[Edits.COURSE.ordinal()])) {
+            errors[Error.COURSE.ordinal()].setError("Course name is required.");
             valid = false;
         }
         //E-mail can be empty but not invalid.
-        if (!TextUtils.isEmpty(emailStr) && !isEmailValid(emailStr)) {
-            TIEmail.setError("E-mail is not valid.");
+        if (!TextUtils.isEmpty(editTextsInfo[Edits.EMAIL.ordinal()])
+                && !isEmailValid(editTextsInfo[Edits.EMAIL.ordinal()])) {
+            errors[Error.EMAIL.ordinal()].setError("E-mail is not valid.");
             valid = false;
         }
         //Website can be empty but not invalid.
-        if (!TextUtils.isEmpty(webStr) && !URLUtil.isValidUrl(webStr)) {
-            TIWebsite.setError("Website is not valid.");
+        if (!TextUtils.isEmpty(editTextsInfo[Edits.WEB.ordinal()])
+                && !URLUtil.isValidUrl(editTextsInfo[Edits.WEB.ordinal()])) {
+            errors[Error.WEB.ordinal()].setError("Website is not valid.");
             valid = false;
         }
 
-        String[] startTime = startStr.split(":");
-        String[] endTime = endStr.split(":");
+        String[] startTime = editTextsInfo[Edits.STARTTIME.ordinal()].split(":");
+        String[] endTime = editTextsInfo[Edits.ENDTIME.ordinal()].split(":");
         int startHr = 0;
         int startMin = 0;
         int endHr = 0;
@@ -155,28 +205,34 @@ public class AddClassActivity extends AppCompatActivity {
 
         //Start time cannot be later than end time.
         //Time must be filled.
-        if (!TextUtils.isEmpty(startStr) && !TextUtils.isEmpty(endStr)) {
+        if (!TextUtils.isEmpty(editTextsInfo[Edits.STARTTIME.ordinal()])
+                && !TextUtils.isEmpty(editTextsInfo[Edits.ENDTIME.ordinal()])) {
             startHr = Integer.parseInt(startTime[0]);
             startMin = Integer.parseInt(startTime[1]);
             endHr = Integer.parseInt(endTime[0]);
             endMin = Integer.parseInt(endTime[1]);
-        } else if (TextUtils.isEmpty(startStr)) {
-            TIstart.setError("Time is required.");
+        }
+        else if (TextUtils.isEmpty(editTextsInfo[Edits.STARTTIME.ordinal()])) {
+            errors[Error.STARTTIME.ordinal()].setError("Time is required.");
             timeValid = false;
         }
-        if (TextUtils.isEmpty(endStr)) {
-            TIend.setError("End time required.");
+        if (TextUtils.isEmpty(editTextsInfo[Edits.ENDTIME.ordinal()])) {
+            errors[Error.ENDTIME.ordinal()].setError("End time required.");
             timeValid = false;
         }
 
         if (timeValid) {
             if (startHr > endHr) {
-                TIstart.setError("Start time cannot be later than end time.");
-                TIend.setError("Start time cannot be later than end time.");
+                errors[Error.STARTTIME.ordinal()]
+                        .setError("Start time cannot be later than end time.");
+                errors[Error.ENDTIME.ordinal()]
+                        .setError("Start time cannot be later than end time.");
                 valid = false;
             } else if (startHr == endHr && startMin > endMin) {
-                TIstart.setError("Start time cannot be later than end time.");
-                TIend.setError("Start time cannot be later than end time.");
+                errors[Error.STARTTIME.ordinal()]
+                        .setError("Start time cannot be later than end time.");
+                errors[Error.ENDTIME.ordinal()]
+                        .setError("Start time cannot be later than end time.");
                 valid = false;
             }
         }
@@ -190,132 +246,93 @@ public class AddClassActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
-    private boolean insertAllData() {
-        EditText course = (EditText) findViewById(R.id.text_coursename);
-        EditText loc = (EditText) findViewById(R.id.edit_loc);
-        EditText startTime = (EditText) findViewById(R.id.start_time_picker);
-        EditText endTime = (EditText) findViewById(R.id.end_time_picker);
-        EditText endDate = (EditText) findViewById(R.id.end_date_picker);
-        CheckBox sun = (CheckBox) findViewById(R.id.sun);
-        CheckBox mon = (CheckBox) findViewById(R.id.mon);
-        CheckBox tue = (CheckBox) findViewById(R.id.tue);
-        CheckBox wed = (CheckBox) findViewById(R.id.wed);
-        CheckBox thur = (CheckBox) findViewById(R.id.thur);
-        CheckBox fri = (CheckBox) findViewById(R.id.fri);
-        CheckBox sat = (CheckBox) findViewById(R.id.sat);
-        EditText notes = (EditText) findViewById(R.id.notes);
-        EditText instr = (EditText) findViewById(R.id.edit_instr);
-        EditText email = (EditText) findViewById(R.id.edit_instr_email);
-        EditText web = (EditText) findViewById(R.id.website);
-
-        if (!checkValidity(course, email, web, startTime, endTime)) {
+    private boolean insertAllData(String mode) {
+        if (!checkValidity()) {
             return false;
         }
+        insertCourseData();
 
-        insertCourseData(course, loc, startTime, endTime, sun, mon, tue, wed, thur,
-                fri, sat, notes, instr, email, web);
-
-        insertCalendarData(course, loc, startTime, endTime, endDate, sun, mon, tue, wed, thur,
-                fri, sat);
+        insertCalendarData();
         return true;
     }
 
-    private void insertCourseData(EditText course, EditText loc, EditText startTime, EditText endTime,
-                                  CheckBox sun, CheckBox mon, CheckBox tue, CheckBox wed,
-                                  CheckBox thur, CheckBox fri, CheckBox sat,
-                                  EditText notes, EditText instr, EditText email, EditText web) {
+    private void insertCourseData() {
 
         ContentValues values = new ContentValues();
 
-        String val = course.getText().toString();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME, val);
-        val = loc.getText().toString();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC, val);
-        val = startTime.getText().toString();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_START_TIME, val);
-        val = endTime.getText().toString();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_END_TIME, val);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME,
+                editTextsInfo[Edits.COURSE.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC,
+                editTextsInfo[Edits.LOCATION.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_START_TIME,
+                editTextsInfo[Edits.STARTTIME.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_END_TIME,
+                editTextsInfo[Edits.ENDTIME.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_NOTES,
+                editTextsInfo[Edits.NOTES.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME,
+                editTextsInfo[Edits.INSTR.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_EMAIL,
+                editTextsInfo[Edits.EMAIL.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE,
+                editTextsInfo[Edits.WEB.ordinal()]);
 
-        boolean checked = sun.isChecked();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_SUN, checked);
-        checked = mon.isChecked();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_MON, checked);
-        checked = tue.isChecked();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_TUE, checked);
-        checked = wed.isChecked();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_WED, checked);
-        checked = thur.isChecked();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_THUR, checked);
-        checked = fri.isChecked();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_FRI, checked);
-        checked = sat.isChecked();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_SAT, checked);
-
-        val = notes.getText().toString();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_NOTES, val);
-        val = instr.getText().toString();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME, val);
-        val = email.getText().toString();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_EMAIL, val);
-        val = web.getText().toString();
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE, val);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_SUN,
+                isChecked[Boxes.SUN.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_MON,
+                isChecked[Boxes.MON.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_TUE,
+                isChecked[Boxes.TUE.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_WED,
+                isChecked[Boxes.WED.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_THUR,
+                isChecked[Boxes.THUR.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_FRI,
+                isChecked[Boxes.FRI.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_SAT,
+                isChecked[Boxes.SAT.ordinal()]);
 
         ContentResolver cr = getContentResolver();
         cr.insert(CourseCalendarContentProvider.CONTENT_URI, values);
     }
 
     //This code sucks really bad. Please forgive me.
-    private void insertCalendarData(EditText course, EditText loc, EditText startTime,
-                                    EditText endTime, EditText endDate,
-                                    CheckBox sun, CheckBox mon, CheckBox tue, CheckBox wed,
-                                    CheckBox thur, CheckBox fri, CheckBox sat) {
-        Log.d("insertCalendarData", "inserting");
+    private void insertCalendarData() {
         ContentValues values = new ContentValues();
-        String val = null;
         ContentResolver cr = getContentResolver();
 
         ArrayList<Integer> daysOfWeek = new ArrayList<Integer>();
-        if (sun.isChecked()) daysOfWeek.add(DateTimeConstants.SUNDAY);
-        if (mon.isChecked()) daysOfWeek.add(DateTimeConstants.MONDAY);
-        if (tue.isChecked()) daysOfWeek.add(DateTimeConstants.TUESDAY);
-        if (wed.isChecked()) daysOfWeek.add(DateTimeConstants.WEDNESDAY);
-        if (thur.isChecked()) daysOfWeek.add(DateTimeConstants.THURSDAY);
-        if (fri.isChecked()) daysOfWeek.add(DateTimeConstants.FRIDAY);
-        if (sat.isChecked()) daysOfWeek.add(DateTimeConstants.SATURDAY);
-
-        Log.d("insertCalendarData", "arraylist size is: "+daysOfWeek.size());
+        if (isChecked[Boxes.SUN.ordinal()]) daysOfWeek.add(DateTimeConstants.SUNDAY);
+        if (isChecked[Boxes.MON.ordinal()]) daysOfWeek.add(DateTimeConstants.MONDAY);
+        if (isChecked[Boxes.TUE.ordinal()]) daysOfWeek.add(DateTimeConstants.TUESDAY);
+        if (isChecked[Boxes.WED.ordinal()]) daysOfWeek.add(DateTimeConstants.WEDNESDAY);
+        if (isChecked[Boxes.THUR.ordinal()]) daysOfWeek.add(DateTimeConstants.THURSDAY);
+        if (isChecked[Boxes.FRI.ordinal()]) daysOfWeek.add(DateTimeConstants.FRIDAY);
+        if (isChecked[Boxes.SAT.ordinal()]) daysOfWeek.add(DateTimeConstants.SATURDAY);
 
         LocalDate startdate = new LocalDate();
-        String end = endDate.getText().toString();
-        Log.d("enddate string is ",end);
+        String end = editTextsInfo[Edits.ENDDATE.ordinal()];
         LocalDate enddate = new LocalDate(end);
 
         for (int i = 0; i < 7; i++) {
-            Log.d("insertCalendarData", "day is: "+i);
             for (int j = 0; j < daysOfWeek.size(); j++) {
-                Log.d("Day of Week", startdate.getDayOfWeek() + " & " + daysOfWeek.get(j));
                 if (startdate.getDayOfWeek() == daysOfWeek.get(j)) {
-                    Log.d("insertCalendarData", "data insertion");
                     LocalDate copyStartDate = new LocalDate(startdate);
                     while (copyStartDate.isBefore(enddate)) {
-                        val = copyStartDate.toString();
-                        values.put(CalendarInfo.FeedEntry.DATE,val);
 
-                        val = startTime.getText().toString();
-                        values.put(CalendarInfo.FeedEntry.START_TIME, val);
-
-                        val = endTime.getText().toString();
-                        values.put(CalendarInfo.FeedEntry.END_TIME, val);
-
-                        val = course.getText().toString();
-                        values.put(CalendarInfo.FeedEntry.EVENT_TITLE, val);
-
-                        val = loc.getText().toString();
-                        values.put(CalendarInfo.FeedEntry.EVENT_DESCR, val);
+                        values.put(CalendarInfo.FeedEntry.DATE,
+                                copyStartDate.toString());
+                        values.put(CalendarInfo.FeedEntry.START_TIME,
+                                editTextsInfo[Edits.STARTTIME.ordinal()]);
+                        values.put(CalendarInfo.FeedEntry.END_TIME,
+                                editTextsInfo[Edits.ENDTIME.ordinal()]);
+                        values.put(CalendarInfo.FeedEntry.EVENT_TITLE,
+                                editTextsInfo[Edits.COURSE.ordinal()]);
+                        values.put(CalendarInfo.FeedEntry.EVENT_DESCR,
+                                editTextsInfo[Edits.LOCATION.ordinal()]);
 
                         cr.insert(CalendarContentProvider.CONTENT_URI, values);
 
-                        values.clear();
                         copyStartDate = copyStartDate.plusWeeks(1);
                     }
                 }
@@ -324,20 +341,13 @@ public class AddClassActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onPause() {
-        TextInputLayout TICourseName = (TextInputLayout) findViewById(R.id.ti_course);
-        TextInputLayout TIEmail = (TextInputLayout) findViewById(R.id.ti_email);
-        TextInputLayout TIWebsite = (TextInputLayout) findViewById(R.id.ti_website);
-        TextInputLayout TIstart = (TextInputLayout) findViewById(R.id.ti_start);
-        TextInputLayout TIend = (TextInputLayout) findViewById(R.id.ti_end);
-
-        TICourseName.setError(null);
-        TIEmail.setError(null);
-        TIWebsite.setError(null);
-        TIstart.setError(null);
-        TIend.setError(null);
+        errors[Error.COURSE.ordinal()].setError(null);
+        errors[Error.EMAIL.ordinal()].setError(null);
+        errors[Error.WEB.ordinal()].setError(null);
+        errors[Error.STARTTIME.ordinal()].setError(null);
+        errors[Error.ENDTIME.ordinal()].setError(null);
 
         super.onPause();
     }

@@ -135,7 +135,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             switch (v.getId()) {
                 case R.id.add_course_button:
                     Intent intent = new Intent(getActivity(), AddClassActivity.class);
-                    intent.putExtra("Mode", "create");
+                    intent.putExtra("mode", "create");
                     startActivity(intent);
                     break;
                 case R.id.delete_course_button:
