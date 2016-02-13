@@ -17,6 +17,7 @@ public class CourseCalendarDbHelper extends SQLiteOpenHelper{
             CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC + " TEXT," +
             CourseCalendarInfo.FeedEntry.COLUMN_START_TIME + " TEXT," +
             CourseCalendarInfo.FeedEntry.COLUMN_END_TIME + " TEXT," +
+            CourseCalendarInfo.FeedEntry.COLUMN_END_DATE + " TEXT," +
 
             CourseCalendarInfo.FeedEntry.COLUMN_SUN + " INTEGER," +
             CourseCalendarInfo.FeedEntry.COLUMN_MON + " INTEGER," +

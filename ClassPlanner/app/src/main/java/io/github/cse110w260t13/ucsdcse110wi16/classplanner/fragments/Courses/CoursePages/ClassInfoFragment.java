@@ -73,24 +73,21 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
             }
 
             update_info(
-                    /*Schedule info*/
-                    cursor.getString(columnIndices[1]),
-                    cursor.getString(columnIndices[2]),
-                    cursor.getString(columnIndices[3]),
-                    cursor.getString(columnIndices[4]),
-                    /*Days of the week*/
-                    cursor.getInt(columnIndices[5]),
-                    cursor.getInt(columnIndices[6]),
-                    cursor.getInt(columnIndices[7]),
-                    cursor.getInt(columnIndices[8]),
-                    cursor.getInt(columnIndices[9]),
-                    cursor.getInt(columnIndices[10]),
-                    cursor.getInt(columnIndices[11]),
-                    /*General Info*/
-                    cursor.getString(columnIndices[12]),
-                    cursor.getString(columnIndices[13]),
-                    cursor.getString(columnIndices[14]),
-                    cursor.getString(columnIndices[15])
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_START_TIME)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_END_TIME)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_SUN)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_MON)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_TUE)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_WED)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_THUR)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_FRI)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_SAT)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_NOTES)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_EMAIL)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE))
             );
         }
     }

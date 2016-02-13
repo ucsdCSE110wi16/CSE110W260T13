@@ -4,6 +4,7 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.Co
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
@@ -41,6 +42,7 @@ public class AddClassActivity extends AppCompatActivity {
     private String currName;
 
     private EditText[] editTexts;
+    private CheckBox[] checkBoxes;
     private Boolean[] isChecked;
     private String[] editTextsInfo;
     private TextInputLayout[] errors;
@@ -68,15 +70,15 @@ public class AddClassActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
+        initializeViews();
+        initializeErrors();
+
         Intent intent = getIntent();
         mode = intent.getStringExtra("mode");
         if(mode.contentEquals(UPDATE)){
             currName = intent.getStringExtra("class");
-            //displayCurrentInfo(currName);
+            displayCurrentInfo(currName);
         }
-
-        initializeViews();
-        initializeErrors();
 
         Button add = (Button) findViewById(R.id.add);
         Button cancel = (Button) findViewById(R.id.cancel);
@@ -90,6 +92,67 @@ public class AddClassActivity extends AppCompatActivity {
         editTexts[Edits.ENDDATE.ordinal()].setOnClickListener(click_handler);
     }
 
+    private void displayCurrentInfo(String currName){
+        ContentResolver cr = getContentResolver();
+        Cursor cursor = cr.query(CourseCalendarContentProvider.CONTENT_URI,
+                CourseCalendarInfo.FeedEntry.ALL_COLUMNS,
+                CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
+                new String[] { currName + "" }, null);
+
+        if(cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            updateDisplayInfo(
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_START_TIME)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_END_TIME)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_END_DATE)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_SUN)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_MON)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_TUE)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_WED)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_THUR)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_FRI)),
+                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_SAT)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_NOTES)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_EMAIL)),
+                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE))
+            );
+        }
+    }
+
+    public void updateDisplayInfo(String name, String loc, String startTime,
+                            String endTime, String endDate, int sun, int mon, int tue,
+                            int wed, int thur, int fri, int sat,
+                            String notes, String instrName, String email,
+                            String web){
+
+        editTexts[Edits.COURSE.ordinal()].setText(name);
+        editTexts[Edits.LOCATION.ordinal()].setText(loc);
+        editTexts[Edits.STARTTIME.ordinal()].setText(startTime);
+        editTexts[Edits.ENDTIME.ordinal()].setText(endTime);
+        editTexts[Edits.ENDDATE.ordinal()].setText(endDate);
+
+        checkBoxes[Boxes.SUN.ordinal()].setChecked(sun != 0);
+        checkBoxes[Boxes.MON.ordinal()].setChecked(mon != 0);
+        checkBoxes[Boxes.TUE.ordinal()].setChecked(tue != 0);
+        checkBoxes[Boxes.WED.ordinal()].setChecked(wed!=0);
+        checkBoxes[Boxes.THUR.ordinal()].setChecked(thur!=0);
+        checkBoxes[Boxes.FRI.ordinal()].setChecked(fri!= 0);
+        checkBoxes[Boxes.SAT.ordinal()].setChecked(sat!= 0);
+
+        editTexts[Edits.NOTES.ordinal()].setText(notes);
+        editTexts[Edits.INSTR.ordinal()].setText(instrName);
+        editTexts[Edits.EMAIL.ordinal()].setText(email);
+        editTexts[Edits.WEB.ordinal()].setText(web);
+    }
+
+    /**--------------------------------------------------------------------------------------------
+     * This segment initializes values of EditTexts, CheckBoxes, Strings, and Errors  to class
+     * member arrays so that other class members have easy access
+     *-------------------------------------------------------------------------------------------*/
+
     private void initializeViews(){
         EditText course = (EditText) findViewById(R.id.text_coursename);
         EditText loc = (EditText) findViewById(R.id.edit_loc);
@@ -101,11 +164,6 @@ public class AddClassActivity extends AppCompatActivity {
         EditText email = (EditText) findViewById(R.id.edit_instr_email);
         EditText web = (EditText) findViewById(R.id.website);
 
-        editTexts = new EditText[]{course, loc, startTime, endTime, endDate,
-        notes, instr, email, web};
-    }
-
-    private void initializeBoxes(){
         CheckBox sun = (CheckBox) findViewById(R.id.sun);
         CheckBox mon = (CheckBox) findViewById(R.id.mon);
         CheckBox tue = (CheckBox) findViewById(R.id.tue);
@@ -114,8 +172,17 @@ public class AddClassActivity extends AppCompatActivity {
         CheckBox fri = (CheckBox) findViewById(R.id.fri);
         CheckBox sat = (CheckBox) findViewById(R.id.sat);
 
-        isChecked = new Boolean[]{sun.isChecked(), mon.isChecked(), tue.isChecked(),
-                wed.isChecked(), thur.isChecked(), fri.isChecked(), sat.isChecked()};
+        editTexts = new EditText[]{course, loc, startTime, endTime, endDate,
+        notes, instr, email, web};
+
+        checkBoxes = new CheckBox[]{ sun, mon, tue, wed, thur, fri, sat };
+    }
+
+    private void initializeBoxes(){
+        isChecked = new Boolean[checkBoxes.length];
+        for(int i=0; i< isChecked.length; i++){
+            isChecked[i] = checkBoxes[i].isChecked();
+        }
     }
 
     private void initializeStrings(){
@@ -135,6 +202,9 @@ public class AddClassActivity extends AppCompatActivity {
         errors = new TextInputLayout[]{TICourseName, TIEmail, TIWebsite, TIstart, TIend};
     }
 
+    /**--------------------------------------------------------------------------------------------
+     * clickHandler class which handles all clicks for the views found within the fragment.
+     *-------------------------------------------------------------------------------------------*/
     private class clickHandler implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
@@ -175,6 +245,11 @@ public class AddClassActivity extends AppCompatActivity {
         }
     }
 
+    /**--------------------------------------------------------------------------------------------
+     * checkValidity checks the validity of everything the user has put into the form.
+     * isEmailValid checks the validity of an e-mail the user has input.
+     * @return boolean which indicates whether or not input was valid.
+     *-------------------------------------------------------------------------------------------*/
     private boolean checkValidity() {
         boolean valid = true;
 
@@ -246,17 +321,22 @@ public class AddClassActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
+    /**--------------------------------------------------------------------------------------------
+     * The methods in this section deal with inserting/updating data into the Calendar db
+     * Courses db.
+     * insertAllData handles the calls for data insertion and completion then finishes the activ.
+     * insertCourseData and insertCalendarData insert to their respective databases.
+     *--------------------------------------------------------------------------------------------*/
     private boolean insertAllData(String mode) {
         if (!checkValidity()) {
             return false;
         }
-        insertCourseData();
-
-        insertCalendarData();
+        insertCourseData(mode);
+        insertCalendarData(mode);
         return true;
     }
 
-    private void insertCourseData() {
+    private void insertCourseData(String mode) {
 
         ContentValues values = new ContentValues();
 
@@ -268,6 +348,8 @@ public class AddClassActivity extends AppCompatActivity {
                 editTextsInfo[Edits.STARTTIME.ordinal()]);
         values.put(CourseCalendarInfo.FeedEntry.COLUMN_END_TIME,
                 editTextsInfo[Edits.ENDTIME.ordinal()]);
+        values.put(CourseCalendarInfo.FeedEntry.COLUMN_END_DATE,
+                editTextsInfo[Edits.ENDDATE.ordinal()]);
         values.put(CourseCalendarInfo.FeedEntry.COLUMN_NOTES,
                 editTextsInfo[Edits.NOTES.ordinal()]);
         values.put(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME,
@@ -293,11 +375,15 @@ public class AddClassActivity extends AppCompatActivity {
                 isChecked[Boxes.SAT.ordinal()]);
 
         ContentResolver cr = getContentResolver();
-        cr.insert(CourseCalendarContentProvider.CONTENT_URI, values);
+        if (mode.contentEquals(CREATE)) {
+            cr.insert(CourseCalendarContentProvider.CONTENT_URI, values);
+        }
+        else{
+            cr.update(CourseCalendarContentProvider.CONTENT_URI, values, null, null);
+        }
     }
 
-    //This code sucks really bad. Please forgive me.
-    private void insertCalendarData() {
+    private void insertCalendarData(String mode) {
         ContentValues values = new ContentValues();
         ContentResolver cr = getContentResolver();
 
@@ -313,6 +399,12 @@ public class AddClassActivity extends AppCompatActivity {
         LocalDate startdate = new LocalDate();
         String end = editTextsInfo[Edits.ENDDATE.ordinal()];
         LocalDate enddate = new LocalDate(end);
+
+        if(mode.contentEquals(UPDATE)){
+            cr.delete(CalendarContentProvider.CONTENT_URI,
+                    CalendarInfo.FeedEntry.EVENT_TITLE + "=?",
+                    new String[]{currName});
+        }
 
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < daysOfWeek.size(); j++) {
@@ -330,9 +422,7 @@ public class AddClassActivity extends AppCompatActivity {
                                 editTextsInfo[Edits.COURSE.ordinal()]);
                         values.put(CalendarInfo.FeedEntry.EVENT_DESCR,
                                 editTextsInfo[Edits.LOCATION.ordinal()]);
-
                         cr.insert(CalendarContentProvider.CONTENT_URI, values);
-
                         copyStartDate = copyStartDate.plusWeeks(1);
                     }
                 }

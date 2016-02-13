@@ -12,6 +12,8 @@ public class CourseCalendarInfo {
         public static final String COLUMN_COURSE_LOC = "CourseLocation";
         public static final String COLUMN_START_TIME = "CourseStartTime";
         public static final String COLUMN_END_TIME = "CourseEndTime";
+        public static final String COLUMN_END_DATE = "CourseEndDate";
+
 
         public static final String COLUMN_MON = "ClassOnMon";
         public static final String COLUMN_TUE = "ClassOnTue";
@@ -32,6 +34,7 @@ public class CourseCalendarInfo {
                 COLUMN_COURSE_LOC,
                 COLUMN_START_TIME,
                 COLUMN_END_TIME,
+                COLUMN_END_DATE,
                 COLUMN_SUN,
                 COLUMN_MON,
                 COLUMN_TUE,
@@ -42,7 +45,7 @@ public class CourseCalendarInfo {
                 COLUMN_NOTES,
                 COLUMN_INSTR_NAME,
                 COLUMN_INSTR_EMAIL,
-                COLUMN_WEBSITE
+                COLUMN_WEBSITE,
         };
     }
 
