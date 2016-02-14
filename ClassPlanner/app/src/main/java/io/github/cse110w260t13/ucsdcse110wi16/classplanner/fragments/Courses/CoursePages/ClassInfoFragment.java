@@ -230,16 +230,7 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
     }
 
     /**-------------------------------------------------------------------------------------------
-     * Tells the fragment what to do when it is resumed.
-     *-------------------------------------------------------------------------------------------*/
-    @Override
-    public void onResume(){
-        super.onResume();
-        getLoaderManager().restartLoader(0, null, this);
-    }
-
-    /**-------------------------------------------------------------------------------------------
-     * EVERYTHING BELOW IS THE LOADER INTERFACE IMPLEMENTATION
+     * LOADER INTERFACE IMPLEMENTATION
      *-------------------------------------------------------------------------------------------*/
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -308,4 +299,14 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
     }
+
+    /**-------------------------------------------------------------------------------------------
+     * Tells the fragment what to do when it is resumed.
+     *-------------------------------------------------------------------------------------------*/
+    @Override
+    public void onResume(){
+        super.onResume();
+        getLoaderManager().restartLoader(0, null, this);
+    }
+
 }

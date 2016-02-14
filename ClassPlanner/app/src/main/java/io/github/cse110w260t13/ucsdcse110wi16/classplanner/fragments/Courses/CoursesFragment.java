@@ -53,25 +53,45 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
 
     public CoursesFragment(){}
 
+    /**-------------------------------------------------------------------------------------------
+     * onCreateView
+     *-------------------------------------------------------------------------------------------*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_courses, container, false);
 
+        /***********************TABS-RELATED INITIALIZATION AND SETTING****************************/
         //TabHost is the container for a tabbed window view
         courseTabHost = (TabHost) rootView.findViewById(android.R.id.tabhost);
         courseTabHost.setup();
 
         //ViewPager is a layout manager that lets you flip right and left through tabs
         courseViewPager = (ViewPager) rootView.findViewById(R.id.pager);
-        courseTabAdapter = new TabsAdapter(getActivity(), courseTabHost, courseViewPager, getChildFragmentManager());
+        courseTabAdapter = new TabsAdapter(getActivity(), courseTabHost, courseViewPager,
+                getChildFragmentManager());
 
         //Load Content of Each Tab
-        courseTabAdapter.addTab(courseTabHost.newTabSpec("one").setIndicator("Class Info"), ClassInfoFragment.class, null);
-        courseTabAdapter.addTab(courseTabHost.newTabSpec("two").setIndicator("Assignment"), AssignmentsFragment.class, null);
+        courseTabAdapter.addTab(courseTabHost.newTabSpec("one").setIndicator("Class Info"),
+                ClassInfoFragment.class, null);
+        courseTabAdapter.addTab(courseTabHost.newTabSpec("two").setIndicator("Assignment"),
+                AssignmentsFragment.class, null);
 
-        /* Creating the courses_toolbar (actionbar) for the courses tab.*/
+        //Set the background and color of the tabs
+        for (int i = 0; i < courseTabHost.getTabWidget().getChildCount(); i++) {
+            View v = courseTabHost.getTabWidget().getChildAt(i);
+            v.setBackgroundResource(R.drawable.tab_indicator_ab_example);
+            TextView tv = (TextView) courseTabHost.getTabWidget().getChildAt(i)
+                    .findViewById(android.R.id.title);
+            tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryText));
+            tv.setTextSize(12);
+            Typeface face= Typeface.createFromAsset(getContext().getAssets(), "fonts/raleway.ttf");
+            tv.setTypeface(face);
+        }
+
+        /*************************TOOLBAR INITIALIZATION AND SETTING*******************************/
+        //Create and set the toolbar(Actionbar) for the Courses page
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         if (toolbar != null){
             ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -80,23 +100,15 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-
+        /*************************SPINNER INITIALIZATION AND SETTING*******************************/
+        //initialize dropdown list spinner, populate it with data, and set its listener
         spin=(Spinner) rootView.findViewById(R.id.spinner_nav);
-        /* Populate this spinner by calling fillData()*/
         fillData();
         dropdownHandler drpHandler = new dropdownHandler();
         spin.setOnItemSelectedListener(drpHandler);
 
-        for (int i = 0; i < courseTabHost.getTabWidget().getChildCount(); i++) {
-            View v = courseTabHost.getTabWidget().getChildAt(i);
-            v.setBackgroundResource(R.drawable.tab_indicator_ab_example);
-            TextView tv = (TextView) courseTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
-            tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryText));
-            tv.setTextSize(12);
-            Typeface face= Typeface.createFromAsset(getContext().getAssets(), "fonts/raleway.ttf");
-            tv.setTypeface(face);
-        }
-
+        /*************************BUTTON INITIALIZATION AND SETTING********************************/
+        //set the listeners for the buttons on the Courses page
         ImageButton add = (ImageButton)rootView.findViewById(R.id.add_course_button);
         ImageButton delete = (ImageButton)rootView.findViewById(R.id.delete_course_button);
         clickHandler click_handler = new clickHandler();
@@ -107,31 +119,27 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
 
-    /**
+    /**--------------------------------------------------------------------------------------------
      * spinner handler that will handle changes when a different item on the dropdown
      * list is selected.
-     */
+     *--------------------------------------------------------------------------------------------*/
     private class dropdownHandler implements AdapterView.OnItemSelectedListener {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view,
                                    int position, long id) {
             Cursor cursor = (Cursor) adapter.getItem(position);
-            String course_name = cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME));
+            String course_name = cursor.getString(cursor.getColumnIndex
+                    (CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME));
             currentClass = course_name;
-
-            Log.d("dropdwnHandler", "Current course_name is "+ currentClass);
-            /*Iterate through all the fragments and update info*/
             updateChildFragments(course_name);
         }
         @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-        }
-
+        public void onNothingSelected(AdapterView<?> parent) {}
     }
 
-    /**
+    /**--------------------------------------------------------------------------------------------
      * click handler for all buttons in the Courses Page
-     */
+     *--------------------------------------------------------------------------------------------*/
     private class clickHandler implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
@@ -184,11 +192,11 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
-    /**
+    /**---------------------------------------------------------------------------------------------
      * Updates the child fragments(CLASS INFO and ASSIGNMENT) using what the current dropdown
      * list is set to
      * @param course_name
-     */
+     *--------------------------------------------------------------------------------------------*/
     public void updateChildFragments(String course_name){
         FragmentPagerAdapter fragmentPagerAdapter = (FragmentPagerAdapter) courseViewPager.getAdapter();
         for(int i = 0; i < fragmentPagerAdapter.getCount(); i++) {
@@ -204,19 +212,16 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
-    /**
+    /**--------------------------------------------------------------------------------------------
      * Helper method for updateChildFragments
-     * @param viewId
-     * @param position
-     * @return
-     */
+     *--------------------------------------------------------------------------------------------*/
     private static String makeFragmentName(int viewId, int position) {
         return "android:switcher:" + viewId + ":" + position;
     }
 
-    /**
+    /**--------------------------------------------------------------------------------------------
      * Updates data on the current screen
-     */
+     *--------------------------------------------------------------------------------------------*/
     private void fillData() {
         // Must include the _id column for the adapter to work
         String[] from = new String[] { CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME} ;
@@ -229,46 +234,43 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         spin.setAdapter(adapter);
     }
 
-
-    /**
-     * Creates a new loader after the initLoader () call
-     * @param id
-     * @param args
-     * @return
-     */
+    /**-------------------------------------------------------------------------------------------
+     * Defines what happens onActivityResult (when a class is done being edited, added, canceled)
+     *-------------------------------------------------------------------------------------------*/
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] projection = { CourseCalendarInfo.FeedEntry._ID, CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME};
-        CursorLoader cursor_ld = new CursorLoader(getContext(),
-                CourseCalendarContentProvider.CONTENT_URI, projection, null, null, null);
-        return cursor_ld;
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            currentClass = data.getStringExtra("newName");
+            updateChildFragments(currentClass);
+        }
     }
 
+    /**--------------------------------------------------------------------------------------------
+     * THIS SEGMENT CONTAINS THE LOADER INTERFACE IMPLEMENTATION
+     *--------------------------------------------------------------------------------------------*/
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String[] projection = { CourseCalendarInfo.FeedEntry._ID,
+                CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME};
+        return new CursorLoader(getContext(), CourseCalendarContentProvider.CONTENT_URI,
+                projection, null, null, null);
+    }
 
-    /**
-     * Swaps the data in the adapter when loader is finished.
-     * @param loader
-     * @param data
-     */
+    @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         adapter.swapCursor(data);
     }
 
-
-    /**
-     * Defines what happens when loader is reset
-     * @param loader
-     */
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         // data is not available anymore, delete reference
         adapter.swapCursor(null);
     }
 
-
-    /**
+    /**--------------------------------------------------------------------------------------------
      * Defines what happens when fragment resumes running
-     */
+     *--------------------------------------------------------------------------------------------*/
     @Override
     public void onResume(){
         super.onResume();
@@ -281,14 +283,5 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
          * single onResume() call
          */
         getLoaderManager().restartLoader(0, null, this);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            currentClass = data.getStringExtra("newName");
-            updateChildFragments(currentClass);
-        }
     }
 }

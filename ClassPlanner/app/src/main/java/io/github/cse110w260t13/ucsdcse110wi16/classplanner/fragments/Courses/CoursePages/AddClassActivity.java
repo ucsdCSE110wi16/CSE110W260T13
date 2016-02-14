@@ -45,6 +45,9 @@ public class AddClassActivity extends AppCompatActivity {
     private String[] editTextsInfo;
     private TextInputLayout[] errors;
 
+    /**-------------------------------------------------------------------------------------------
+     * private enum classes for array access
+     *-------------------------------------------------------------------------------------------*/
     private enum Edits{
         COURSE, LOCATION, STARTTIME, ENDTIME, ENDDATE, NOTES, INSTR, EMAIL, WEB
     }
@@ -57,6 +60,9 @@ public class AddClassActivity extends AppCompatActivity {
         COURSE, EMAIL, WEB, STARTTIME, ENDTIME, ENDDATE
     }
 
+    /**-------------------------------------------------------------------------------------------
+     * onCreate
+     *-------------------------------------------------------------------------------------------*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +96,10 @@ public class AddClassActivity extends AppCompatActivity {
         editTexts[Edits.ENDDATE.ordinal()].setOnClickListener(click_handler);
     }
 
+    /**-------------------------------------------------------------------------------------------
+     * Code in the following segment deals with displaying information to the user when the
+     * user enters the activity on update mode.
+     *-------------------------------------------------------------------------------------------*/
     private void displayCurrentInfo(String currName){
         ContentResolver cr = getContentResolver();
         Cursor cursor = cr.query(CourseCalendarContentProvider.CONTENT_URI,
@@ -100,22 +110,38 @@ public class AddClassActivity extends AppCompatActivity {
         if(cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             updateDisplayInfo(
-                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME)),
-                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC)),
-                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_START_TIME)),
-                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_END_TIME)),
-                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_END_DATE)),
-                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_SUN)),
-                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_MON)),
-                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_TUE)),
-                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_WED)),
-                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_THUR)),
-                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_FRI)),
-                    cursor.getInt(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_SAT)),
-                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_NOTES)),
-                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME)),
-                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_EMAIL)),
-                    cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE))
+                    cursor.getString(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME)),
+                    cursor.getString(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC)),
+                    cursor.getString(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_START_TIME)),
+                    cursor.getString(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_END_TIME)),
+                    cursor.getString(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_END_DATE)),
+                    cursor.getInt(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_SUN)),
+                    cursor.getInt(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_MON)),
+                    cursor.getInt(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_TUE)),
+                    cursor.getInt(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_WED)),
+                    cursor.getInt(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_THUR)),
+                    cursor.getInt(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_FRI)),
+                    cursor.getInt(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_SAT)),
+                    cursor.getString(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_NOTES)),
+                    cursor.getString(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME)),
+                    cursor.getString(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_INSTR_EMAIL)),
+                    cursor.getString(cursor.getColumnIndex
+                            (CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE))
             );
         }
     }
@@ -258,12 +284,14 @@ public class AddClassActivity extends AppCompatActivity {
             errors[Error.COURSE.ordinal()].setError("Course name is required.");
             valid = false;
         }
+
         //E-mail can be empty but not invalid.
         if (!TextUtils.isEmpty(editTextsInfo[Edits.EMAIL.ordinal()])
                 && !isEmailValid(editTextsInfo[Edits.EMAIL.ordinal()])) {
             errors[Error.EMAIL.ordinal()].setError("E-mail is not valid.");
             valid = false;
         }
+
         //Website can be empty but not invalid.
         if (!TextUtils.isEmpty(editTextsInfo[Edits.WEB.ordinal()])
                 && !URLUtil.isValidUrl(editTextsInfo[Edits.WEB.ordinal()])) {
@@ -279,8 +307,7 @@ public class AddClassActivity extends AppCompatActivity {
         int endMin = 0;
         boolean timeValid = true;
 
-        //Start time cannot be later than end time.
-        //Time must be filled.
+        //Start time cannot be later than end time and Time must be filled.
         if (!TextUtils.isEmpty(editTextsInfo[Edits.STARTTIME.ordinal()])
                 && !TextUtils.isEmpty(editTextsInfo[Edits.ENDTIME.ordinal()])) {
             startHr = Integer.parseInt(startTime[0]);
@@ -381,7 +408,7 @@ public class AddClassActivity extends AppCompatActivity {
         }
         else{
             cr.update(CourseCalendarContentProvider.CONTENT_URI, values,
-                    CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME+"=?",
+                    CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
                     new String[]{currName});
         }
     }
@@ -434,6 +461,9 @@ public class AddClassActivity extends AppCompatActivity {
         }
     }
 
+    /**-------------------------------------------------------------------------------------------
+     * OnPause resets the error messages that were triggered back to default status.
+     *-------------------------------------------------------------------------------------------*/
     @Override
     protected void onPause() {
         errors[Error.COURSE.ordinal()].setError(null);
