@@ -1,5 +1,6 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
@@ -28,6 +30,9 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.AddClassActivity;
@@ -43,7 +48,9 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarInfo;
 
 public class CoursesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    public static final int REQUEST_CODE = 1;
 
+    private View rootView;
     private TabHost courseTabHost;
     private ViewPager courseViewPager;
     private TabsAdapter courseTabAdapter;
@@ -51,6 +58,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
     private SimpleCursorAdapter adapter;
     private Spinner spin;
     private String currentClass;
+    private int index = 0;
 
     private SQLiteDatabase db;
     private CourseCalendarDbHelper mDbHelper;
@@ -61,7 +69,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_courses, container, false);
+        rootView = inflater.inflate(R.layout.fragment_courses, container, false);
 
         //TabHost is the container for a tabbed window view
         courseTabHost = (TabHost) rootView.findViewById(android.R.id.tabhost);
@@ -122,6 +130,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             Cursor cursor = (Cursor) adapter.getItem(position);
             String course_name = cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME));
             currentClass = course_name;
+            index = position;
 
             Log.d("dropdwnHandler", "Current course_name is "+ currentClass);
             /*Iterate through all the fragments and update info*/
@@ -140,7 +149,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.add_course_button:
-                    Intent intent = new Intent(getActivity(), AddClassActivity.class);
+                    Intent intent = new Intent(getContext(), AddClassActivity.class);
                     intent.putExtra("mode", "create");
                     startActivity(intent);
                     break;
@@ -188,7 +197,6 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
-
     /**
      * Updates the child fragments(CLASS INFO and ASSIGNMENT) using what the current dropdown
      * list is set to
@@ -209,7 +217,6 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
-
     /**
      * Helper method for updateChildFragments
      * @param viewId
@@ -219,7 +226,6 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
     private static String makeFragmentName(int viewId, int position) {
         return "android:switcher:" + viewId + ":" + position;
     }
-
 
     /**
      * Updates data on the current screen
@@ -288,7 +294,26 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
          * single onResume() call
          */
         getLoaderManager().restartLoader(0, null, this);
+        Cursor cursor = (Cursor) adapter.getItem(index);
+        if(cursor!=null) {
+            String course_name = cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME));
+            currentClass = course_name;
+            Log.d("onResume", "CURSOR NOT NULL " + currentClass);
+
+        }
         Log.d("onResume", "string is " + currentClass);
-        updateChildFragments(currentClass);
+        //updateChildFragments(currentClass);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("onActivityResult", "requestCode: " + requestCode + " resultCode" + resultCode + " act: " + Activity.RESULT_OK);
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i("onActivityResult", "finished AddClass2");
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            currentClass = data.getStringExtra("newName");
+            updateChildFragments(currentClass);
+            Log.i("onActivityResult", "requery" + currentClass);
+        }
     }
 }

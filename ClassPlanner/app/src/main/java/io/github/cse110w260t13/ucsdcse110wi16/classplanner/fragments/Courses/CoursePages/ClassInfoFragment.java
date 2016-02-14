@@ -1,5 +1,6 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -25,6 +26,8 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course
 
 public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
+    public static final int REQUEST_CODE = 1;
+
     private static final int URL_LOADER = 0;
     private String currName = null;
     private View rootView;
@@ -51,10 +54,10 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
             switch (v.getId()) {
                 case R.id.edit_info:
                     if(currName!=null) {
-                        Intent intent = new Intent(getActivity(), AddClassActivity.class);
+                        Intent intent = new Intent(getParentFragment().getContext(), AddClassActivity.class);
                         intent.putExtra("mode", "update");
                         intent.putExtra("class", currName);
-                        startActivity(intent);
+                        getParentFragment().startActivityForResult(intent, REQUEST_CODE);
                     }
                     else{
                         ErrorDialogFragment error = new ErrorDialogFragment();
@@ -65,6 +68,17 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
                     }
                     break;
             }
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("onActivityResult", "requestCode: " + requestCode + " resultCode" + resultCode + " act: " + Activity.RESULT_OK);
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i("onActivityResult", "finished AddClass2");
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            currName = data.getStringExtra("newName");
+            selectClass(currName);
+            Log.i("onActivityResult", "requery" + currName);
         }
     }
     public void selectClass(String class_name){

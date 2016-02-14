@@ -1,5 +1,7 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.content.res.Configuration;
@@ -27,6 +29,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    public static final int REQUEST_CODE = 1;
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -253,7 +256,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-
-
     }
+
 }

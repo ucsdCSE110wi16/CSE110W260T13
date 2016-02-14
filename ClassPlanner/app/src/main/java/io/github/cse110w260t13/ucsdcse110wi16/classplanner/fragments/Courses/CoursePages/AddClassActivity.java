@@ -214,6 +214,9 @@ public class AddClassActivity extends AppCompatActivity {
                     initializeBoxes();
                     initializeStrings();
                     if (insertAllData(mode)) {
+                        Intent intent = getIntent();
+                        intent.putExtra("newName", editTextsInfo[Edits.COURSE.ordinal()]);
+                        setResult(RESULT_OK, intent);
                         finish();
                     }
                     break;
