@@ -1,9 +1,6 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer;
 
 /*import resources from resource folder*/
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
-
-import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 
 /*Adapters bind data to a view (i.e. our menu). BaseAdapter is an
 interface for implementing adapters. We're using this specifically

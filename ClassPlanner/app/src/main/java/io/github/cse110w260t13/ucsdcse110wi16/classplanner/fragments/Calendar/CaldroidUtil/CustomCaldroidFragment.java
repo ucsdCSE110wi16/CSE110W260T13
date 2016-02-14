@@ -3,8 +3,6 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.C
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
-
 /**
  * Created by nick on 2/2/16.
  */

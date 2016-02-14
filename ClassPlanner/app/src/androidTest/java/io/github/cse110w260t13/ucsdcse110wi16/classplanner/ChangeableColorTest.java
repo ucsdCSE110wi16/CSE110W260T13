@@ -2,7 +2,8 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner;
 
 import android.util.Log;
 
-import junit.framework.*;
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CaldroidUtil.ChangeableColor;

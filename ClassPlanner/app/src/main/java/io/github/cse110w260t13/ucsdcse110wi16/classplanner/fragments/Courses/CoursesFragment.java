@@ -5,13 +5,10 @@ import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
@@ -30,21 +27,16 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.AddClassActivity;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.AssignmentsFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.ClassInfoFragment;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.DeleteDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.ErrorDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.TabsAdapter;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarContentProvider;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarDbHelper;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarInfo;
 
 public class CoursesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -58,10 +50,6 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
     private SimpleCursorAdapter adapter;
     private Spinner spin;
     private String currentClass;
-    private int index = 0;
-
-    private SQLiteDatabase db;
-    private CourseCalendarDbHelper mDbHelper;
 
     public CoursesFragment(){}
 
@@ -130,7 +118,6 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             Cursor cursor = (Cursor) adapter.getItem(position);
             String course_name = cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME));
             currentClass = course_name;
-            index = position;
 
             Log.d("dropdwnHandler", "Current course_name is "+ currentClass);
             /*Iterate through all the fragments and update info*/
@@ -294,26 +281,14 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
          * single onResume() call
          */
         getLoaderManager().restartLoader(0, null, this);
-        Cursor cursor = (Cursor) adapter.getItem(index);
-        if(cursor!=null) {
-            String course_name = cursor.getString(cursor.getColumnIndex(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME));
-            currentClass = course_name;
-            Log.d("onResume", "CURSOR NOT NULL " + currentClass);
-
-        }
-        Log.d("onResume", "string is " + currentClass);
-        //updateChildFragments(currentClass);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i("onActivityResult", "requestCode: " + requestCode + " resultCode" + resultCode + " act: " + Activity.RESULT_OK);
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i("onActivityResult", "finished AddClass2");
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             currentClass = data.getStringExtra("newName");
             updateChildFragments(currentClass);
-            Log.i("onActivityResult", "requery" + currentClass);
         }
     }
 }
