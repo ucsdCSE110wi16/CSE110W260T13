@@ -35,7 +35,7 @@ public class DateSelector extends DialogFragment implements DatePickerDialog.OnD
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        String endDay = year + "-" + String.format("%02d", month)
+        String endDay = year + "-" + String.format("%02d", month+1)
                 + "-" + String.format("%02d", day);
         dateTv.setText(endDay);
     }
