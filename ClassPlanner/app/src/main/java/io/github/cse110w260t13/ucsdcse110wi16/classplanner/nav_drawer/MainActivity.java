@@ -27,71 +27,57 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.Cou
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
-    public static final int REQUEST_CODE = 1;
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar toolbar;
 
-
     private final Handler mDrawerHandler = new Handler();
 
-    // nav drawer title
-    private CharSequence mDrawerTitle;
-
-    // used to store app title
-    private CharSequence mTitle;
-
-    // Menu items
-    private String[] navMenuTitles;
+    private CharSequence mDrawerTitle;  //nav drawer title
+    private CharSequence mTitle;        //stores app title
+    private String[] navMenuTitles;     //menu items & icons
     private TypedArray navMenuIcons;
 
     private ArrayList<NavDrawerItem> navDrawerItems;
     private NavDrawerListAdapter adapter;
 
+    /**-------------------------------------------------------------------------------------------
+     * OnCreate
+     *-------------------------------------------------------------------------------------------*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*I removed the default courses_toolbar settings from the app, so I need
-        to create a courses_toolbar in MainActivity in order to utilize the navdrawer.
-         */
+        /*******************************SETTING UP THE TOOLBAR************************************/
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // enabling action bar app icon and behaving it as toggle button
+        assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        /******************************SETTING UP THE NAV DRAWER**********************************/
+        //App title
         mTitle = mDrawerTitle = getTitle();
-
-        //Menu item titles retrieved from /res/strings.xml under Menu Items
+        //Menu item titles & icons retrieved
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
-
-        // Menu item icons retrieved from /res/strings.xml under Menu Item Icons
-        navMenuIcons = getResources()
-                .obtainTypedArray(R.array.nav_drawer_icons);
-
-        /*drawer_layout = pull-out layout of the navigation window
-          list_slidermenu = the layout of vertical list menu
-          Located under /res/layout/activity_main.xml/
-         */
+        navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
+        //Drawer & list layouts
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
 
+        //Adding items to drawer. Order: Home=0, Calendar=1, Info=2, Assignments=2, To-do=3
         navDrawerItems = new ArrayList<NavDrawerItem>();
-
-        // adding nav drawer items to array
-        // Home
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-        // Calendar
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-        // Class Info
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-        // Assignments
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
-        // To-Do List
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-
 
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -100,12 +86,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
         mDrawerList.setAdapter(adapter);
 
-        // enabling action bar app icon and behaving it as toggle button
-        assert getSupportActionBar() != null;
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        //Define behavior when the drawer opens & closes
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.app_name, // nav drawer open
                 R.string.app_name // nav drawer close
@@ -131,9 +112,9 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
     }
 
-    /**
+    /**-------------------------------------------------------------------------------------------
      * Slide menu item click listener
-     * */
+     *-------------------------------------------------------------------------------------------*/
     private class SlideMenuClickListener implements
             ListView.OnItemClickListener {
         @Override
@@ -144,14 +125,11 @@ public class MainActivity extends AppCompatActivity {
             displayView(position);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
     }
 
     @Override
@@ -163,9 +141,9 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    /***
+    /**-------------------------------------------------------------------------------------------
      * Called when invalidateOptionsMenu() is triggered
-     */
+     *-------------------------------------------------------------------------------------------*/
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // if nav drawer is opened, hide the action items
@@ -179,10 +157,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(mTitle);
     }
 
-    /**
+    /**-------------------------------------------------------------------------------------------
      * When using the ActionBarDrawerToggle, you must call it during
      * onPostCreate() and onConfigurationChanged()...
-     */
+     *-------------------------------------------------------------------------------------------*/
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -198,10 +176,10 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    /**
+    /**-------------------------------------------------------------------------------------------
      * Method switches view to the fragment dictated by the
      * position argument
-     */
+     *-------------------------------------------------------------------------------------------*/
     private void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
@@ -238,22 +216,10 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     mDrawerLayout.closeDrawer(mDrawerList);
                 }
-            }, 100);
+            }, 150);
         } else {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");
         }
     }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-    }
-
 }
