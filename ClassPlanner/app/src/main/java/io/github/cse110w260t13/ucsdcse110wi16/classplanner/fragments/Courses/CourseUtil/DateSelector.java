@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+
 /**
  * Created by Taiko on 2/9/2016.
  */
@@ -28,7 +30,7 @@ public class DateSelector extends DialogFragment implements DatePickerDialog.OnD
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(getActivity(),android.R.style.Theme_Holo_Dialog,
+        return new DatePickerDialog(getActivity(), R.style.MyPickerDialogTheme,
                 this, year, month, day);
     }
 

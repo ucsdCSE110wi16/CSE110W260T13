@@ -17,6 +17,21 @@
         <item name="actionDropDownStyle">@style/DropDownNav.Example</item>
     </style>
 
+    <style name="MyPickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
+        <item name="android:timePickerStyle">@style/MyTimePickerStyle</item>
+        <item name="android:colorAccent">#969696</item>
+    </style>
+
+    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">@color/colorPrimaryDark</item>
+        <item name="android:calendarTextColor">@color/black</item>
+    </style>
+
+    <style name="MyTimePickerStyle" parent="@android:style/Widget.Material.Light.TimePicker">
+        <item name="android:headerBackground">@color/colorPrimaryDark</item>
+        <item name="android:calendarTextColor">@color/black</item>
+    </style>
 
     <style name="ToolBarStyle" parent="Widget.AppCompat.Light.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
