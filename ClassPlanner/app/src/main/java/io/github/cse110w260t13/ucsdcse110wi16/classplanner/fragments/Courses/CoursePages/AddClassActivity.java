@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
@@ -164,7 +166,7 @@ public class AddClassActivity extends AppCompatActivity {
         checkBoxes[Boxes.WED.ordinal()].setChecked(wed!=0);
         checkBoxes[Boxes.THUR.ordinal()].setChecked(thur!=0);
         checkBoxes[Boxes.FRI.ordinal()].setChecked(fri!= 0);
-        checkBoxes[Boxes.SAT.ordinal()].setChecked(sat!= 0);
+        checkBoxes[Boxes.SAT.ordinal()].setChecked(sat != 0);
 
         editTexts[Edits.NOTES.ordinal()].setText(notes);
         editTexts[Edits.INSTR.ordinal()].setText(instrName);
@@ -222,8 +224,9 @@ public class AddClassActivity extends AppCompatActivity {
         TextInputLayout TIWebsite = (TextInputLayout) findViewById(R.id.ti_website);
         TextInputLayout TIstart = (TextInputLayout) findViewById(R.id.ti_start);
         TextInputLayout TIend = (TextInputLayout) findViewById(R.id.ti_end);
+        TextInputLayout TIendDate = (TextInputLayout) findViewById(R.id.ti_end_date);
 
-        errors = new TextInputLayout[]{TICourseName, TIEmail, TIWebsite, TIstart, TIend};
+        errors = new TextInputLayout[]{TICourseName, TIEmail, TIWebsite, TIstart, TIend, TIendDate};
     }
 
     /**--------------------------------------------------------------------------------------------
@@ -274,31 +277,57 @@ public class AddClassActivity extends AppCompatActivity {
 
     /**--------------------------------------------------------------------------------------------
      * checkValidity checks the validity of everything the user has put into the form.
-     * isEmailValid checks the validity of an e-mail the user has input.
+     * Section contains methods to check the validity of user input fields
      * @return boolean which indicates whether or not input was valid.
      *-------------------------------------------------------------------------------------------*/
     private boolean checkValidity() {
         boolean valid = true;
 
+        if(!haveCourseErrors()) valid = false;
+        if(!haveEmailErrors()) valid = false;
+        if(!haveWebErrors()) valid = false;
+        if(!haveTimeErrors()) valid = false;
+        if(!haveInvalidDays()) valid = false;
+        if(!haveInvalidEndDate()) valid = false;
+        return valid;
+    }
+
+    //Course Errors
+    private boolean haveCourseErrors(){
         if (TextUtils.isEmpty(editTextsInfo[Edits.COURSE.ordinal()])) {
             errors[Error.COURSE.ordinal()].setError("Course name is required.");
-            valid = false;
+            return false;
         }
+        errors[Error.COURSE.ordinal()].setError(null);
+        return true;
+    }
 
+    //Email Errors
+    private boolean haveEmailErrors(){
         //E-mail can be empty but not invalid.
         if (!TextUtils.isEmpty(editTextsInfo[Edits.EMAIL.ordinal()])
                 && !isEmailValid(editTextsInfo[Edits.EMAIL.ordinal()])) {
             errors[Error.EMAIL.ordinal()].setError("E-mail is not valid.");
-            valid = false;
+            return false;
         }
+        errors[Error.EMAIL.ordinal()].setError(null);
+        return true;
+    }
 
+    //Web Errors
+    private boolean haveWebErrors(){
         //Website can be empty but not invalid.
         if (!TextUtils.isEmpty(editTextsInfo[Edits.WEB.ordinal()])
                 && !URLUtil.isValidUrl(editTextsInfo[Edits.WEB.ordinal()])) {
             errors[Error.WEB.ordinal()].setError("Website is not valid.");
-            valid = false;
+            return false;
         }
+        errors[Error.WEB.ordinal()].setError(null);
+        return true;
+    }
 
+    //Time Eerrors
+    private boolean haveTimeErrors(){
         String[] startTime = editTextsInfo[Edits.STARTTIME.ordinal()].split(":");
         String[] endTime = editTextsInfo[Edits.ENDTIME.ordinal()].split(":");
         int startHr = 0;
@@ -306,6 +335,7 @@ public class AddClassActivity extends AppCompatActivity {
         int endHr = 0;
         int endMin = 0;
         boolean timeValid = true;
+        boolean valid = true;
 
         //Start time cannot be later than end time and Time must be filled.
         if (!TextUtils.isEmpty(editTextsInfo[Edits.STARTTIME.ordinal()])
@@ -338,15 +368,57 @@ public class AddClassActivity extends AppCompatActivity {
                         .setError("Start time cannot be later than end time.");
                 valid = false;
             }
+            else{
+                errors[Error.STARTTIME.ordinal()].setError(null);
+                errors[Error.ENDTIME.ordinal()].setError(null);
+            }
         }
-
         return valid;
     }
 
+    //No Days Selected Error
+    private boolean haveInvalidDays(){
+        boolean valid = false;
+        for(boolean checked: isChecked){
+            if (checked){
+                valid = true;
+                break;
+            }
+        }
+        TextView selectDays = (TextView) findViewById(R.id.selectDays);
+        if(!valid) {
+            selectDays.setTextColor(ContextCompat.getColor(this, R.color.red));
+        }
+        else {
+            selectDays.setTextColor(ContextCompat.getColor(this, R.color.colorSecondaryText));
+        }
+        return true;
+    }
+
+    //Invalid End Date Error
+    private boolean haveInvalidEndDate(){
+        if(!isEndDateValid()){
+            errors[Error.ENDDATE.ordinal()].setError("End date is not valid.");
+            return false;
+        }
+        errors[Error.ENDDATE.ordinal()].setError(null);
+        return true;
+    }
+
+    //Check if the email is invalid
     private boolean isEmailValid(String email) {
         Pattern pattern = Pattern.compile("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    //Check if the end date is invalid
+    private boolean isEndDateValid(){
+        LocalDate startDate = new LocalDate();
+        String end = editTextsInfo[Edits.ENDDATE.ordinal()];
+        if(end.isEmpty()) return false;
+        LocalDate endDate = new LocalDate(end);
+        return(startDate.isBefore(endDate));
     }
 
     /**--------------------------------------------------------------------------------------------
@@ -466,11 +538,9 @@ public class AddClassActivity extends AppCompatActivity {
      *-------------------------------------------------------------------------------------------*/
     @Override
     protected void onPause() {
-        errors[Error.COURSE.ordinal()].setError(null);
-        errors[Error.EMAIL.ordinal()].setError(null);
-        errors[Error.WEB.ordinal()].setError(null);
-        errors[Error.STARTTIME.ordinal()].setError(null);
-        errors[Error.ENDTIME.ordinal()].setError(null);
+        for(TextInputLayout err: errors){
+            err.setError(null);
+        }
 
         super.onPause();
     }

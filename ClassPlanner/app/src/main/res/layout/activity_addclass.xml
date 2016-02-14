@@ -178,6 +178,7 @@
                 </LinearLayout>
                 <!-- Select the days of the week -->
                 <TextView
+                    android:id="@+id/selectDays"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text = "Select the days of the week this class occurs:"

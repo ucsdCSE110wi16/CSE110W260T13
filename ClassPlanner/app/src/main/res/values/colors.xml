@@ -11,6 +11,7 @@
     <color name="colorDivider">#B6B6B6</color>
 
     <color name="black">#464646</color>
+    <color name="red">#cf0000</color>
 
     <color name="list_item_title">#727272</color>
     <color name="list_background">#ffffff</color>
