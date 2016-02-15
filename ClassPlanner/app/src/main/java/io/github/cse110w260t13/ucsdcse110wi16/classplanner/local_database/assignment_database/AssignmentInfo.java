@@ -14,6 +14,7 @@ public class AssignmentInfo {
 
         public static final String POINTS_EARNED = "PointsEarned";
         public static final String POINTS_POSSIBLE = "PointsPossible";
+        public static final String NOTES = "Notes";
 
         public static final String[] ALL_COLUMNS= {
                 _ID,
@@ -22,7 +23,8 @@ public class AssignmentInfo {
                 ASSIGNMENT_NAME,
                 TYPE,
                 POINTS_EARNED,
-                POINTS_POSSIBLE
+                POINTS_POSSIBLE,
+                NOTES
         };
     }
 
