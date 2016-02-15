@@ -288,7 +288,6 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
                     cursor.getString(cursor.getColumnIndex
                             (CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE))
             );
-            cursor.close();
         }
         else{
             resetInfo();
