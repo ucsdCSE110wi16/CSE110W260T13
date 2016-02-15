@@ -298,6 +298,18 @@ public class AddClassActivity extends AppCompatActivity {
             errors[Error.COURSE.ordinal()].setError("Course name is required.");
             return false;
         }
+        /*if(mode.contentEquals(CREATE)) {
+            ContentResolver cr = getContentResolver();
+            Cursor cursor = cr.query(CourseCalendarContentProvider.CONTENT_URI,
+                    CourseCalendarInfo.FeedEntry.ALL_COLUMNS,
+                    CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
+                    new String[]{ currName }, null);
+            if (cursor != null && cursor.getCount()!=0) {
+                errors[Error.COURSE.ordinal()].setError("This course already exists.");
+                cursor.close();
+                return false;
+            }
+        }*/
         errors[Error.COURSE.ordinal()].setError(null);
         return true;
     }

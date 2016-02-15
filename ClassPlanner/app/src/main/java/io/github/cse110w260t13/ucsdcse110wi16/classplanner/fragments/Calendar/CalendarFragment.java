@@ -133,6 +133,13 @@ public class CalendarFragment extends Fragment{
         adapter = new CalendarRecyclerAdapter();
         list.setAdapter(adapter);
 
+        Date today = new Date();
+        UpdateEventsTask eventUpdater = new UpdateEventsTask(
+                getActivity().getBaseContext(),
+                list,
+                getActivity().getContentResolver());
+        eventUpdater.execute(today, null, null);
+
         return rootView;
     }
 
@@ -145,7 +152,7 @@ public class CalendarFragment extends Fragment{
             Log.d("onSelectDate: ", "shortpress");
             Toast.makeText(getActivity().getBaseContext(), formatter.format(date),
                     Toast.LENGTH_SHORT).show();
-
+            
             UpdateEventsTask eventUpdater = new UpdateEventsTask(
                     getActivity().getBaseContext(),
                     list,
@@ -215,9 +222,10 @@ public class CalendarFragment extends Fragment{
 
         // Should automatically select Today
         // By default, Date() gets the time at which it was allocated
-        caldroidFragment.setSelectedDate(new Date());
-        caldroidFragment.setBackgroundResourceForDate(R.drawable.red_border, new Date());
-
+        Date dateToday = new Date();
+        caldroidFragment.setSelectedDate(dateToday);
+        caldroidFragment.setTextColorForDate(android.R.color.white, dateToday);
+        caldroidFragment.setBackgroundResourceForDate(R.drawable.red_border, dateToday);
         // Must refresh after changing the appearance of the View
         caldroidFragment.refreshView();
     }
