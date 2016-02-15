@@ -40,6 +40,23 @@
 
     </style>
 
+    <style name="CaldroidDefaultDark" parent="CaldroidDefault">
+        <item name="styleCaldroidGridView">@style/CaldroidDefaultDarkGridView</item>
+        <item name="styleCaldroidMonthName">@style/CaldroidMonthName</item>
+
+    </style>
+    <style name="CaldroidDefaultDarkGridView" parent="CaldroidDefaultGridView">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <style name="CaldroidMonthName" parent="CaldroidDefaultMonthName">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+
+
+
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
