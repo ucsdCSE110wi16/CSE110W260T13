@@ -59,7 +59,7 @@
                         android:fontFamily="sans-serif-light" />
                 </android.support.design.widget.TextInputLayout>
 
-                <!--Instructor Name-->
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
