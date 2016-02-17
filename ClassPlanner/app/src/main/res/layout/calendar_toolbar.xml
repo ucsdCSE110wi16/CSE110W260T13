@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             app:titleEnabled="false"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            <!--so exitUntilCollapsed = until tooolbar. others go all the way up-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

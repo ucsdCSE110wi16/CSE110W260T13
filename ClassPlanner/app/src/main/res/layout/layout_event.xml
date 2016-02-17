@@ -9,33 +9,42 @@
     android:layout_margin="5dp"
     card_view:cardCornerRadius="4dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="90dp">
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="#3d5373">
+            android:id="@+id/type_layout"
+            android:layout_width="70dp"
+            android:layout_height="90dp"
+            android:background="#3d5373"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:id="@+id/event_type"
+                android:layout_width="90dp"
+                android:layout_height="70dp"
                 android:text="Class"
                 android:textColor="#fff"
                 android:rotation="270"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:fontFamily="sans-serif-light"/>
         </LinearLayout>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/type_layout"
+            android:layout_toEndOf="@id/type_layout">
             <TextView
                 android:id="@+id/event_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text="Event Title"
+                android:singleLine="true"
                 android:fontFamily="sans-serif-light"
                 android:textSize="20sp"
                 android:layout_marginStart="5dp"
@@ -44,15 +53,17 @@
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text="Event Description"
+                android:singleLine="true"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
-                android:fontFamily="sans-serif-light"
-                />
+                android:fontFamily="sans-serif-light" />
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/start_time"
@@ -75,5 +86,34 @@
                     android:fontFamily="sans-serif-light" />
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/white">
+
+            <ImageButton
+                android:src="@drawable/ic_content_clear"
+                android:id="@+id/delete_button"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="45dp"
+                android:layout_height="45dp"/>
+            <ImageButton
+                android:src="@drawable/ic_content_create"
+                android:id="@+id/add_button"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="45dp"
+                android:layout_height="45dp"/>
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"
+            android:layout_toLeftOf="@id/buttons"
+            android:layout_toStartOf="@id/buttons"/>
+    </RelativeLayout>
 </android.support.v7.widget.CardView>

@@ -13,6 +13,7 @@ public class CalendarInfo {
         public static final String END_TIME = "EndTime";
         public static final String EVENT_TITLE = "EventTitle";
         public static final String EVENT_DESCR = "EventDescr";
+        /*public static final String EVENT_TYPE = "EventType";*/
 
         public static final String[] ALL_COLUMNS = {
                 _ID,
@@ -21,6 +22,7 @@ public class CalendarInfo {
                 END_TIME,
                 EVENT_TITLE,
                 EVENT_DESCR
+                /*EVENT_TYPE*/
         };
 
     }

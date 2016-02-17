@@ -15,7 +15,8 @@ public class CalendarDbHelper extends SQLiteOpenHelper {
             CalendarInfo.FeedEntry.START_TIME + " TEXT," +
             CalendarInfo.FeedEntry.END_TIME + " TEXT," +
             CalendarInfo.FeedEntry.EVENT_TITLE + " TEXT," +
-            CalendarInfo.FeedEntry.EVENT_DESCR + " TEXT" + " ) ";
+            CalendarInfo.FeedEntry.EVENT_DESCR + " TEXT" +
+            /*CalendarInfo.FeedEntry.EVENT_TYPE + " TEXT" + */" ) ";
 
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " +
             CalendarInfo.FeedEntry.TABLE_NAME;

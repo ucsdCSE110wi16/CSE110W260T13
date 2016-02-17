@@ -23,6 +23,7 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -536,6 +537,8 @@ public class AddClassActivity extends AppCompatActivity {
                                 editTextsInfo[Edits.COURSE.ordinal()]);
                         values.put(CalendarInfo.FeedEntry.EVENT_DESCR,
                                 editTextsInfo[Edits.LOCATION.ordinal()]);
+                        /*values.put(CalendarInfo.FeedEntry.EVENT_TYPE,
+                                "CLASS");*/
                         cr.insert(CalendarContentProvider.CONTENT_URI, values);
                         copyStartDate = copyStartDate.plusWeeks(1);
                     }
