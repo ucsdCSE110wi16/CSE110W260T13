@@ -1,7 +1,9 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -26,7 +28,12 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
                 .setPositiveButton("submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // Do something
+                        /*Intent intent = getActivity().getIntent();
+                        intent.putExtra("Date", date);
+                        getActivity().setResult(Activity.RESULT_OK, intent);
+                        getTargetFragment().onActivityResult(getTargetRequestCode(),
+                                Activity.RESULT_OK, getActivity().getIntent());
+                        dismiss();*/
                     }
                 })
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {

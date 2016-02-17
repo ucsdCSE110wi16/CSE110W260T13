@@ -1,7 +1,9 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -49,6 +51,7 @@ public class CalendarFragment extends Fragment{
 
     private static final String LOG_TAG = "CalendarFragment";
     private static final int COLOR_DELTA = 3;
+    private static final int REQUEST_CODE = 0;
 
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private static final int URL_LOADER = 0;
@@ -87,6 +90,8 @@ public class CalendarFragment extends Fragment{
 
                 // Display new calendar item dialog
                 DialogFragment dialog = new AddCalendarDialogFragment();
+                //Set target fragent to CalendarFragment for dialog.
+                dialog.setTargetFragment(getParentFragment(), REQUEST_CODE);
                 dialog.show(getFragmentManager(), "AddCalendarDialogFragment");
             }
         });
@@ -134,6 +139,7 @@ public class CalendarFragment extends Fragment{
         list.setAdapter(adapter);
 
         Date today = new Date();
+
         UpdateEventsTask eventUpdater = new UpdateEventsTask(
                 getActivity().getBaseContext(),
                 list,
@@ -143,6 +149,16 @@ public class CalendarFragment extends Fragment{
         return rootView;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        // Stuff to do, dependent on requestCode and resultCode
+        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
+             //have DialogFragment return a date.
+            //Query for that date.
+        }
+    }
+
     /**-------------------------------------------------------------------------------------------
      * Listener that responds to a number of user interactions with the calendar
      *-------------------------------------------------------------------------------------------*/
@@ -150,9 +166,9 @@ public class CalendarFragment extends Fragment{
         @Override
         public void onSelectDate(Date date, View view) {
             Log.d("onSelectDate: ", "shortpress");
-            Toast.makeText(getActivity().getBaseContext(), formatter.format(date),
-                    Toast.LENGTH_SHORT).show();
-            
+            Snackbar.make(view, "Showing events for " + formatter.format(date), Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+
             UpdateEventsTask eventUpdater = new UpdateEventsTask(
                     getActivity().getBaseContext(),
                     list,
@@ -260,13 +276,10 @@ public class CalendarFragment extends Fragment{
         int[] itemsPerDayInMonth;
 
         if(personalTodoCheckbox.isChecked()) {
-
             itemsPerDayInMonth = eventsPerDayWithTodoListDummyData;
-
-        } else {
-
+        }
+        else {
             itemsPerDayInMonth = eventsPerDayDummyData;
-
         }
 
         DateTime today = CalendarHelper.convertDateToDateTime(new Date());
@@ -284,27 +297,20 @@ public class CalendarFragment extends Fragment{
 
         // Remove days not in the current month
         for(int i = 0; i < gridDayList.size(); i++) {
-
             if(!firstDayOfMonthFound && (gridDayList.get(i).getDay() == 1)) {
-
                 // Found the first day of the month, add it to the new list
                 monthDayList.add(gridDayList.get(i));
                 firstDayOfMonthFound = true;
-
-            } else if(firstDayOfMonthFound && (gridDayList.get(i).getDay() != 1)) {
-
+            }
+            else if(firstDayOfMonthFound && (gridDayList.get(i).getDay() != 1)) {
                 // Found a day that isn't in next month, add it to the new list
                 monthDayList.add(gridDayList.get(i));
-
-            } else if(firstDayOfMonthFound && (gridDayList.get(i).getDay() == 1)) {
-
+            }
+            else if(firstDayOfMonthFound && (gridDayList.get(i).getDay() == 1)) {
                 // We've reached next month
                 break;
-
             }
-
         }
-
         Log.d(LOG_TAG, gridDayList.get(0).getDay().toString());
 
         ChangeableColor changeableColor;
@@ -318,25 +324,17 @@ public class CalendarFragment extends Fragment{
         int g = (color >> 8) & 0xFF;
         int b =  (color >> 0) & 0xFF;
 
-
         for(int i = 0; i < monthDayList.size(); i++) {
-
             changeableColor = new ChangeableColor(r, g, b, COLOR_DELTA);
             colorIntForDay = 0;
-
             for(int j = 0; j < itemsPerDayInMonth[i]; j++) {
-
                 colorIntForDay = Long.decode(
                         changeableColor.darkenColorByDeltaPercent().toHex()
                 ).intValue();
-
             }
-
             mappedColors.put(monthDayList.get(i), colorIntForDay);
         }
-
         return mappedColors;
-
     }
 
     /**-------------------------------------------------------------------------------------------
@@ -380,7 +378,7 @@ public class CalendarFragment extends Fragment{
                     CalendarInfo.FeedEntry.ALL_COLUMNS,
                     daySelection,
                     null,
-                    CalendarInfo.FeedEntry.START_TIME + " DESC");
+                    CalendarInfo.FeedEntry.START_TIME + " ASC");
 
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();

@@ -36,8 +36,7 @@ public class TimeSelector extends DialogFragment implements TimePickerDialog.OnT
             arg2 = Integer.parseInt(timeSplit[1]);
         }
 
-        return new TimePickerDialog(getActivity(),
-                R.style.MyPickerDialogTheme, this, arg1,
+        return new TimePickerDialog(getActivity(), this, arg1,
                 arg2,false);
     }
 
