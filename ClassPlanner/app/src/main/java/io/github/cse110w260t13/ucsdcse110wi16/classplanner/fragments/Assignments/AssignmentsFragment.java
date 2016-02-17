@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Assignments.AddAssignment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.assignment_database.AssignmentContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.assignment_database.AssignmentDbHelper;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.assignment_database.AssignmentInfo;

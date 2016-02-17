@@ -7,6 +7,8 @@ import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.widget.TextView;
 
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+
 public class TimeSelector extends DialogFragment implements TimePickerDialog.OnTimeSetListener{
     private TextView timeTv;
     private static final int DEFAULT_HR = 12;
@@ -35,7 +37,7 @@ public class TimeSelector extends DialogFragment implements TimePickerDialog.OnT
         }
 
         return new TimePickerDialog(getActivity(),
-                android.R.style.Theme_Holo_Dialog, this, arg1,
+                R.style.MyPickerDialogTheme, this, arg1,
                 arg2,false);
     }
 

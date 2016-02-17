@@ -16,13 +16,8 @@ public class CustomCaldroidFragment extends CaldroidFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        // Set custom arrow colors
-        this.getLeftArrowButton().setBackgroundResource(R.drawable.left_arrow);
-        this.getRightArrowButton().setBackgroundResource(R.drawable.right_arrow);
-
+    protected int getGridViewRes() {
+        return R.layout.layout_grid;
     }
 
 }

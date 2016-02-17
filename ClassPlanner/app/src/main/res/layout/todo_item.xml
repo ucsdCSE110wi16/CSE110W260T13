@@ -11,6 +11,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/deleteButton"
+        android:layout_alignBottom="@+id/deleteButton"
         android:textSize="20dp"
         android:gravity="center_vertical"/>
 
@@ -21,7 +23,9 @@
         android:id="@+id/deleteButton"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:focusable="false"
+        />
 
 
 

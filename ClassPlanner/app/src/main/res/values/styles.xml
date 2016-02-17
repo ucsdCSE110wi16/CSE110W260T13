@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -17,6 +17,21 @@
         <item name="actionDropDownStyle">@style/DropDownNav.Example</item>
     </style>
 
+    <style name="MyPickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
+        <item name="android:timePickerStyle">@style/MyTimePickerStyle</item>
+        <item name="android:colorAccent">#969696</item>
+    </style>
+
+    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">@color/colorPrimaryDark</item>
+        <item name="android:calendarTextColor">@color/black</item>
+    </style>
+
+    <style name="MyTimePickerStyle" parent="@android:style/Widget.Material.Light.TimePicker">
+        <item name="android:headerBackground">@color/colorPrimaryDark</item>
+        <item name="android:calendarTextColor">@color/black</item>
+    </style>
 
     <style name="ToolBarStyle" parent="Widget.AppCompat.Light.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
@@ -24,6 +39,23 @@
         <item name="actionMenuTextColor">@android:color/white</item>
 
     </style>
+
+    <style name="CaldroidDefaultDark" parent="CaldroidDefault">
+        <item name="styleCaldroidGridView">@style/CaldroidDefaultDarkGridView</item>
+        <item name="styleCaldroidMonthName">@style/CaldroidMonthName</item>
+
+    </style>
+    <style name="CaldroidDefaultDarkGridView" parent="CaldroidDefaultGridView">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <style name="CaldroidMonthName" parent="CaldroidDefaultMonthName">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+
+
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

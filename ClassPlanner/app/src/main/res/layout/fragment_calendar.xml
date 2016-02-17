@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/ab_background_textured_example">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/toolbar_layout">
+        <include
+            layout="@layout/calendar_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        </LinearLayout>
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.io.github.cse110w260t13.ucsdcse110wi16.classplanner.navdrawer.CalendarFragment">
-
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/calendar_fab"
             android:layout_width="wrap_content"
@@ -16,30 +27,6 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_add_white_24dp" />
-
     </android.support.design.widget.CoordinatorLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/caldroidContainer"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="71dp" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/fragment_calendar_personal_todo_checkbox"
-        android:id="@+id/todo_checkBox"
-        android:layout_below="@+id/caldroidContainer"
-        android:layout_alignLeft="@+id/caldroidContainer"
-        android:layout_margin="16dp" />
-
-    <ListView android:id="@+id/List"
-        android:layout_below="@+id/todo_checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:cacheColorHint="#cafeff" />
 
 </RelativeLayout>

@@ -1,34 +1,16 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner;
 
-import org.hamcrest.Matchers;
+import android.support.test.espresso.contrib.DrawerActions;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.LargeTest;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import android.app.Activity;
-import android.support.test.espresso.action.ViewActions;
-import android.support.test.espresso.contrib.DrawerActions;
-import android.support.test.espresso.contrib.DrawerMatchers;
-import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.LargeTest;
-
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.MainActivity;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.NavDrawerItem;
-
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.contrib.DrawerActions.*;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static android.support.test.espresso.contrib.DrawerActions.openDrawer;
 
 /**
  * This intends to test scenario #1.

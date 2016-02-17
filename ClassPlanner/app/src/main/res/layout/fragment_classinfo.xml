@@ -15,30 +15,47 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin">
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toplayer">
         <TextView
             android:id="@+id/class_info_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:fontFamily="sans-serif-light"
+            android:text = "@string/course_here"
             android:textSize="30sp"
             android:gravity="center"/>
+        <Button
+            android:id="@+id/edit_info"
+            android:background="@drawable/edit_icon_white"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
         <!-- GENERAL COURSE INFO -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_text_view"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:fontFamily="sans-serif-light"
                 android:text="General Info"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="3dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -50,7 +67,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text = "instructor name here"
+                    android:text = "@string/instr_name_here"
                     android:id="@+id/instr_name"
                     android:layout_weight="1"
                     android:singleLine="true"/>
@@ -58,7 +75,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="3dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -69,7 +87,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text = "instructor e-mail here"
+                    android:text = "@string/instr_email_here"
+                    android:textColorLink="@color/colorAccent"
                     android:id="@+id/instr_email"
                     android:linksClickable="true"
                     android:autoLink="email"
@@ -79,7 +98,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="3dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -90,7 +110,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text = "class website here"
+                    android:text = "@string/web_here"
+                    android:textColorLink="@color/colorAccent"
                     android:singleLine="true"
                     android:id="@+id/website"
                     android:linksClickable="true"
@@ -115,7 +136,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="3dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -126,7 +148,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text = "Location Here"
+                    android:text = "@string/loc_here"
                     android:singleLine="true"
                     android:id="@+id/location"
                     android:layout_weight="1"/>
@@ -135,7 +157,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="3dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -146,7 +169,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text = "Time Here"
+                    android:text = "@string/time_here"
                     android:singleLine="true"
                     android:id="@+id/start_time"
                     android:layout_weight="1"/>
@@ -167,7 +190,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text = "Time Here"
+                    android:text = "@string/time_here"
                     android:id="@+id/end_time"
                     android:layout_weight="1"/>
             </LinearLayout>
@@ -175,8 +198,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-bold"
-                android:text="Days: "
-                android:layout_marginTop="20dp"/>
+                android:text="Days: "/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -270,13 +292,11 @@
                 android:text="Student Notes"/>
             <TextView
                 android:id="@+id/notes"
+                android:text="@string/note_here"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"/>
         </LinearLayout>
-
-
-
     </LinearLayout>
 
  </ScrollView>
