@@ -1,23 +1,34 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil;
 
+import android.app.Activity;
+import android.support.v4.app.FragmentManager;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.AddCalendarDialogFragment;
 
 public class CalendarRecyclerAdapter
         extends RecyclerView.Adapter<CalendarRecyclerAdapter.ViewHolder>{
 
+    public static final int UPDATE = 0;
+
     private ArrayList<CalendarEvent> calendarEvents = null;
+    private String id;
+    private Context context;
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
@@ -37,8 +48,9 @@ public class CalendarRecyclerAdapter
         }
     }
 
-    public CalendarRecyclerAdapter( ArrayList<CalendarEvent> calendarEvents ){
+    public CalendarRecyclerAdapter( ArrayList<CalendarEvent> calendarEvents, Context context ){
         this.calendarEvents = calendarEvents;
+        this.context = context;
     }
     public CalendarRecyclerAdapter(){}
 
@@ -65,6 +77,8 @@ public class CalendarRecyclerAdapter
             clickHandler clickhandler = new clickHandler();
             holder.add.setOnClickListener(clickhandler);
             holder.del.setOnClickListener(clickhandler);
+
+            id = event.eventID;
         }
     }
 
@@ -75,11 +89,19 @@ public class CalendarRecyclerAdapter
             switch (v.getId()) {
                 case R.id.add_button:
                     v.startAnimation(buttonClick);
-                    Log.i("addClick", "add button pressed");
+                    /*
+                    DialogFragment dialog = new AddCalendarDialogFragment();
+                    Bundle args = new Bundle();
+                    args.putInt("mode", UPDATE);
+                    args.putString("id", id);
+                    dialog.setArguments(args);
+                    FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
+                    dialog.show(manager, "test");*/
+
+
                     break;
                 case R.id.delete_button:
                     v.startAnimation(buttonClick);
-                    Log.i("delClick", "del button pressed");
                     break;
             }
         }

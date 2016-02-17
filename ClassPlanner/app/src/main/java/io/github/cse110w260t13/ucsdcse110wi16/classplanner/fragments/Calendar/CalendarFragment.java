@@ -90,7 +90,7 @@ public class CalendarFragment extends Fragment{
 
                 // Display new calendar item dialog
                 DialogFragment dialog = new AddCalendarDialogFragment();
-                //Set target fragent to CalendarFragment for dialog.
+                //Set target fragment to CalendarFragment for dialog.
                 dialog.setTargetFragment(getParentFragment(), REQUEST_CODE);
                 dialog.show(getFragmentManager(), "AddCalendarDialogFragment");
             }
@@ -412,7 +412,7 @@ public class CalendarFragment extends Fragment{
             Log.d("UpdateEventsTask: ", " onPostExecute");
             //Create a new adapter if there is no prior instance
             if(adapter == null){
-                adapter = new CalendarRecyclerAdapter(calendarEventList);
+                adapter = new CalendarRecyclerAdapter(calendarEventList, getContext());
                 list.setAdapter(adapter);
             }
             //otherwise clear the adapter and re-add new events
