@@ -135,7 +135,7 @@ public class CalendarFragment extends Fragment{
         //assign listView's layout
         list = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         list.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new CalendarRecyclerAdapter();
+        adapter = new CalendarRecyclerAdapter(null, getActivity());
         list.setAdapter(adapter);
 
         Date today = new Date();
@@ -387,15 +387,14 @@ public class CalendarFragment extends Fragment{
                     int eventDesc = cursor.getColumnIndex(CalendarInfo.FeedEntry.EVENT_DESCR);
                     int startTime = cursor.getColumnIndex(CalendarInfo.FeedEntry.START_TIME);
                     int endTime = cursor.getColumnIndex(CalendarInfo.FeedEntry.END_TIME);
-                    /*int eventID = cursor.getColumnIndex(CalendarInfo.FeedEntry._ID);
-                    int eventType = cursor.getColumnIndex(CalendarInfo.FeedEntry.EVENT_TYPE);*/
+                    int eventID = cursor.getColumnIndex(CalendarInfo.FeedEntry._ID);
+                    /*int eventType = cursor.getColumnIndex(CalendarInfo.FeedEntry.EVENT_TYPE);*/
                     Log.d("UpdateEventsTask: ", "doInBg " + cursor.getString(eventTitle));
 
                     //Add every event to the ArrayList
                     returnList.add(new CalendarEvent(
-                            /*cursor.getString(eventID),
-                              cursor.getString(eventType),
-                             */
+                            cursor.getString(eventID),
+                            /*cursor.getString(eventType),*/
                             cursor.getString(eventTitle),
                             cursor.getString(eventDesc),
                             cursor.getString(startTime),
@@ -412,7 +411,8 @@ public class CalendarFragment extends Fragment{
             Log.d("UpdateEventsTask: ", " onPostExecute");
             //Create a new adapter if there is no prior instance
             if(adapter == null){
-                adapter = new CalendarRecyclerAdapter(calendarEventList, getContext());
+                Log.d("UpdateEventsTask: ", " test context");
+                adapter = new CalendarRecyclerAdapter(calendarEventList, context);
                 list.setAdapter(adapter);
             }
             //otherwise clear the adapter and re-add new events

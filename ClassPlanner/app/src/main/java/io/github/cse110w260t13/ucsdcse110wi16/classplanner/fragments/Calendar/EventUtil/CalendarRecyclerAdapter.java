@@ -1,13 +1,12 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil;
 
-import android.app.Activity;
-import android.support.v4.app.FragmentManager;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,9 +47,9 @@ public class CalendarRecyclerAdapter
         }
     }
 
-    public CalendarRecyclerAdapter( ArrayList<CalendarEvent> calendarEvents, Context context ){
+    public CalendarRecyclerAdapter( ArrayList<CalendarEvent> calendarEvents, Context context){
         this.calendarEvents = calendarEvents;
-        this.context = context;
+        this.context=context;
     }
     public CalendarRecyclerAdapter(){}
 
@@ -89,15 +88,14 @@ public class CalendarRecyclerAdapter
             switch (v.getId()) {
                 case R.id.add_button:
                     v.startAnimation(buttonClick);
-                    /*
                     DialogFragment dialog = new AddCalendarDialogFragment();
                     Bundle args = new Bundle();
                     args.putInt("mode", UPDATE);
                     args.putString("id", id);
                     dialog.setArguments(args);
-                    FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
-                    dialog.show(manager, "test");*/
-
+                    FragmentActivity activity = (FragmentActivity)context;
+                    FragmentManager fm = activity.getSupportFragmentManager();
+                    dialog.show(fm, "test");
 
                     break;
                 case R.id.delete_button:

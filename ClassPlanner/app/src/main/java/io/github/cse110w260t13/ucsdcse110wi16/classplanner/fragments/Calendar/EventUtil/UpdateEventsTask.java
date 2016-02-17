@@ -65,7 +65,9 @@ public class UpdateEventsTask extends AsyncTask<Date, Void, ArrayList<CalendarEv
                 int numOfEvents = cursor.getCount();
                 while(!cursor.isAfterLast()){
                     //Do stuff to set TextView of the event here
-                    returnList.add(new CalendarEvent(CalendarInfo.FeedEntry.EVENT_TITLE,
+                    returnList.add(new CalendarEvent(
+                            CalendarInfo.FeedEntry._ID,
+                            CalendarInfo.FeedEntry.EVENT_TITLE,
                             CalendarInfo.FeedEntry.EVENT_DESCR,
                             CalendarInfo.FeedEntry.START_TIME,
                             CalendarInfo.FeedEntry.END_TIME));
