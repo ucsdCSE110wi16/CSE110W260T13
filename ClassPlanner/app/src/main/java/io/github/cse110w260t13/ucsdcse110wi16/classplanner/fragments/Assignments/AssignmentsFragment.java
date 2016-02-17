@@ -32,7 +32,7 @@ public class AssignmentsFragment extends Fragment{
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_assignments, container, false);
-
+        //makes onClickListeners to add and delete things
         ImageButton add = (ImageButton) rootView.findViewById(R.id.add_button);
         ImageButton delete = (ImageButton) rootView.findViewById(R.id.delete_button);
         clickHandler click_handler = new clickHandler();
@@ -50,7 +50,9 @@ public class AssignmentsFragment extends Fragment{
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.add_button:
-                    startActivity(new Intent(getActivity(), AddAssignment.class));
+                    Intent intent = new Intent(getContext(), AddAssignment.class);
+                    intent.putExtra("mode", "create");
+                    startActivity(intent);
                     break;
                 case R.id.delete_button:
                     Log.d("on click", AssignmentName);

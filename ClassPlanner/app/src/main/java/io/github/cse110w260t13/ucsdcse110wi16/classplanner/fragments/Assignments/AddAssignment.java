@@ -112,8 +112,7 @@ public class AddAssignment extends AppCompatActivity {
     }
 
     /**--------------------------------------------------------------------------------------------
-     * This segment initializes values of EditTexts, CheckBoxes, Strings, and Errors  to class
-     * member arrays so that other class members have easy access
+     * This segment initializes values of EditTexts so other classes can access
      *-------------------------------------------------------------------------------------------*/
 
     private void initializeViews(){
@@ -158,16 +157,14 @@ public class AddAssignment extends AppCompatActivity {
 
 
     /**--------------------------------------------------------------------------------------------
-     * The methods in this section deal with inserting/updating data into the Calendar db
-     * Courses db.
-     * insertAllData handles the calls for data insertion and completion then finishes the activ.
-     * insertCourseData and insertCalendarData insert to their respective databases.
+     * method that calls insertAssignmentData
      *--------------------------------------------------------------------------------------------*/
     private boolean insertAllData(String mode) {
         insertAssignmentData(mode);
         return true;
     }
 
+        //inserts the values into sqlite database
     private void insertAssignmentData(String mode) {
 
         ContentValues values = new ContentValues();

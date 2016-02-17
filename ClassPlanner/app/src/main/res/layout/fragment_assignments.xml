@@ -25,6 +25,8 @@
                 android:layout_marginRight="1sp"/>
           
         </LinearLayout>
+
+        <!--creates buttons to add and delete-->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
