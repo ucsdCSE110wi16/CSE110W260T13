@@ -49,6 +49,8 @@
     </style>
     <style name="CaldroidDefaultDarkGridView" parent="CaldroidDefaultGridView">
         <item name="android:background">@android:color/transparent</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
     </style>
     <style name="CaldroidMonthName" parent="CaldroidDefaultMonthName">
         <item name="android:textColor">@color/colorPrimaryDark</item>
