@@ -27,6 +27,11 @@
             android:parentActivityName=".nav_drawer.MainActivity" >
         </activity>
 
+        <activity android:name=".fragments.Assignments.AddAssignment"
+            android:label="Add Assignment"
+            android:parentActivityName=".nav_drawer.MainActivity" >
+        </activity>
+
         <provider
             android:name=".local_database.course_database.CourseCalendarContentProvider"
             android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database">

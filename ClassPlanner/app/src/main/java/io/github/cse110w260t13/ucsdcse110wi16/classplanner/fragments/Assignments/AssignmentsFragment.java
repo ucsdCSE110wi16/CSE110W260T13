@@ -31,10 +31,10 @@ public class AssignmentsFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_courses, container, false);
-
-        ImageButton add = (ImageButton) rootView.findViewById(R.id.add_course_button);
-        ImageButton delete = (ImageButton) rootView.findViewById(R.id.delete_course_button);
+        View rootView = inflater.inflate(R.layout.fragment_assignments, container, false);
+        //makes onClickListeners to add and delete things
+        ImageButton add = (ImageButton) rootView.findViewById(R.id.add_button);
+        ImageButton delete = (ImageButton) rootView.findViewById(R.id.delete_button);
         clickHandler click_handler = new clickHandler();
         add.setOnClickListener(click_handler);
         delete.setOnClickListener(click_handler);
@@ -49,10 +49,12 @@ public class AssignmentsFragment extends Fragment{
     private class clickHandler implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.add_course_button:
-                    startActivity(new Intent(getActivity(), AddAssignment.class));
+                case R.id.add_button:
+                    Intent intent = new Intent(getContext(), AddAssignment.class);
+                    intent.putExtra("mode", "create");
+                    startActivity(intent);
                     break;
-                case R.id.delete_course_button:
+                case R.id.delete_button:
                     Log.d("on click", AssignmentName);
                     ContentResolver cr = getActivity().getContentResolver();
                     cr.delete(AssignmentContentProvider.CONTENT_URI,
