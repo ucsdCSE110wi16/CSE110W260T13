@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,11 @@ public class CalendarRecyclerAdapter
         extends RecyclerView.Adapter<CalendarRecyclerAdapter.ViewHolder>{
 
     public static final int UPDATE = 0;
+    public static final int REQUEST_CODE = 0;
 
     private ArrayList<CalendarEvent> calendarEvents = null;
-    private String id;
     private Context context;
+    private ViewHolder holder;
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -36,6 +38,7 @@ public class CalendarRecyclerAdapter
         TextView end;
         ImageButton add;
         ImageButton del;
+        String id;
         public ViewHolder(View v){
             super(v);
             title = (TextView) v.findViewById(R.id.event_title);
@@ -59,49 +62,66 @@ public class CalendarRecyclerAdapter
                                                    int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(R.layout.layout_event, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v);
-        return viewHolder;
+        ViewHolder holder = new ViewHolder(v);
+        clickHandler clickhandler = new clickHandler();
+        holder.add.setOnClickListener(clickhandler);
+        holder.del.setOnClickListener(clickhandler);
+
+        holder.add.setTag(holder);
+        holder.del.setTag(holder);
+        return holder;
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        this.holder = holder;
         if(calendarEvents != null) {
             CalendarEvent event = calendarEvents.get(position);
             holder.title.setText(event.eventTitle);
             holder.description.setText(event.eventDescr);
             holder.start.setText(event.eventSTime);
             holder.end.setText(event.eventETime);
-
-            clickHandler clickhandler = new clickHandler();
-            holder.add.setOnClickListener(clickhandler);
-            holder.del.setOnClickListener(clickhandler);
-
-            id = event.eventID;
+            holder.id = event.eventID;
         }
     }
 
     private class clickHandler implements View.OnClickListener {
         private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
-
+        @Override
         public void onClick(View v) {
+            ViewHolder holder = (ViewHolder) v.getTag();
+            if(holder!=null) {
+                int pos = holder.getAdapterPosition();
+                CalendarEvent event = calendarEvents.get(pos);
+                Log.d("onClick", "" + event.eventID);
+                Log.d("onClick", "" +event.eventTitle);
+            }
+
+            Log.d("onClick", "" + v.getTag());
+            Log.d("onClick", "" + holder.title.getText().toString());
+            Bundle args = new Bundle();
+            args.putInt("mode", UPDATE);
+            args.putString("id", holder.id);
+            FragmentActivity activity = (FragmentActivity)context;
+            FragmentManager fm = activity.getSupportFragmentManager();
+
             switch (v.getId()) {
                 case R.id.add_button:
                     v.startAnimation(buttonClick);
                     DialogFragment dialog = new AddCalendarDialogFragment();
-                    Bundle args = new Bundle();
-                    args.putInt("mode", UPDATE);
-                    args.putString("id", id);
                     dialog.setArguments(args);
-                    FragmentActivity activity = (FragmentActivity)context;
-                    FragmentManager fm = activity.getSupportFragmentManager();
-                    dialog.show(fm, "test");
-
+                    dialog.show(fm, "edit");
                     break;
                 case R.id.delete_button:
                     v.startAnimation(buttonClick);
+                    DialogFragment delete = new DeleteDialogFragment();
+                    delete.setArguments(args);
+                    delete.show(fm, "delete");
                     break;
             }
+
+            notifyDataSetChanged();
         }
     }
     // Return the size of your dataset (invoked by the layout manager)

@@ -60,6 +60,7 @@ public class CalendarFragment extends Fragment{
 
     private CustomCaldroidFragment caldroidFragment;
     private CheckBox personalTodoCheckbox;
+    private Date daySelected;
 
     /**-------------------------------------------------------------------------------------------
      * Created upon entering Fragment's view creation stage.
@@ -174,6 +175,8 @@ public class CalendarFragment extends Fragment{
                     list,
                     getActivity().getContentResolver());
             eventUpdater.execute(date, null, null);
+
+            daySelected = date;
         }
 
         @Override
@@ -419,6 +422,19 @@ public class CalendarFragment extends Fragment{
             else {
                 adapter.swap(calendarEventList);
             }
+        }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(daySelected!=null) {
+            UpdateEventsTask eventUpdater = new UpdateEventsTask(
+                    getActivity().getBaseContext(),
+                    list,
+                    getActivity().getContentResolver());
+            eventUpdater.execute(daySelected, null, null);
         }
     }
 }
