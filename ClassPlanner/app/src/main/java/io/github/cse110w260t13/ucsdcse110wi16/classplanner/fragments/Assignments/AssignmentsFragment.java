@@ -2,6 +2,7 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Assignment
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CursorAdapter;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.SimpleCursorAdapter;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.assignment_database.AssignmentContentProvider;
@@ -23,6 +29,9 @@ public class AssignmentsFragment extends Fragment{
     private AssignmentDbHelper mDbHelper;
 
     private String AssignmentName;
+
+    private ListView listview;
+    private SimpleCursorAdapter adapter;
 
     public AssignmentsFragment() {
     }
@@ -39,6 +48,7 @@ public class AssignmentsFragment extends Fragment{
         add.setOnClickListener(click_handler);
         delete.setOnClickListener(click_handler);
 
+        listview = (ListView)rootView.findViewById(R.id.assignment_list);
         return rootView;
     }
 
