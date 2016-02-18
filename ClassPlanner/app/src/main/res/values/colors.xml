@@ -21,4 +21,30 @@
     <color name="btn_dropdown_pressed">#ffffff</color>
     <color name="btn_dropdown_normal">#B3E5FC</color>
 
+    <color name="calendar_1">#ffb3e5fc</color>
+    <color name="calendar_2">#ffabddf4</color>
+    <color name="calendar_4">#ffa3d5ec</color>
+    <color name="calendar_5">#ff9bcde4</color>
+    <color name="calendar_6">#ff93c5dc</color>
+    <color name="calendar_7">#ff8bbdd4</color>
+    <color name="calendar_8">#ff83b5cc</color>
+    <color name="calendar_9">#ff7badc4</color>
+    <color name="calendar_10">#ff73a5bc</color>
+    <color name="calendar_11">#ff6b9db4</color>
+    <color name="calendar_12">#ff6395ac</color>
+    <color name="calendar_13">#ff5b8da4</color>
+    <color name="calendar_14">#ff53859c</color>
+    <color name="calendar_15">#ff4b7d94</color>
+    <color name="calendar_16">#ff43758c</color>
+    <color name="calendar_17">#ff3b6d84</color>
+    <color name="calendar_18">#ff33657c</color>
+    <color name="calendar_19">#ff2b5d74</color>
+    <color name="calendar_20">#ff23556c</color>
+    <color name="calendar_21">#ff1b4d64</color>
+    <color name="calendar_22">#ff13455c</color>
+    <color name="calendar_23">#ff0b3d54</color>
+    <color name="calendar_24">#ff03354c</color>
+
+
+
 </resources>
