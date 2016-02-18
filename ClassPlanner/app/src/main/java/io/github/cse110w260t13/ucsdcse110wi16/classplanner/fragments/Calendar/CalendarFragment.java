@@ -35,12 +35,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import hirondelle.date4j.DateTime;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CaldroidUtil.ChangeableColor;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CaldroidUtil.CustomCaldroidFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarEvent;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarRecyclerAdapter;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
@@ -60,7 +58,7 @@ public class CalendarFragment extends Fragment{
     private RecyclerView list;
     private CalendarRecyclerAdapter adapter;
 
-    private CustomCaldroidFragment caldroidFragment;
+    private CaldroidFragment caldroidFragment;
     private CheckBox personalTodoCheckbox;
     private Date daySelected;
 
@@ -144,7 +142,7 @@ public class CalendarFragment extends Fragment{
         };
 
         // Create a Caldroid fragment
-        caldroidFragment = new CustomCaldroidFragment();
+        caldroidFragment = new CaldroidFragment();
         Bundle args = new Bundle();
         Calendar cal = Calendar.getInstance();
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
@@ -253,7 +251,7 @@ public class CalendarFragment extends Fragment{
     private void updateCalendarColors() {
         // Reset colors for dates
         DateTime today = CalendarHelper.convertDateToDateTime(new Date());
-        caldroidFragment.clearBackgroundResourceForDateTimes(
+        caldroidFragment.clearBackgroundDrawableForDateTimes(
                 CalendarHelper.getFullWeeks(
                         today.getMonth(),
                         today.getYear(),
@@ -266,7 +264,7 @@ public class CalendarFragment extends Fragment{
         Log.d(LOG_TAG, "calling updateCalendarColors");
 
         // Set colors for dates
-        caldroidFragment.setBackgroundResourceForDateTimes(
+        caldroidFragment.setBackgroundDrawableForDateTimes(
                 this.getCalendarColors()
         );
 
@@ -275,20 +273,20 @@ public class CalendarFragment extends Fragment{
         Date dateToday = new Date();
         caldroidFragment.setSelectedDate(dateToday);
         caldroidFragment.setTextColorForDate(android.R.color.white, dateToday);
-        caldroidFragment.setBackgroundResourceForDate(R.drawable.red_border, dateToday);
+        caldroidFragment.setBackgroundDrawableForDate(
+                ContextCompat.getDrawable(this.getContext(), R.drawable.red_border), dateToday);
         // Must refresh after changing the appearance of the View
         caldroidFragment.refreshView();
     }
-
 
     /**-------------------------------------------------------------------------------------------
      * Gets the colors for the calendar visualization and assigns them to DateTime objects
      *
      * @return DateTime objects assigned to color integers
      *-------------------------------------------------------------------------------------------*/
-    private HashMap<DateTime, Integer> getCalendarColors() {
+    private HashMap<DateTime, Drawable> getCalendarColors() {
 
-        HashMap<DateTime, Integer> mappedColors = new HashMap<DateTime, Integer>();
+        HashMap<DateTime, Drawable> mappedColors = new HashMap<DateTime, Drawable>();
 
         // TODO use actual SQLite data
         int[] eventsPerDayDummyData = {
@@ -345,30 +343,14 @@ public class CalendarFragment extends Fragment{
                 break;
             }
         }
-        Log.d(LOG_TAG, gridDayList.get(0).getDay().toString());
-
-        ChangeableColor changeableColor;
-        int colorIntForDay;
-
-        int color = ContextCompat.getColor(
-                this.getContext(),
-                R.color.colorPrimaryLight);
-
-        int r =   (color >> 16) & 0xFF;
-        int g = (color >> 8) & 0xFF;
-        int b =  (color >> 0) & 0xFF;
 
         for(int i = 0; i < monthDayList.size(); i++) {
-            changeableColor = new ChangeableColor(r, g, b, COLOR_DELTA);
-            colorIntForDay = 0;
-            for(int j = 0; j < itemsPerDayInMonth[i]; j++) {
-                colorIntForDay = Long.decode(
-                        changeableColor.darkenColorByDeltaPercent().toHex()
-                ).intValue();
-            }
-            mappedColors.put(monthDayList.get(i), colorIntForDay);
 
-            Log.d(LOG_TAG, changeableColor.toHex());
+            if(itemsPerDayInMonth[i] >= calendarColors.length) {
+                mappedColors.put(monthDayList.get(i), calendarColors[calendarColors.length - 1]);
+            } else {
+                mappedColors.put(monthDayList.get(i), calendarColors[itemsPerDayInMonth[i] - 1]);
+            }
 
         }
         return mappedColors;
