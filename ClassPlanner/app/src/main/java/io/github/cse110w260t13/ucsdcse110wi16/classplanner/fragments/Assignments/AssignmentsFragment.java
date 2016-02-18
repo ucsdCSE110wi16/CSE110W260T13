@@ -31,7 +31,6 @@ public class AssignmentsFragment extends Fragment{
     private String AssignmentName;
 
     private ListView listview;
-    private SimpleCursorAdapter adapter;
 
     public AssignmentsFragment() {
     }
@@ -48,7 +47,17 @@ public class AssignmentsFragment extends Fragment{
         add.setOnClickListener(click_handler);
         delete.setOnClickListener(click_handler);
 
-        listview = (ListView)rootView.findViewById(R.id.assignment_list);
+        ContentResolver cr = getActivity().getContentResolver();
+        Cursor cursor = cr.query(AssignmentContentProvider.CONTENT_URI,
+                AssignmentInfo.FeedEntry.ALL_COLUMNS,
+                AssignmentInfo.FeedEntry.ASSIGNMENT_NAME + "=?",
+                null, null);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(),0,cursor,
+                new String[]{AssignmentInfo.FeedEntry.ASSIGNMENT_NAME},
+                new int[]{android.R.id.text1},0);
+        listview.setAdapter(adapter);
+
+
         return rootView;
     }
 
