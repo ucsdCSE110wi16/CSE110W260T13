@@ -64,9 +64,7 @@ public class CalendarFragment extends Fragment{
     private CheckBox personalTodoCheckbox;
     private Date daySelected;
 
-    private static final Drawable[] CALENDAR_COLORS = {
-
-    };
+    private Drawable[] calendarColors;
 
     /**-------------------------------------------------------------------------------------------
      * Created upon entering Fragment's view creation stage.
@@ -118,6 +116,33 @@ public class CalendarFragment extends Fragment{
         );
 
         /****************************SETTING UP CALDROID FRAGMENT**********************************/
+        // Create colors list
+        calendarColors = new Drawable[] {
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_1),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_2),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_3),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_4),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_5),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_6),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_7),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_8),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_9),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_10),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_11),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_12),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_13),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_14),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_15),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_16),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_17),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_18),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_19),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_20),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_21),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_22),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_23),
+        };
+
         // Create a Caldroid fragment
         caldroidFragment = new CustomCaldroidFragment();
         Bundle args = new Bundle();
