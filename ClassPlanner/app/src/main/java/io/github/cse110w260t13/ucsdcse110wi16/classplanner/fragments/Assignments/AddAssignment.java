@@ -169,6 +169,7 @@ public class AddAssignment extends AppCompatActivity {
         return true;
     }
 
+
     private void insertAssignmentData(String mode) {
 
         ContentValues values = new ContentValues();
