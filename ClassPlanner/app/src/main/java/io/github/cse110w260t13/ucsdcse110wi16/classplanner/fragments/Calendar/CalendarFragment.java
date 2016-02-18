@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -34,6 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import hirondelle.date4j.DateTime;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
@@ -61,6 +63,10 @@ public class CalendarFragment extends Fragment{
     private CustomCaldroidFragment caldroidFragment;
     private CheckBox personalTodoCheckbox;
     private Date daySelected;
+
+    private static final Drawable[] CALENDAR_COLORS = {
+
+    };
 
     /**-------------------------------------------------------------------------------------------
      * Created upon entering Fragment's view creation stage.
@@ -261,11 +267,11 @@ public class CalendarFragment extends Fragment{
 
         // TODO use actual SQLite data
         int[] eventsPerDayDummyData = {
-                1, 3, 0, 7, 0, 4, 3,
-                0, 5, 0, 1, 0, 11, 2,
-                1, 0, 1, 0, 0, 20, 10,
-                1, 4, 0, 3, 1, 2, 3,
-                3, 0, 2, 9, 5, 2, 2,
+                0, 0, 1, 2, 3, 4, 5,
+                6, 7, 8, 9, 10, 11, 12,
+                13, 14, 15, 16, 17, 18, 19,
+                20, 21, 22, 23, 24, 25, 26,
+                27, 28, 29, 30, 31, 32, 2,
                 4, 1, 20, 4, 1, 1, 5,
         };
         int[] eventsPerDayWithTodoListDummyData = {
