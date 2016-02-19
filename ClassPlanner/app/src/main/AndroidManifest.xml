@@ -33,6 +33,10 @@
         </activity>
 
         <provider
+            android:name=".local_database.assignment_database.AssignmentContentProvider"
+            android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database">
+        </provider>
+        <provider
             android:name=".local_database.course_database.CourseCalendarContentProvider"
             android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database">
         </provider>
