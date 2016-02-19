@@ -39,6 +39,7 @@ public class AssignmentContentProvider extends ContentProvider{
     @Override
     public boolean onCreate() {
         db_helper = new AssignmentDbHelper(getContext());
+        db = db_helper.getWritableDatabase();
         return false;
     }
 
