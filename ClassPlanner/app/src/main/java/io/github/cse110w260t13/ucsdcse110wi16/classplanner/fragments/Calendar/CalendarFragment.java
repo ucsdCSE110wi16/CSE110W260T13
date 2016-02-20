@@ -89,9 +89,11 @@ public class CalendarFragment extends Fragment{
             @Override
             public void onClick(View view) {
 
+                /*
                 // TODO maybe reuse this for something else...
                 Snackbar.make(view, "Add a new calendar item", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                        */
 
                 // Display new calendar item dialog
                 DialogFragment dialog = new AddCalendarDialogFragment();
