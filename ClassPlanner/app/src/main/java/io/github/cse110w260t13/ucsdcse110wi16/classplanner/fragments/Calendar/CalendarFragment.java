@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -63,6 +64,7 @@ public class CalendarFragment extends Fragment{
     private Date daySelected;
 
     private Drawable[] calendarColors;
+    private int[] calendarColorsRes;
 
     /**-------------------------------------------------------------------------------------------
      * Created upon entering Fragment's view creation stage.
@@ -114,7 +116,7 @@ public class CalendarFragment extends Fragment{
         );
 
         /****************************SETTING UP CALDROID FRAGMENT**********************************/
-        // Create colors list
+        // Create colors list as Drawables
         calendarColors = new Drawable[] {
                 ContextCompat.getDrawable(this.getContext(), R.color.calendar_1),
                 ContextCompat.getDrawable(this.getContext(), R.color.calendar_2),
@@ -139,6 +141,33 @@ public class CalendarFragment extends Fragment{
                 ContextCompat.getDrawable(this.getContext(), R.color.calendar_21),
                 ContextCompat.getDrawable(this.getContext(), R.color.calendar_22),
                 ContextCompat.getDrawable(this.getContext(), R.color.calendar_23),
+        };
+
+        // Create colors list as Resources
+        calendarColorsRes = new int[] {
+                R.color.calendar_1,
+                R.color.calendar_2,
+                R.color.calendar_3,
+                R.color.calendar_4,
+                R.color.calendar_5,
+                R.color.calendar_6,
+                R.color.calendar_7,
+                R.color.calendar_8,
+                R.color.calendar_9,
+                R.color.calendar_10,
+                R.color.calendar_11,
+                R.color.calendar_12,
+                R.color.calendar_13,
+                R.color.calendar_14,
+                R.color.calendar_15,
+                R.color.calendar_16,
+                R.color.calendar_17,
+                R.color.calendar_18,
+                R.color.calendar_19,
+                R.color.calendar_20,
+                R.color.calendar_21,
+                R.color.calendar_22,
+                R.color.calendar_23,
         };
 
         // Create a Caldroid fragment
@@ -272,7 +301,6 @@ public class CalendarFragment extends Fragment{
         // By default, Date() gets the time at which it was allocated
         Date dateToday = new Date();
         caldroidFragment.setSelectedDate(dateToday);
-        caldroidFragment.setTextColorForDate(android.R.color.white, dateToday);
         caldroidFragment.setBackgroundDrawableForDate(
                 ContextCompat.getDrawable(this.getContext(), R.drawable.red_border), dateToday);
         // Must refresh after changing the appearance of the View
@@ -344,12 +372,23 @@ public class CalendarFragment extends Fragment{
             }
         }
 
+        int colorIndex;
+
         for(int i = 0; i < monthDayList.size(); i++) {
 
             if(itemsPerDayInMonth[i] >= calendarColors.length) {
-                mappedColors.put(monthDayList.get(i), calendarColors[calendarColors.length - 1]);
+                colorIndex = calendarColors.length - 1;
             } else {
-                mappedColors.put(monthDayList.get(i), calendarColors[itemsPerDayInMonth[i] - 1]);
+                colorIndex = itemsPerDayInMonth[i] - 1;
+            }
+
+            mappedColors.put(monthDayList.get(i), calendarColors[colorIndex]);
+
+            if(monthDayList.get(i).equals(today)) {
+                caldroidFragment.setTextColorForDate(
+                        calendarColorsRes[colorIndex],
+                        new Date()
+                );
             }
 
         }
