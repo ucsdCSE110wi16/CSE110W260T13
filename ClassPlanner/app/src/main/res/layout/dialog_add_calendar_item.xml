@@ -51,8 +51,6 @@
             android:text="@string/calendar_repeat_checkbox"
             android:id="@+id/calendar_repeat_checkbox" />
 
-
-
     </LinearLayout>
 
 </ScrollView>

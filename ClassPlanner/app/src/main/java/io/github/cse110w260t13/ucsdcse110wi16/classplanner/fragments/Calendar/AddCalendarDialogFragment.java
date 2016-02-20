@@ -15,7 +15,10 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
+
+import java.util.Date;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 
@@ -26,12 +29,12 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
 
     private LinearLayout calendarDialogLayout;
     private CheckBox repeatCheckBox;
-
+    private View noRepeatView;
     private View repeatView;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), getTheme());
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -70,10 +73,17 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
         // get the repeating layout view
         LayoutInflater layoutInflater = (LayoutInflater)
                 getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        repeatView = (View) layoutInflater.inflate(
+        repeatView = layoutInflater.inflate(
                 R.layout.dialog_add_calendar_item_repeat,
                 (ViewGroup) calendarDialogLayout.getParent(),
                 false);
+        noRepeatView = layoutInflater.inflate(
+                R.layout.dialog_add_calendar_item_norepeat,
+                (ViewGroup) calendarDialogLayout.getParent(),
+                false);
+
+        // Default is for norepeatview to be visible...
+        calendarDialogLayout.addView(noRepeatView);
 
         // Set the checkbox's on change listener
         repeatCheckBox.setOnCheckedChangeListener(
@@ -81,14 +91,13 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                        // show or hide the included view
+                        // show or hide the included view and the date
                         if (isChecked) {
-                            LayoutInflater layoutInflater = (LayoutInflater)
-                                    getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                             calendarDialogLayout.addView(repeatView);
+                            ((ViewGroup) repeatView.getParent()).removeView(noRepeatView);
                         } else {
+                            calendarDialogLayout.addView(noRepeatView);
                             ((ViewGroup) repeatView.getParent()).removeView(repeatView);
-
                         }
 
                     }
