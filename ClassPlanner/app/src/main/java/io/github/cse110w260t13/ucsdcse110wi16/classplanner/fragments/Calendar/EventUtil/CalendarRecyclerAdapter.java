@@ -1,6 +1,7 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil;
 
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +25,8 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.AddCalendarDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarContentProvider;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarInfo;
 
 public class CalendarRecyclerAdapter
         extends RecyclerView.Adapter<CalendarRecyclerAdapter.ViewHolder>{
@@ -35,6 +38,14 @@ public class CalendarRecyclerAdapter
     private Context context;
     private ViewHolder holder;
 
+    RecyclerAdapterCallback mCallback;
+
+    // Container Activity must implement this interface
+    public interface RecyclerAdapterCallback {
+        void onUpdateConfirmed(int position);
+
+        void onCreateEditDialog(String id);
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
@@ -55,11 +66,12 @@ public class CalendarRecyclerAdapter
         }
     }
 
-    public CalendarRecyclerAdapter( ArrayList<CalendarEvent> calendarEvents, Context context){
+    public CalendarRecyclerAdapter( RecyclerAdapterCallback callback,
+                                    ArrayList<CalendarEvent> calendarEvents, Context context){
         this.calendarEvents = calendarEvents;
         this.context=context;
+        mCallback = callback;
     }
-    public CalendarRecyclerAdapter(){}
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -111,9 +123,7 @@ public class CalendarRecyclerAdapter
             switch (v.getId()) {
                 case R.id.add_button:
                     v.startAnimation(buttonClick);
-                    DialogFragment dialog = new AddCalendarDialogFragment();
-                    dialog.setArguments(args);
-                    dialog.show(fm, "edit");
+                    mCallback.onCreateEditDialog(hold_id);
                     break;
                 case R.id.delete_button:
                     v.startAnimation(buttonClick);

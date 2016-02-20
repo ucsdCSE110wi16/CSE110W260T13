@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import java.util.Locale;
 
 import hirondelle.date4j.DateTime;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CaldroidUtil.CaldroidCustomFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CaldroidUtil.ChangeableColor;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarEvent;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarRecyclerAdapter;
@@ -48,7 +50,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calend
 /**
  * Fragment that will contain Calendar section's features.
  */
-public class CalendarFragment extends Fragment{
+public class CalendarFragment extends Fragment implements CalendarRecyclerAdapter.RecyclerAdapterCallback{
 
     private static final String LOG_TAG = "CalendarFragment";
     private static final int COLOR_DELTA = 3;
@@ -65,6 +67,39 @@ public class CalendarFragment extends Fragment{
 
     private Drawable[] calendarColors;
     private int[] calendarColorsRes;
+
+
+    @Override
+    public void onUpdateConfirmed(int pos) {
+        Log.i("CalendarCallback", "onUpdateConfirmed start");
+        UpdateEventsTask eventUpdater = new UpdateEventsTask(
+                getActivity().getBaseContext(),
+                list,
+                getActivity().getContentResolver());
+        eventUpdater.execute(daySelected, null, null);
+    }
+
+    @Override
+    public void onCreateEditDialog(String id){
+        Log.i("CalendarCallback", "onCreateEditDialog start");
+        DialogFragment dialog = new AddCalendarDialogFragment();
+        dialog.setTargetFragment(this, REQUEST_CODE);
+        dialog.show(getFragmentManager(), "AddCalendarDialogFragment");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        // Stuff to do, dependent on requestCode and resultCode
+        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            Log.i("CalendarResult", "Submit pressed on dialog");
+            UpdateEventsTask eventUpdater = new UpdateEventsTask(
+                    getActivity().getBaseContext(),
+                    list,
+                    getActivity().getContentResolver());
+            eventUpdater.execute(daySelected, null, null);
+        }
+    }
 
     /**-------------------------------------------------------------------------------------------
      * Created upon entering Fragment's view creation stage.
@@ -88,13 +123,6 @@ public class CalendarFragment extends Fragment{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                /*
-                // TODO maybe reuse this for something else...
-                Snackbar.make(view, "Add a new calendar item", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                        */
-
                 // Display new calendar item dialog
                 DialogFragment dialog = new AddCalendarDialogFragment();
                 //Set target fragment to CalendarFragment for dialog.
@@ -173,7 +201,7 @@ public class CalendarFragment extends Fragment{
         };
 
         // Create a Caldroid fragment
-        caldroidFragment = new CaldroidFragment();
+        caldroidFragment = new CaldroidCustomFragment();
         Bundle args = new Bundle();
         Calendar cal = Calendar.getInstance();
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
@@ -196,7 +224,7 @@ public class CalendarFragment extends Fragment{
         //assign listView's layout
         list = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         list.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new CalendarRecyclerAdapter(null, getActivity());
+        adapter = new CalendarRecyclerAdapter(this, null, getActivity());
         list.setAdapter(adapter);
 
         Date today = new Date();
@@ -208,16 +236,6 @@ public class CalendarFragment extends Fragment{
         eventUpdater.execute(today, null, null);
 
         return rootView;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        // Stuff to do, dependent on requestCode and resultCode
-        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
-             //have DialogFragment return a date.
-            //Query for that date.
-        }
     }
 
     /**-------------------------------------------------------------------------------------------
@@ -235,8 +253,6 @@ public class CalendarFragment extends Fragment{
                     list,
                     getActivity().getContentResolver());
             eventUpdater.execute(date, null, null);
-
-            daySelected = date;
         }
 
         @Override
@@ -302,6 +318,7 @@ public class CalendarFragment extends Fragment{
         // Should automatically select Today
         // By default, Date() gets the time at which it was allocated
         Date dateToday = new Date();
+
         caldroidFragment.setSelectedDate(dateToday);
         caldroidFragment.setBackgroundDrawableForDate(
                 ContextCompat.getDrawable(this.getContext(), R.drawable.red_border), dateToday);
@@ -477,7 +494,7 @@ public class CalendarFragment extends Fragment{
             //Create a new adapter if there is no prior instance
             if(adapter == null){
                 Log.d("UpdateEventsTask: ", " test context");
-                adapter = new CalendarRecyclerAdapter(calendarEventList, context);
+                adapter = new CalendarRecyclerAdapter(CalendarFragment.this, calendarEventList, context);
                 list.setAdapter(adapter);
             }
             //otherwise clear the adapter and re-add new events
