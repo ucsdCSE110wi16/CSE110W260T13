@@ -24,7 +24,7 @@ public class AssignmentContentProvider extends ContentProvider{
 
 
     private static final String AUTHORITY = "io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database";
-    private static final String BASE_PATH = "Courses";
+    private static final String BASE_PATH = "Assignments";
 
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
     public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/multiple";

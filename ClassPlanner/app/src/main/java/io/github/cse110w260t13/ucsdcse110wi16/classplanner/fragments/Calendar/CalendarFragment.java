@@ -438,6 +438,7 @@ public class CalendarFragment extends Fragment{
             else {
                 adapter.swap(calendarEventList);
             }
+            adapter.notifyDataSetChanged();
         }
 
     }

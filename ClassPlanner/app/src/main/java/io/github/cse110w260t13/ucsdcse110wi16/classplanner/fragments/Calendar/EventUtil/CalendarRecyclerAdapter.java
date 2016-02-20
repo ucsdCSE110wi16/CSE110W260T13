@@ -1,11 +1,14 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil;
 
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +22,8 @@ import java.util.ArrayList;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.AddCalendarDialogFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
 
 public class CalendarRecyclerAdapter
         extends RecyclerView.Adapter<CalendarRecyclerAdapter.ViewHolder>{
@@ -91,19 +96,16 @@ public class CalendarRecyclerAdapter
         @Override
         public void onClick(View v) {
             ViewHolder holder = (ViewHolder) v.getTag();
-            if(holder!=null) {
-                int pos = holder.getAdapterPosition();
-                CalendarEvent event = calendarEvents.get(pos);
-                Log.d("onClick", "" + event.eventID);
-                Log.d("onClick", "" +event.eventTitle);
-            }
+            final int pos = holder.getAdapterPosition();
+            CalendarEvent event = calendarEvents.get(pos);
+            Log.d("onClick", "" + event.eventID);
+            Log.d("onClick", "" +event.eventTitle);
 
-            Log.d("onClick", "" + v.getTag());
-            Log.d("onClick", "" + holder.title.getText().toString());
             Bundle args = new Bundle();
             args.putInt("mode", UPDATE);
             args.putString("id", holder.id);
-            FragmentActivity activity = (FragmentActivity)context;
+            final String hold_id = holder.id;
+            final FragmentActivity activity = (FragmentActivity)context;
             FragmentManager fm = activity.getSupportFragmentManager();
 
             switch (v.getId()) {
@@ -115,9 +117,25 @@ public class CalendarRecyclerAdapter
                     break;
                 case R.id.delete_button:
                     v.startAnimation(buttonClick);
-                    DialogFragment delete = new DeleteDialogFragment();
-                    delete.setArguments(args);
-                    delete.show(fm, "delete");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                    builder.setTitle("Confirmation");
+                    builder.setMessage("Are you sure you want to delete this?");
+                    builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            ContentResolver cr = activity.getContentResolver();
+                            cr.delete(CalendarContentProvider.CONTENT_URI,
+                                    CalendarInfo.FeedEntry._ID + "=?",
+                                    new String[]{hold_id});
+                            calendarEvents.remove(pos);
+                            notifyItemRemoved(pos);
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                     break;
             }
 
@@ -139,8 +157,9 @@ public class CalendarRecyclerAdapter
             calendarEvents.addAll(events);
         }
         else{
-            calendarEvents = events;
+            calendarEvents = new ArrayList<CalendarEvent>();
+            calendarEvents.addAll(events);
         }
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 }
