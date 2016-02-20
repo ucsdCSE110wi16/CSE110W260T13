@@ -45,7 +45,6 @@
             android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database">
         </provider>
 
-
-</application>
+    </application>
 
 </manifest>
