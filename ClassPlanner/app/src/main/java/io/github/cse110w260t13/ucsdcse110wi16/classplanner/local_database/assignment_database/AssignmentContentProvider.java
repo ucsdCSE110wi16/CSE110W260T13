@@ -23,8 +23,8 @@ public class AssignmentContentProvider extends ContentProvider{
     private static final int ASSIGNMENT_ID = 2;
 
 
-    private static final String AUTHORITY = "io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database";
-    private static final String BASE_PATH = "Courses";
+    private static final String AUTHORITY = "io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.assignment_database";
+    private static final String BASE_PATH = "Assignments";
 
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
     public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/multiple";
@@ -39,6 +39,7 @@ public class AssignmentContentProvider extends ContentProvider{
     @Override
     public boolean onCreate() {
         db_helper = new AssignmentDbHelper(getContext());
+        db = db_helper.getWritableDatabase();
         return false;
     }
 

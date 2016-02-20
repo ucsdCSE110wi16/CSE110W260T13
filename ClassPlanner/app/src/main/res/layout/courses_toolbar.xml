@@ -44,7 +44,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_delete_white_24dp"
-                android:background="@drawable/button_bg"
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
                 <ImageButton
@@ -54,7 +54,7 @@
                     android:src="@drawable/ic_add_white_24dp"
                     android:layout_toLeftOf="@id/delete_course_button"
                     android:layout_toStartOf="@id/delete_course_button"
-                    android:background="@drawable/button_bg"/>
+                    android:background="?android:attr/selectableItemBackground"/>
 
         </RelativeLayout>
     </LinearLayout>

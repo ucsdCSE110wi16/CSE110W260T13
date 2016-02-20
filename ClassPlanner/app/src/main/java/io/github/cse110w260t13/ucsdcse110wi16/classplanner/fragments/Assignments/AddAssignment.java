@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import butterknife.Bind;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.assignment_database.AssignmentInfo;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
@@ -169,6 +168,7 @@ public class AddAssignment extends AppCompatActivity {
         insertAssignmentData(mode);
         return true;
     }
+
 
     private void insertAssignmentData(String mode) {
 

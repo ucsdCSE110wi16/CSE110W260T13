@@ -25,7 +25,7 @@ public class CalendarContentProvider extends ContentProvider {
     private static final int EVENT_ID = 2;
 
 
-    private static final String AUTHORITY = "io.github.cse110w260t13.ucsdcse110wi16.classplanner.calendar_database";
+    private static final String AUTHORITY = "io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database";
     private static final String BASE_PATH = "Events";
 
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);

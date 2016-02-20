@@ -23,7 +23,7 @@ public class CourseCalendarContentProvider extends ContentProvider{
     private static final int COURSE_ID = 2;
 
 
-    private static final String AUTHORITY = "io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database";
+    private static final String AUTHORITY = "io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database";
     private static final String BASE_PATH = "Courses";
 
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);

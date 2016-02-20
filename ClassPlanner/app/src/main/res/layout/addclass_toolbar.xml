@@ -20,7 +20,7 @@
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:fontFamily="sans-serif-light"
-            android:background="@drawable/button_bg"/>
+            android:background="?android:attr/selectableItemBackground"/>
         <Button
             style="?android:buttonBarButtonStyle"
             android:id="@+id/add"
@@ -31,7 +31,7 @@
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:fontFamily="sans-serif-light"
-            android:background="@drawable/button_bg"/>
+            android:background="?android:attr/selectableItemBackground"/>
     </LinearLayout>
 
 </android.support.v7.widget.Toolbar>

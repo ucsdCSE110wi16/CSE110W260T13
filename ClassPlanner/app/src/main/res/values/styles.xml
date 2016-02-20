@@ -17,6 +17,7 @@
         <item name="actionDropDownStyle">@style/DropDownNav.Example</item>
     </style>
 
+    <!-- API 21+
     <style name="MyPickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
         <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
         <item name="android:timePickerStyle">@style/MyTimePickerStyle</item>
@@ -32,6 +33,7 @@
         <item name="android:headerBackground">@color/colorPrimaryDark</item>
         <item name="android:calendarTextColor">@color/black</item>
     </style>
+    -->
 
     <style name="ToolBarStyle" parent="Widget.AppCompat.Light.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
@@ -47,15 +49,13 @@
     </style>
     <style name="CaldroidDefaultDarkGridView" parent="CaldroidDefaultGridView">
         <item name="android:background">@android:color/transparent</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
     </style>
     <style name="CaldroidMonthName" parent="CaldroidDefaultMonthName">
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
-
-
-
-
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

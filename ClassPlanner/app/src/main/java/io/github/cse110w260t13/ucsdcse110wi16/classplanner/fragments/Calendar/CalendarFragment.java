@@ -1,8 +1,13 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -35,8 +40,8 @@ import java.util.Locale;
 
 import hirondelle.date4j.DateTime;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CaldroidUtil.CaldroidCustomFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CaldroidUtil.ChangeableColor;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CaldroidUtil.CustomCaldroidFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarEvent;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarRecyclerAdapter;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
@@ -45,18 +50,56 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calend
 /**
  * Fragment that will contain Calendar section's features.
  */
-public class CalendarFragment extends Fragment{
+public class CalendarFragment extends Fragment implements CalendarRecyclerAdapter.RecyclerAdapterCallback{
 
     private static final String LOG_TAG = "CalendarFragment";
     private static final int COLOR_DELTA = 3;
+    private static final int REQUEST_CODE = 0;
 
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private static final int URL_LOADER = 0;
     private RecyclerView list;
     private CalendarRecyclerAdapter adapter;
 
-    private CustomCaldroidFragment caldroidFragment;
+    private CaldroidFragment caldroidFragment;
     private CheckBox personalTodoCheckbox;
+    private Date daySelected;
+
+    private Drawable[] calendarColors;
+    private int[] calendarColorsRes;
+
+
+    @Override
+    public void onUpdateConfirmed(int pos) {
+        Log.i("CalendarCallback", "onUpdateConfirmed start");
+        UpdateEventsTask eventUpdater = new UpdateEventsTask(
+                getActivity().getBaseContext(),
+                list,
+                getActivity().getContentResolver());
+        eventUpdater.execute(daySelected, null, null);
+    }
+
+    @Override
+    public void onCreateEditDialog(String id){
+        Log.i("CalendarCallback", "onCreateEditDialog start");
+        DialogFragment dialog = new AddCalendarDialogFragment();
+        dialog.setTargetFragment(this, REQUEST_CODE);
+        dialog.show(getFragmentManager(), "AddCalendarDialogFragment");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        // Stuff to do, dependent on requestCode and resultCode
+        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            Log.i("CalendarResult", "Submit pressed on dialog");
+            UpdateEventsTask eventUpdater = new UpdateEventsTask(
+                    getActivity().getBaseContext(),
+                    list,
+                    getActivity().getContentResolver());
+            eventUpdater.execute(daySelected, null, null);
+        }
+    }
 
     /**-------------------------------------------------------------------------------------------
      * Created upon entering Fragment's view creation stage.
@@ -80,13 +123,10 @@ public class CalendarFragment extends Fragment{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                // TODO maybe reuse this for something else...
-                Snackbar.make(view, "Add a new calendar item", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
                 // Display new calendar item dialog
                 DialogFragment dialog = new AddCalendarDialogFragment();
+                //Set target fragment to CalendarFragment for dialog.
+                dialog.setTargetFragment(getParentFragment(), REQUEST_CODE);
                 dialog.show(getFragmentManager(), "AddCalendarDialogFragment");
             }
         });
@@ -106,8 +146,62 @@ public class CalendarFragment extends Fragment{
         );
 
         /****************************SETTING UP CALDROID FRAGMENT**********************************/
+        // Create colors list as Drawables
+        calendarColors = new Drawable[] {
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_1),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_2),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_3),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_4),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_5),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_6),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_7),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_8),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_9),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_10),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_11),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_12),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_13),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_14),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_15),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_16),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_17),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_18),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_19),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_20),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_21),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_22),
+                ContextCompat.getDrawable(this.getContext(), R.color.calendar_23),
+        };
+
+        // Create colors list as Resources
+        calendarColorsRes = new int[] {
+                R.color.calendar_1,
+                R.color.calendar_2,
+                R.color.calendar_3,
+                R.color.calendar_4,
+                R.color.calendar_5,
+                R.color.calendar_6,
+                R.color.calendar_7,
+                R.color.calendar_8,
+                R.color.calendar_9,
+                R.color.calendar_10,
+                R.color.calendar_11,
+                R.color.calendar_12,
+                R.color.calendar_13,
+                R.color.calendar_14,
+                R.color.calendar_15,
+                R.color.calendar_16,
+                R.color.calendar_17,
+                R.color.calendar_18,
+                R.color.calendar_19,
+                R.color.calendar_20,
+                R.color.calendar_21,
+                R.color.calendar_22,
+                R.color.calendar_23,
+        };
+
         // Create a Caldroid fragment
-        caldroidFragment = new CustomCaldroidFragment();
+        caldroidFragment = new CaldroidCustomFragment();
         Bundle args = new Bundle();
         Calendar cal = Calendar.getInstance();
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
@@ -130,10 +224,11 @@ public class CalendarFragment extends Fragment{
         //assign listView's layout
         list = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         list.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new CalendarRecyclerAdapter();
+        adapter = new CalendarRecyclerAdapter(this, null, getActivity());
         list.setAdapter(adapter);
 
         Date today = new Date();
+
         UpdateEventsTask eventUpdater = new UpdateEventsTask(
                 getActivity().getBaseContext(),
                 list,
@@ -150,9 +245,9 @@ public class CalendarFragment extends Fragment{
         @Override
         public void onSelectDate(Date date, View view) {
             Log.d("onSelectDate: ", "shortpress");
-            Toast.makeText(getActivity().getBaseContext(), formatter.format(date),
-                    Toast.LENGTH_SHORT).show();
-            
+            Snackbar.make(view, "Showing events for " + formatter.format(date), Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+
             UpdateEventsTask eventUpdater = new UpdateEventsTask(
                     getActivity().getBaseContext(),
                     list,
@@ -203,7 +298,7 @@ public class CalendarFragment extends Fragment{
     private void updateCalendarColors() {
         // Reset colors for dates
         DateTime today = CalendarHelper.convertDateToDateTime(new Date());
-        caldroidFragment.clearBackgroundResourceForDateTimes(
+        caldroidFragment.clearBackgroundDrawableForDateTimes(
                 CalendarHelper.getFullWeeks(
                         today.getMonth(),
                         today.getYear(),
@@ -216,38 +311,38 @@ public class CalendarFragment extends Fragment{
         Log.d(LOG_TAG, "calling updateCalendarColors");
 
         // Set colors for dates
-        caldroidFragment.setBackgroundResourceForDateTimes(
+        caldroidFragment.setBackgroundDrawableForDateTimes(
                 this.getCalendarColors()
         );
 
         // Should automatically select Today
         // By default, Date() gets the time at which it was allocated
         Date dateToday = new Date();
+
         caldroidFragment.setSelectedDate(dateToday);
-        caldroidFragment.setTextColorForDate(android.R.color.white, dateToday);
-        caldroidFragment.setBackgroundResourceForDate(R.drawable.red_border, dateToday);
+        caldroidFragment.setBackgroundDrawableForDate(
+                ContextCompat.getDrawable(this.getContext(), R.drawable.red_border), dateToday);
         // Must refresh after changing the appearance of the View
         caldroidFragment.refreshView();
     }
-
 
     /**-------------------------------------------------------------------------------------------
      * Gets the colors for the calendar visualization and assigns them to DateTime objects
      *
      * @return DateTime objects assigned to color integers
      *-------------------------------------------------------------------------------------------*/
-    private HashMap<DateTime, Integer> getCalendarColors() {
+    private HashMap<DateTime, Drawable> getCalendarColors() {
 
-        HashMap<DateTime, Integer> mappedColors = new HashMap<DateTime, Integer>();
+        HashMap<DateTime, Drawable> mappedColors = new HashMap<DateTime, Drawable>();
 
         // TODO use actual SQLite data
         int[] eventsPerDayDummyData = {
-                1, 3, 0, 7, 0, 4, 3,
-                0, 5, 0, 1, 0, 11, 2,
-                1, 0, 1, 0, 0, 20, 10,
-                1, 4, 0, 3, 1, 2, 3,
-                3, 0, 2, 9, 5, 2, 2,
-                4, 1, 20, 4, 1, 1, 5,
+                1, 2, 3, 4, 5,
+                6, 7, 8, 9, 10, 11, 12,
+                13, 14, 15, 16, 17, 18, 19,
+                20, 21, 22, 23, 24, 25, 26,
+                27, 28, 29, 30, 31, 32, 2,
+                4, 1, 20, 4, 1, 1, 5, 6, 7,
         };
         int[] eventsPerDayWithTodoListDummyData = {
                 5, 3, 5, 7, 2, 4, 3,
@@ -260,13 +355,10 @@ public class CalendarFragment extends Fragment{
         int[] itemsPerDayInMonth;
 
         if(personalTodoCheckbox.isChecked()) {
-
             itemsPerDayInMonth = eventsPerDayWithTodoListDummyData;
-
-        } else {
-
+        }
+        else {
             itemsPerDayInMonth = eventsPerDayDummyData;
-
         }
 
         DateTime today = CalendarHelper.convertDateToDateTime(new Date());
@@ -284,59 +376,47 @@ public class CalendarFragment extends Fragment{
 
         // Remove days not in the current month
         for(int i = 0; i < gridDayList.size(); i++) {
-
             if(!firstDayOfMonthFound && (gridDayList.get(i).getDay() == 1)) {
-
                 // Found the first day of the month, add it to the new list
                 monthDayList.add(gridDayList.get(i));
                 firstDayOfMonthFound = true;
-
-            } else if(firstDayOfMonthFound && (gridDayList.get(i).getDay() != 1)) {
-
+            }
+            else if(firstDayOfMonthFound && (gridDayList.get(i).getDay() != 1)) {
                 // Found a day that isn't in next month, add it to the new list
                 monthDayList.add(gridDayList.get(i));
-
-            } else if(firstDayOfMonthFound && (gridDayList.get(i).getDay() == 1)) {
-
+            }
+            else if(firstDayOfMonthFound && (gridDayList.get(i).getDay() == 1)) {
                 // We've reached next month
                 break;
-
             }
-
         }
 
-        Log.d(LOG_TAG, gridDayList.get(0).getDay().toString());
-
-        ChangeableColor changeableColor;
-        int colorIntForDay;
-
-        int color = ContextCompat.getColor(
-                this.getContext(),
-                R.color.colorPrimaryLight);
-
-        int r =   (color >> 16) & 0xFF;
-        int g = (color >> 8) & 0xFF;
-        int b =  (color >> 0) & 0xFF;
-
+        int colorIndex;
 
         for(int i = 0; i < monthDayList.size(); i++) {
 
-            changeableColor = new ChangeableColor(r, g, b, COLOR_DELTA);
-            colorIntForDay = 0;
-
-            for(int j = 0; j < itemsPerDayInMonth[i]; j++) {
-
-                colorIntForDay = Long.decode(
-                        changeableColor.darkenColorByDeltaPercent().toHex()
-                ).intValue();
-
+            if(itemsPerDayInMonth[i] >= calendarColors.length) {
+                colorIndex = calendarColors.length - 1;
+            } else {
+                colorIndex = itemsPerDayInMonth[i] - 1;
             }
 
-            mappedColors.put(monthDayList.get(i), colorIntForDay);
+            mappedColors.put(monthDayList.get(i), calendarColors[colorIndex]);
+
+            if(monthDayList.get(i).equals(today)) {
+                caldroidFragment.setTextColorForDate(
+                        calendarColorsRes[colorIndex],
+                        new Date()
+                );
+            } else {
+                caldroidFragment.setTextColorForDateTime(
+                        android.R.color.white,
+                        monthDayList.get(i)
+                );
+            }
+
         }
-
         return mappedColors;
-
     }
 
     /**-------------------------------------------------------------------------------------------
@@ -380,7 +460,7 @@ public class CalendarFragment extends Fragment{
                     CalendarInfo.FeedEntry.ALL_COLUMNS,
                     daySelection,
                     null,
-                    CalendarInfo.FeedEntry.START_TIME + " DESC");
+                    CalendarInfo.FeedEntry.START_TIME + " ASC");
 
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -389,10 +469,14 @@ public class CalendarFragment extends Fragment{
                     int eventDesc = cursor.getColumnIndex(CalendarInfo.FeedEntry.EVENT_DESCR);
                     int startTime = cursor.getColumnIndex(CalendarInfo.FeedEntry.START_TIME);
                     int endTime = cursor.getColumnIndex(CalendarInfo.FeedEntry.END_TIME);
+                    int eventID = cursor.getColumnIndex(CalendarInfo.FeedEntry._ID);
+                    /*int eventType = cursor.getColumnIndex(CalendarInfo.FeedEntry.EVENT_TYPE);*/
                     Log.d("UpdateEventsTask: ", "doInBg " + cursor.getString(eventTitle));
 
                     //Add every event to the ArrayList
                     returnList.add(new CalendarEvent(
+                            cursor.getString(eventID),
+                            /*cursor.getString(eventType),*/
                             cursor.getString(eventTitle),
                             cursor.getString(eventDesc),
                             cursor.getString(startTime),
@@ -409,13 +493,28 @@ public class CalendarFragment extends Fragment{
             Log.d("UpdateEventsTask: ", " onPostExecute");
             //Create a new adapter if there is no prior instance
             if(adapter == null){
-                adapter = new CalendarRecyclerAdapter(calendarEventList);
+                Log.d("UpdateEventsTask: ", " test context");
+                adapter = new CalendarRecyclerAdapter(CalendarFragment.this, calendarEventList, context);
                 list.setAdapter(adapter);
             }
             //otherwise clear the adapter and re-add new events
             else {
                 adapter.swap(calendarEventList);
             }
+            adapter.notifyDataSetChanged();
+        }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(daySelected!=null) {
+            UpdateEventsTask eventUpdater = new UpdateEventsTask(
+                    getActivity().getBaseContext(),
+                    list,
+                    getActivity().getContentResolver());
+            eventUpdater.execute(daySelected, null, null);
         }
     }
 }
