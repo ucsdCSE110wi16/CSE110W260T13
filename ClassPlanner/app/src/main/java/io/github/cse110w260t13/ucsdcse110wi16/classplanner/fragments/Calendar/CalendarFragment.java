@@ -389,6 +389,11 @@ public class CalendarFragment extends Fragment{
                         calendarColorsRes[colorIndex],
                         new Date()
                 );
+            } else {
+                caldroidFragment.setTextColorForDateTime(
+                        android.R.color.white,
+                        monthDayList.get(i)
+                );
             }
 
         }
