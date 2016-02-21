@@ -478,7 +478,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
                             /*cursor.getString(eventType),*/
                             cursor.getString(eventTitle),
                             cursor.getString(eventDesc),
-                            cursor.getString(startTime)));
+                            cursor.getString(startTime),
+                            cursor.getString(endTime)));
                     cursor.moveToNext();
                 }
                 cursor.close();
