@@ -47,7 +47,7 @@ public class AddAssignment extends AppCompatActivity {
     private TextInputLayout[] errors;
 
     private enum Edits{
-        COURSE, NAME, TYPE, POINTSPOS, POINTSEARNED/*, NOTES*/
+        COURSE, NAME, TYPE, POINTSPOS, POINTSEARNED
     }
 
     @Override
@@ -94,8 +94,6 @@ public class AddAssignment extends AppCompatActivity {
                     cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.TYPE)),
                     cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.POINTS_POSSIBLE)),
                     cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.POINTS_EARNED))
-                  //  cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.NOTES))
-
 
             );
         }
@@ -109,7 +107,6 @@ public class AddAssignment extends AppCompatActivity {
         editTexts[Edits.TYPE.ordinal()].setText(type);
         editTexts[Edits.POINTSPOS.ordinal()].setText(points);
         editTexts[Edits.POINTSEARNED.ordinal()].setText(earned);
-     /*   editTexts[Edits.NOTES.ordinal()].setText(notes);*/
     }
 
     /**--------------------------------------------------------------------------------------------
@@ -184,9 +181,7 @@ public class AddAssignment extends AppCompatActivity {
                 editTextsInfo[Edits.POINTSPOS.ordinal()]);
         values.put(AssignmentInfo.FeedEntry.POINTS_EARNED,
                 editTextsInfo[Edits.POINTSEARNED.ordinal()]);
-      /*  values.put(AssignmentInfo.FeedEntry.NOTES,
-                editTextsInfo[Edits.NOTES.ordinal()]);
-*/        ContentResolver cr = getContentResolver();
+        ContentResolver cr = getContentResolver();
         if (mode.contentEquals(CREATE)) {
             cr.insert(AssignmentContentProvider.CONTENT_URI, values);
         }
