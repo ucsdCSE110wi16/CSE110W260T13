@@ -40,8 +40,10 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
                 .setPositiveButton("submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        /*
                         getTargetFragment().onActivityResult(getTargetRequestCode(),
                                 Activity.RESULT_OK, getActivity().getIntent());
+                                */
                         dismiss();
                     }
                 })
