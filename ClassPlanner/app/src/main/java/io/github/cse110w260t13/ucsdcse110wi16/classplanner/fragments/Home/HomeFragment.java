@@ -22,8 +22,8 @@ public class HomeFragment extends Fragment {
 
     public HomeFragment(){}
         Button b1, b2;
-        EditText t1;
-        ListView lv1;
+       // EditText t1;
+        ListView listView1;
         SQLiteDatabase db;
         Cursor c;
 
@@ -35,11 +35,12 @@ public class HomeFragment extends Fragment {
 
         b1 = (Button)findViewById(R.id.button1);
         b2 = (Button)findViewById(R.id.button2);
-        t1 = (EditText)findViewById(R.id.editText1);
-        lv1 = (ListView)findViewById(R.id.listView1);
+        //t1 = (EditText)findViewById(R.id.editText1);
+        listView1 = (ListView)findViewById(R.id.listView1);
 
         db = openOrCreateDatabase("MyDB", MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS Names(Name VARCHAR)");
+        //Need an onclick listener to get dates
         b1.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -56,6 +57,8 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        //this draws the data from the query and display with list view
         b2.setOnClickListener(new OnClickListener() {
 
 
@@ -76,7 +79,7 @@ public class HomeFragment extends Fragment {
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(),
                         android.R.layout.activity_list_item, android.R.id.text1,values);
 
-                lv1.setAdapter(adapter);
+                listview1.setAdapter(adapter);
             }
         });
 
