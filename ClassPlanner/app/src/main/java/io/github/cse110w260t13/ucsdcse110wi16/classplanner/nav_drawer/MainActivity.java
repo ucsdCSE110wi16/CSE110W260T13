@@ -25,6 +25,13 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Assignments
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CalendarFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursesFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.HomeFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.ToDoFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.NavDrawerItem;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.NavDrawerListAdapter;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+
+import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -198,6 +205,11 @@ public class MainActivity extends AppCompatActivity {
             case 3:
                 fragment = new AssignmentsFragment();
                 break;
+            case 4:
+                setSupportActionBar(toolbar);
+                getSupportActionBar().hide();
+                fragment = new ToDoFragment();
+                break;
             default:
                 break;
         }
@@ -222,4 +234,6 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MainActivity", "Error in creating fragment");
         }
     }
+
+
 }

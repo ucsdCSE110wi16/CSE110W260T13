@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import java.util.Date;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.UpdateEventsTask;
 
 /**
  * Created by nick on 2/10/16.
@@ -47,12 +48,12 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
                 .setPositiveButton("submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        /*Intent intent = getActivity().getIntent();
-                        intent.putExtra("Date", date);
+                        Intent intent = getActivity().getIntent();
+                        intent.putExtra("Date", "date");
                         getActivity().setResult(Activity.RESULT_OK, intent);
                         getTargetFragment().onActivityResult(getTargetRequestCode(),
                                 Activity.RESULT_OK, getActivity().getIntent());
-                        dismiss();*/
+                        dismiss();
                     }
                 })
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -90,7 +91,6 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
                         // show or hide the included view and the date
                         if (isChecked) {
                             calendarDialogLayout.addView(repeatView);
@@ -99,7 +99,6 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
                             calendarDialogLayout.addView(noRepeatView);
                             ((ViewGroup) repeatView.getParent()).removeView(repeatView);
                         }
-
                     }
                 }
         );
