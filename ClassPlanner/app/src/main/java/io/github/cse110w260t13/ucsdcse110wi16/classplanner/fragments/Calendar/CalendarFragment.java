@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
@@ -67,6 +68,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
     private Drawable[] calendarColors;
     private int[] calendarColorsRes;
 
+    private CoordinatorLayout coordinatorLayout;
+
     @Override
     public void onCreateEditDialog(String id){
         Log.i("CalendarCallback", "onCreateEditDialog start");
@@ -100,6 +103,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
                              Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        coordinatorLayout = (CoordinatorLayout) rootView.findViewById(R.id.fragment_calendar_coordinator_layout);
 
         /*******************************SETTING UP THE TOOLBAR************************************/
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
@@ -238,7 +242,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         public void onSelectDate(Date date, View view) {
             Log.d("onSelectDate: ", "shortpress");
 
-            Snackbar.make(view, "Showing events for " + formatter.format(date), Snackbar.LENGTH_SHORT)
+            Snackbar.make(coordinatorLayout, "Showing events for " + formatter.format(date), Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
 
             UpdateEventsTask eventUpdater = new UpdateEventsTask(
