@@ -1,14 +1,11 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil;
 
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,17 +19,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.AddCalendarDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarContentProvider;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarInfo;
 
 public class CalendarRecyclerAdapter
         extends RecyclerView.Adapter<CalendarRecyclerAdapter.ViewHolder>{
 
     public static final int UPDATE = 0;
-    public static final int REQUEST_CODE = 0;
 
     private ArrayList<CalendarEvent> calendarEvents = null;
     private Context context;
@@ -42,8 +35,6 @@ public class CalendarRecyclerAdapter
 
     // Container Activity must implement this interface
     public interface RecyclerAdapterCallback {
-        void onUpdateConfirmed(int position);
-
         void onCreateEditDialog(String id);
     }
 
@@ -67,7 +58,8 @@ public class CalendarRecyclerAdapter
     }
 
     public CalendarRecyclerAdapter( RecyclerAdapterCallback callback,
-                                    ArrayList<CalendarEvent> calendarEvents, Context context){
+                                    ArrayList<CalendarEvent> calendarEvents,
+                                    Context context ){
         this.calendarEvents = calendarEvents;
         this.context=context;
         mCallback = callback;
@@ -118,7 +110,6 @@ public class CalendarRecyclerAdapter
             args.putString("id", holder.id);
             final String hold_id = holder.id;
             final FragmentActivity activity = (FragmentActivity)context;
-            FragmentManager fm = activity.getSupportFragmentManager();
 
             switch (v.getId()) {
                 case R.id.add_button:
@@ -148,8 +139,6 @@ public class CalendarRecyclerAdapter
                     alert.show();
                     break;
             }
-
-            notifyDataSetChanged();
         }
     }
     // Return the size of your dataset (invoked by the layout manager)
