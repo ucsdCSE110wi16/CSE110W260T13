@@ -32,7 +32,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
+/*
         b1 = (Button)findViewById(R.id.button1);
         b2 = (Button)findViewById(R.id.button2);
         //t1 = (EditText)findViewById(R.id.editText1);
@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
                 listview1.setAdapter(adapter);
             }
         });
-
+*/
         return rootView;
 
     }

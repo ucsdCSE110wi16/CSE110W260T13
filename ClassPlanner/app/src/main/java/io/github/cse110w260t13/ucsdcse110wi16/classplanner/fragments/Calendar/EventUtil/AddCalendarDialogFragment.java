@@ -1,27 +1,19 @@
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 
-import java.util.Date;
-
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.UpdateEventsTask;
 
 /**
  * Created by nick on 2/10/16.
@@ -48,8 +40,10 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
                 .setPositiveButton("submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        /*
                         getTargetFragment().onActivityResult(getTargetRequestCode(),
                                 Activity.RESULT_OK, getActivity().getIntent());
+                                */
                         dismiss();
                     }
                 })

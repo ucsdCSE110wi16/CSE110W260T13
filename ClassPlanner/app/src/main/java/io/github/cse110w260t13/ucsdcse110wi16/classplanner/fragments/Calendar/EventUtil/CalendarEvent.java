@@ -8,7 +8,7 @@ public class CalendarEvent {
     public String eventSTime;
     public String eventETime;
 
-    public CalendarEvent(String id, /*String type,*/String title, String descr, String sTime){
+    public CalendarEvent(String id, /*String type,*/String title, String descr, String sTime, String eTime){
         eventID = id;
         /* eventType = type;*/
         eventTitle=title;
