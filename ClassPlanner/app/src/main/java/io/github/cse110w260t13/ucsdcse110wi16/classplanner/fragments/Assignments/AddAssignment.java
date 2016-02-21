@@ -47,7 +47,7 @@ public class AddAssignment extends AppCompatActivity {
     private TextInputLayout[] errors;
 
     private enum Edits{
-        COURSE, NAME, TYPE, POINTSPOS, POINTSEARNED, NOTES
+        COURSE, NAME, TYPE, POINTSPOS, POINTSEARNED/*, NOTES*/
     }
 
     @Override
@@ -93,8 +93,8 @@ public class AddAssignment extends AppCompatActivity {
                     cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.ASSIGNMENT_NAME)),
                     cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.TYPE)),
                     cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.POINTS_POSSIBLE)),
-                    cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.POINTS_EARNED)),
-                    cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.NOTES))
+                    cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.POINTS_EARNED))
+                  //  cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.NOTES))
 
 
             );
@@ -102,14 +102,14 @@ public class AddAssignment extends AppCompatActivity {
     }
 
     public void updateDisplayInfo(String course, String name, String type, String points,
-                                  String earned, String notes){
+                                  String earned/*, String notes*/){
 
         editTexts[Edits.COURSE.ordinal()].setText(course);
         editTexts[Edits.NAME.ordinal()].setText(name);
         editTexts[Edits.TYPE.ordinal()].setText(type);
         editTexts[Edits.POINTSPOS.ordinal()].setText(points);
         editTexts[Edits.POINTSEARNED.ordinal()].setText(earned);
-        editTexts[Edits.NOTES.ordinal()].setText(notes);
+     /*   editTexts[Edits.NOTES.ordinal()].setText(notes);*/
     }
 
     /**--------------------------------------------------------------------------------------------
@@ -184,9 +184,9 @@ public class AddAssignment extends AppCompatActivity {
                 editTextsInfo[Edits.POINTSPOS.ordinal()]);
         values.put(AssignmentInfo.FeedEntry.POINTS_EARNED,
                 editTextsInfo[Edits.POINTSEARNED.ordinal()]);
-        values.put(AssignmentInfo.FeedEntry.NOTES,
+      /*  values.put(AssignmentInfo.FeedEntry.NOTES,
                 editTextsInfo[Edits.NOTES.ordinal()]);
-        ContentResolver cr = getContentResolver();
+*/        ContentResolver cr = getContentResolver();
         if (mode.contentEquals(CREATE)) {
             cr.insert(AssignmentContentProvider.CONTENT_URI, values);
         }
