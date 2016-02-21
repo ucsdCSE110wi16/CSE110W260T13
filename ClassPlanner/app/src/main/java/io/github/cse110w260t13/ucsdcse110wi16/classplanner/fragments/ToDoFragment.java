@@ -1,30 +1,19 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
 
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -33,7 +22,6 @@ import android.widget.TextView;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.ToDoTaskContract;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.ToDoTaskDbHelper;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.MainActivity;
 
 
 public class ToDoFragment extends Fragment {
@@ -41,7 +29,6 @@ public class ToDoFragment extends Fragment {
     private ListView toDoList;
     private ListAdapter listAdapter;
     private ToDoTaskDbHelper helper;
-    private Button deleteButton;
 
     public ToDoFragment() {
         // Required empty public constructor
@@ -52,49 +39,20 @@ public class ToDoFragment extends Fragment {
         SQLiteDatabase sqlDB = helper.getReadableDatabase();
         Cursor cursor = sqlDB.query(ToDoTaskContract.TABLE,
                 new String[]{ToDoTaskContract.Columns._ID, ToDoTaskContract.Columns.TASK},
-                null,null,null,null,null);
+                null, null, null, null, null);
 
-        listAdapter = new SimpleCursorAdapter(
+        listAdapter = new CustomToDoListAdapter(
                 getContext(),
                 R.layout.todo_item,
                 cursor,
                 new String[]{ToDoTaskContract.Columns.TASK},
-                new int[]{R.id.taskTextView},
-                0);
+                new int[]{R.id.taskTextView}
+        );
 
         toDoList.setAdapter(listAdapter);
-
-
-        toDoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                deleteButton = (Button) view.findViewById(R.id.deleteButton);
-                deleteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        View v = (View) view.getParent();
-                        TextView taskTextView = (TextView) v.findViewById(R.id.taskTextView);
-                        String task = taskTextView.getText().toString();
-
-                        String sql = String.format("DELETE FROM %s WHERE %s = '%s'",
-                                ToDoTaskContract.TABLE,
-                                ToDoTaskContract.Columns.TASK,
-                                task);
-
-
-                        helper = new ToDoTaskDbHelper(getContext());
-                        SQLiteDatabase sqlDB = helper.getWritableDatabase();
-                        sqlDB.execSQL(sql);
-                        updateUI();
-
-                    }
-
-                });
-            }
-        });
-
     }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -140,10 +98,49 @@ public class ToDoFragment extends Fragment {
         return rootView;
     }
 
+    /*===================Need to change the Adapter to delete======================================*/
+
+    public class CustomToDoListAdapter extends SimpleCursorAdapter {
+        private Context myContext;
+        private int layout;
+        private ToDoTaskDbHelper helper;
+        private Button deleteButton;
+
+        public CustomToDoListAdapter(Context context, int layout, Cursor c,String[] from, int[] to){
+            super(context,layout,c,from,to);
+            this.myContext=context;
+            this.layout=layout;
+        }
+
+        @Override
+        public void bindView(View v, Context context, Cursor c) {
+            super.bindView(v, context, c);
+
+            deleteButton = (Button) v.findViewById(R.id.deleteButton);
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    View v = (View) view.getParent();
+                    TextView taskTextView = (TextView) v.findViewById(R.id.taskTextView);
+                    String task = taskTextView.getText().toString();
+
+                    String sql = String.format("DELETE FROM %s WHERE %s = '%s'",
+                            ToDoTaskContract.TABLE,
+                            ToDoTaskContract.Columns.TASK,
+                            task);
 
 
+                    helper = new ToDoTaskDbHelper(myContext);
+                    SQLiteDatabase sqlDB = helper.getWritableDatabase();
+                    sqlDB.execSQL(sql);
+                    updateUI();
+                }
 
+            });
 
+        }
+    }
 
 
 }

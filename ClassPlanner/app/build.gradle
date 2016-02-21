@@ -6,11 +6,8 @@ android {
 
     defaultConfig {
         applicationId "io.github.cse110w260t13.ucsdcse110wi16.classplanner"
-<<<<<<< HEAD
         minSdkVersion 19
-=======
         minSdkVersion 16
->>>>>>> 8f003b2dac679289dd2543588219f7d1ac735536
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"

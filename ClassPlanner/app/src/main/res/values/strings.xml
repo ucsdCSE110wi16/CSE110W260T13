@@ -38,17 +38,12 @@
     <string name= "spinner_test"> test </string>
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
-
     <string name="todo_text">To Do Text</string>
-
     <string name="fragment_calendar_personal_todo_checkbox">Include personal todo list</string>
-<<<<<<< HEAD
-
-=======
     <string name="calendar_event_title_hint">Event title</string>
     <string name="calendar_event_description_hint">Event description</string>
     <string name="calendar_repeat_checkbox">Repeat</string>
     <string name="calendar_dialog_repeat_start_date">Start Date</string>
     <string name="calendar_dialog_repeat_end_date">End Date</string>
->>>>>>> 8f003b2dac679289dd2543588219f7d1ac735536
+
 </resources>
