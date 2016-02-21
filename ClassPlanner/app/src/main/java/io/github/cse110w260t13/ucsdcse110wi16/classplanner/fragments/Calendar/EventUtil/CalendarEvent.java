@@ -8,7 +8,7 @@ public class CalendarEvent {
     public String eventSTime;
     public String eventETime;
 
-    public CalendarEvent(String id, /*String type,*/String title, String descr, String sTime, String eTime){
+    public CalendarEvent(String id, /*String type,*/String title, String descr, String sTime){
         eventID = id;
         /* eventType = type;*/
         eventTitle=title;
@@ -16,4 +16,6 @@ public class CalendarEvent {
         eventSTime=sTime;
         eventETime=eTime;
     }
+
+
 }

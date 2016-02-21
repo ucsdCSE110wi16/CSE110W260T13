@@ -69,8 +69,8 @@ public class UpdateEventsTask extends AsyncTask<Date, Void, ArrayList<CalendarEv
                             CalendarInfo.FeedEntry._ID,
                             CalendarInfo.FeedEntry.EVENT_TITLE,
                             CalendarInfo.FeedEntry.EVENT_DESCR,
-                            CalendarInfo.FeedEntry.START_TIME,
-                            CalendarInfo.FeedEntry.END_TIME));
+                            CalendarInfo.FeedEntry.START_TIME
+                    ));
                     cursor.moveToNext();
                 }
                 cursor.close();
