@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toLeftOf="@+id/score"
+        android:layout_alignBottom="@+id/deleteButton">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Course Name"
+        android:id="@+id/CourseType"
+        android:fontFamily="sans-serif-light"
+        android:textSize="18sp"
+        android:textColor="#ffffff"
+        android:layout_gravity="center"
+        android:layout_marginRight="1sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Assignment Name"
+        android:id="@+id/AssignmentName"
+        android:fontFamily="sans-serif-light"
+        android:textSize="18sp"
+        android:textColor="#ffffff"
+        android:layout_gravity="center"
+        android:layout_marginRight="1sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Assignment Type"
+        android:id="@+id/AssignmentType"
+        android:fontFamily="sans-serif-light"
+        android:textSize="18sp"
+        android:textColor="#ffffff"
+        android:layout_gravity="center"
+        android:layout_marginRight="1sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/score"
+        android:layout_toLeftOf="@+id/deleteButton"
+        android:layout_alignBottom="@+id/deleteButton">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Points Earned"
+            android:id="@+id/PointsEarned"
+            android:fontFamily="sans-serif-light"
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:layout_marginRight="1sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Points Possible"
+            android:id="@+id/PointsPossible"
+            android:fontFamily="sans-serif-light"
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:layout_marginRight="1sp"/>
+
+    </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:id="@+id/deleteButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:focusable="false"
+        />
+
+
+</RelativeLayout>

@@ -47,15 +47,8 @@ public class AssignmentsFragment extends Fragment{
         add.setOnClickListener(click_handler);
         delete.setOnClickListener(click_handler);
 
-        ContentResolver cr = getActivity().getContentResolver();
-        Cursor cursor = cr.query(AssignmentContentProvider.CONTENT_URI,
-                AssignmentInfo.FeedEntry.ALL_COLUMNS,
-                AssignmentInfo.FeedEntry.ASSIGNMENT_NAME + "=?",
-                null, null);
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(),0,cursor,
-                new String[]{AssignmentInfo.FeedEntry.ASSIGNMENT_NAME},
-                new int[]{android.R.id.text1},0);
-        listview.setAdapter(adapter);
+        listview = (ListView)rootView.findViewById(R.id.assignment_list);
+        updateData();
 
 
         return rootView;
@@ -81,7 +74,26 @@ public class AssignmentsFragment extends Fragment{
                             new String[]{AssignmentName});
                     break;
             }
+            updateData();
         }
+    }
+
+    void updateData(){
+        ContentResolver cr = getActivity().getContentResolver();
+        Cursor cursor = cr.query(AssignmentContentProvider.CONTENT_URI,
+                AssignmentInfo.FeedEntry.ALL_COLUMNS,
+                AssignmentInfo.FeedEntry.ASSIGNMENT_NAME,
+                null, null);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(),
+                R.layout.assignment_view,cursor,
+                new String[]{AssignmentInfo.FeedEntry.COURSE_NAME,
+                        AssignmentInfo.FeedEntry.ASSIGNMENT_NAME,
+                        AssignmentInfo.FeedEntry.TYPE,
+                        AssignmentInfo.FeedEntry.POINTS_EARNED,
+                        AssignmentInfo.FeedEntry.POINTS_POSSIBLE},
+                new int[]{R.id.CourseType,R.id.AssignmentName,R.id.AssignmentType,
+                R.id.PointsEarned,R.id.PointsPossible},0);
+        listview.setAdapter(adapter);
     }
 
 
