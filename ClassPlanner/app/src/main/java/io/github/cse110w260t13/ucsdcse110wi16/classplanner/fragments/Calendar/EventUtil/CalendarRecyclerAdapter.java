@@ -36,6 +36,8 @@ public class CalendarRecyclerAdapter
     // Container Activity must implement this interface
     public interface RecyclerAdapterCallback {
         void onCreateEditDialog(String id);
+
+        void onDeleteOK();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -127,6 +129,8 @@ public class CalendarRecyclerAdapter
                             cr.delete(CalendarContentProvider.CONTENT_URI,
                                     CalendarInfo.FeedEntry._ID + "=?",
                                     new String[]{hold_id});
+
+                            mCallback.onDeleteOK();
                             calendarEvents.remove(pos);
                             notifyItemRemoved(pos);
                         }

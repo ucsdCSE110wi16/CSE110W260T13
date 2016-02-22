@@ -3,6 +3,7 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -14,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,6 +45,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.Ca
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.AddCalendarDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarEvent;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarRecyclerAdapter;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.DeleteDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.EditDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
@@ -82,6 +85,11 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         dialog.setArguments(args);
         dialog.setTargetFragment(this, REQUEST_CODE);
         dialog.show(getFragmentManager(), "EditDialogFragment");
+    }
+
+    @Override
+    public void onDeleteOK() {
+        updateCalendarColors();
     }
 
     @Override
@@ -254,7 +262,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
                     getActivity().getContentResolver());
             eventUpdater.execute(date, null, null);
 
-            updateCalendarColors();
+            //updateCalendarColors();
 
             daySelected = date;
         }
@@ -277,7 +285,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         @Override
         public void onLongClickDate(Date date, View view) {
             //Use long click to edit events on a day?
-            updateCalendarColors();
+            //updateCalendarColors();
         }
 
         @Override
