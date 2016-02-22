@@ -254,6 +254,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
                     getActivity().getContentResolver());
             eventUpdater.execute(date, null, null);
 
+            updateCalendarColors();
+
             daySelected = date;
         }
 
@@ -275,6 +277,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         @Override
         public void onLongClickDate(Date date, View view) {
             //Use long click to edit events on a day?
+            updateCalendarColors();
         }
 
         @Override
@@ -417,7 +420,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
     }
 
     /**
-     * Generates the number of events per day in the given month. 
+     * Generates the number of events per day in the given month.
      *
      * @param month the days of the month
      * @return corresponding number of events per month day
@@ -445,16 +448,6 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         if (cursor != null && cursor.getCount() > 0) {
 
             cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-
-                Log.d(LOG_TAG, cursor.getString(
-                        cursor.getColumnIndex(
-                                CalendarInfo.FeedEntry.DATE)));
-
-                cursor.moveToNext();
-            }
-
-            cursor.moveToFirst();
 
             for(int i = 0; (i <= month.size() - 1) && (!cursor.isAfterLast()); i++) {
 
@@ -466,7 +459,6 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
 
                     itemsPerDayFromMonth[i] += 3;
                     cursor.moveToNext();
-                    Log.d(LOG_TAG, "Hit");
                 }
 
             }
@@ -514,8 +506,6 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
             String daySelection = CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND "
                     + CalendarInfo.FeedEntry.DATE + " < '" + endDate + "'";
 
-            Log.d(LOG_TAG, "async: " + daySelection);
-
             //Query for all entries within date. Should be sorted by start time descending
             Cursor cursor = cr.query(CalendarContentProvider.CONTENT_URI,
                     CalendarInfo.FeedEntry.ALL_COLUMNS,
@@ -552,6 +542,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         @Override
         protected void onPostExecute(ArrayList<CalendarEvent> calendarEventList) {
             Log.d("UpdateEventsTask: ", " onPostExecute");
+            updateCalendarColors();
+
             //Create a new adapter if there is no prior instance
             if(adapter == null){
                 Log.d("UpdateEventsTask: ", " test context");
@@ -576,6 +568,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
                     list,
                     getActivity().getContentResolver());
             eventUpdater.execute(daySelected, null, null);
+
         }
     }
 }

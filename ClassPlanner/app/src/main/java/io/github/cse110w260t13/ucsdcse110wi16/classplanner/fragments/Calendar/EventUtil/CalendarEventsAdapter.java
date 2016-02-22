@@ -90,6 +90,8 @@ public class CalendarEventsAdapter extends ArrayAdapter<CalendarEvent> {
         viewHolder.start.setText(event.eventSTime);
         viewHolder.end.setText(event.eventETime);
 
+
+
         Button deleteButton = (Button) convertView.findViewById(R.id.delete_button);
         Button addButton = (Button) convertView.findViewById(R.id.add_button);
         clickHandler clickhandler = new clickHandler();
