@@ -416,8 +416,64 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         return mappedColors;
     }
 
+    /**
+     * Generates the number of events per day in the given month. 
+     *
+     * @param month the days of the month
+     * @return corresponding number of events per month day
+     */
+    @SuppressWarnings("deprecation")
     private int[] getItemsPerDayFromMonth(ArrayList<DateTime> month) {
+
         int[] itemsPerDayFromMonth = new int[month.size()];
+
+        String startDate = month.get(0).format("YYYY-MM-DD");
+        String endDate = month.get(month.size() - 1).format("YYYY-MM-DD");
+
+        String daySelection = CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND "
+                + CalendarInfo.FeedEntry.DATE + " <= '" + endDate + "'";
+
+        Log.d(LOG_TAG, daySelection);
+
+        //Query for all entries within date. Should be sorted by start time descending
+        Cursor cursor = getActivity().getContentResolver().query(CalendarContentProvider.CONTENT_URI,
+                CalendarInfo.FeedEntry.ALL_COLUMNS,
+                daySelection,
+                null,
+                CalendarInfo.FeedEntry.DATE + " ASC");
+
+        if (cursor != null && cursor.getCount() > 0) {
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                Log.d(LOG_TAG, cursor.getString(
+                        cursor.getColumnIndex(
+                                CalendarInfo.FeedEntry.DATE)));
+
+                cursor.moveToNext();
+            }
+
+            cursor.moveToFirst();
+
+            for(int i = 0; (i <= month.size() - 1) && (!cursor.isAfterLast()); i++) {
+
+                while((!cursor.isAfterLast()) &&
+                        month.get(i).format("YYYY-MM-DD")
+                                .equals(cursor.getString(
+                                        cursor.getColumnIndex(
+                                                CalendarInfo.FeedEntry.DATE)))) {
+
+                    itemsPerDayFromMonth[i] += 3;
+                    cursor.moveToNext();
+                    Log.d(LOG_TAG, "Hit");
+                }
+
+            }
+
+            cursor.close();
+        }
+
 
         return itemsPerDayFromMonth;
     }
@@ -457,6 +513,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
 
             String daySelection = CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND "
                     + CalendarInfo.FeedEntry.DATE + " < '" + endDate + "'";
+
+            Log.d(LOG_TAG, "async: " + daySelection);
 
             //Query for all entries within date. Should be sorted by start time descending
             Cursor cursor = cr.query(CalendarContentProvider.CONTENT_URI,
