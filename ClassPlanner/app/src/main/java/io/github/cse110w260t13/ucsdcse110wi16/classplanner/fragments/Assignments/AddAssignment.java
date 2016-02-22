@@ -42,7 +42,6 @@ public class AddAssignment extends AppCompatActivity {
     private String currName;
 
     private EditText[] editTexts;
-    private Boolean[] isChecked;
     private String[] editTextsInfo;
     private TextInputLayout[] errors;
 
@@ -100,7 +99,7 @@ public class AddAssignment extends AppCompatActivity {
     }
 
     public void updateDisplayInfo(String course, String name, String type, String points,
-                                  String earned/*, String notes*/){
+                                  String earned){
 
         editTexts[Edits.COURSE.ordinal()].setText(course);
         editTexts[Edits.NAME.ordinal()].setText(name);

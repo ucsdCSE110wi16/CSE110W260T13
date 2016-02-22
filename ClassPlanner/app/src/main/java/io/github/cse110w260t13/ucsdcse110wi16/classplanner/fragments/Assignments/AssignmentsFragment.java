@@ -85,9 +85,14 @@ public class AssignmentsFragment extends Fragment{
                 AssignmentInfo.FeedEntry.ASSIGNMENT_NAME,
                 null, null);
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(),
-                R.layout.layout_drop_list,cursor,
-                new String[]{AssignmentInfo.FeedEntry.ASSIGNMENT_NAME},
-                new int[]{android.R.id.text1},0);
+                R.layout.assignment_view,cursor,
+                new String[]{AssignmentInfo.FeedEntry.COURSE_NAME,
+                        AssignmentInfo.FeedEntry.ASSIGNMENT_NAME,
+                        AssignmentInfo.FeedEntry.TYPE,
+                        AssignmentInfo.FeedEntry.POINTS_EARNED,
+                        AssignmentInfo.FeedEntry.POINTS_POSSIBLE},
+                new int[]{R.id.CourseType,R.id.AssignmentName,R.id.AssignmentType,
+                R.id.PointsEarned,R.id.PointsPossible},0);
         listview.setAdapter(adapter);
     }
 
