@@ -70,6 +70,9 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
 
     private CoordinatorLayout coordinatorLayout;
 
+    private int caldroidSelectedMonth;
+    private int caldroidSelectedYear;
+
     @Override
     public void onCreateEditDialog(String id){
         Log.i("CalendarCallback", "onCreateEditDialog start");
@@ -212,7 +215,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         t.commit();
 
         //Create onClickListener for Caldroid
-        final CaldroidListener listener = new caldroidListener();
+        final CaldroidListener listener = new CustomCaldroidListener();
         caldroidFragment.setCaldroidListener(listener);
 
         /****************************SETTING UP EVENTS DISPLAY*************************************/
@@ -237,7 +240,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
     /**-------------------------------------------------------------------------------------------
      * Listener that responds to a number of user interactions with the calendar
      *-------------------------------------------------------------------------------------------*/
-    private class caldroidListener extends CaldroidListener{
+    private class CustomCaldroidListener extends CaldroidListener{
         @Override
         public void onSelectDate(Date date, View view) {
             Log.d("onSelectDate: ", "shortpress");
@@ -256,9 +259,16 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
 
         @Override
         public void onChangeMonth(int month, int year) {
+
+            caldroidSelectedMonth = month;
+            caldroidSelectedYear = year;
+
             String text = "month: " + month + " year: " + year;
             Toast.makeText(getActivity().getBaseContext(), text,
                     Toast.LENGTH_SHORT).show();
+
+            updateCalendarColors();
+
             //When Months are changed, need to repopulate the colors
         }
 
@@ -294,18 +304,28 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
     /**-------------------------------------------------------------------------------------------
      * Resets and then updates the calendar visualization corresponding to the most recent data
      *-------------------------------------------------------------------------------------------*/
+    @SuppressWarnings("deprecation")
     private void updateCalendarColors() {
-        // Reset colors for dates
-        DateTime today = CalendarHelper.convertDateToDateTime(new Date());
-        caldroidFragment.clearBackgroundDrawableForDateTimes(
-                CalendarHelper.getFullWeeks(
-                        today.getMonth(),
-                        today.getYear(),
-                        (Integer) caldroidFragment.getCaldroidData()
-                                .get(CaldroidFragment.START_DAY_OF_WEEK),
-                        true
-                )
+
+        ArrayList<DateTime> selectedMonth = CalendarHelper.getFullWeeks(
+                caldroidSelectedMonth,
+                caldroidSelectedYear,
+                (Integer) caldroidFragment.getCaldroidData()
+                        .get(CaldroidFragment.START_DAY_OF_WEEK),
+                true
         );
+
+        // Reset colors for dates
+        caldroidFragment.clearBackgroundDrawableForDateTimes(
+                selectedMonth
+        );
+
+        // Reset text color for Date
+        for(int i = 0; i <= selectedMonth.size() - 1; i++) {
+
+            caldroidFragment.setTextColorForDateTime(R.color.caldroid_gray, selectedMonth.get(i));
+
+        }
 
         Log.d(LOG_TAG, "calling updateCalendarColors");
 
@@ -334,37 +354,13 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
 
         HashMap<DateTime, Drawable> mappedColors = new HashMap<DateTime, Drawable>();
 
-        // TODO use actual SQLite data
-        int[] eventsPerDayDummyData = {
-                1, 2, 3, 4, 5,
-                6, 7, 8, 9, 10, 11, 12,
-                13, 14, 15, 16, 17, 18, 19,
-                20, 21, 22, 23, 24, 25, 26,
-                27, 28, 29, 30, 31, 32, 2,
-                4, 1, 20, 4, 1, 1, 5, 6, 7,
-        };
-        int[] eventsPerDayWithTodoListDummyData = {
-                5, 3, 5, 7, 2, 4, 3,
-                3, 5, 5, 3, 4, 12, 2,
-                4, 3, 8, 3, 4, 25, 12,
-                6, 4, 5, 3, 4, 2, 3,
-                3, 4, 2, 9, 5, 2, 2,
-                4, 3, 28, 4, 4, 5, 5,
-        };
         int[] itemsPerDayInMonth;
-
-        if(personalTodoCheckbox.isChecked()) {
-            itemsPerDayInMonth = eventsPerDayWithTodoListDummyData;
-        }
-        else {
-            itemsPerDayInMonth = eventsPerDayDummyData;
-        }
 
         DateTime today = CalendarHelper.convertDateToDateTime(new Date());
 
         ArrayList<DateTime> gridDayList = CalendarHelper.getFullWeeks(
-                today.getMonth(),
-                today.getYear(),
+                caldroidSelectedMonth,
+                caldroidSelectedYear,
                 (Integer) caldroidFragment.getCaldroidData()
                         .get(CaldroidFragment.START_DAY_OF_WEEK),
                 true
@@ -390,6 +386,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
             }
         }
 
+        itemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList);
+
         int colorIndex;
 
         for(int i = 0; i < monthDayList.size(); i++) {
@@ -397,7 +395,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
             if(itemsPerDayInMonth[i] >= calendarColors.length) {
                 colorIndex = calendarColors.length - 1;
             } else {
-                colorIndex = itemsPerDayInMonth[i] - 1;
+                colorIndex = itemsPerDayInMonth[i];
             }
 
             mappedColors.put(monthDayList.get(i), calendarColors[colorIndex]);
@@ -416,6 +414,68 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
 
         }
         return mappedColors;
+    }
+
+    /**
+     * Generates the number of events per day in the given month. 
+     *
+     * @param month the days of the month
+     * @return corresponding number of events per month day
+     */
+    @SuppressWarnings("deprecation")
+    private int[] getItemsPerDayFromMonth(ArrayList<DateTime> month) {
+
+        int[] itemsPerDayFromMonth = new int[month.size()];
+
+        String startDate = month.get(0).format("YYYY-MM-DD");
+        String endDate = month.get(month.size() - 1).format("YYYY-MM-DD");
+
+        String daySelection = CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND "
+                + CalendarInfo.FeedEntry.DATE + " <= '" + endDate + "'";
+
+        Log.d(LOG_TAG, daySelection);
+
+        //Query for all entries within date. Should be sorted by start time descending
+        Cursor cursor = getActivity().getContentResolver().query(CalendarContentProvider.CONTENT_URI,
+                CalendarInfo.FeedEntry.ALL_COLUMNS,
+                daySelection,
+                null,
+                CalendarInfo.FeedEntry.DATE + " ASC");
+
+        if (cursor != null && cursor.getCount() > 0) {
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                Log.d(LOG_TAG, cursor.getString(
+                        cursor.getColumnIndex(
+                                CalendarInfo.FeedEntry.DATE)));
+
+                cursor.moveToNext();
+            }
+
+            cursor.moveToFirst();
+
+            for(int i = 0; (i <= month.size() - 1) && (!cursor.isAfterLast()); i++) {
+
+                while((!cursor.isAfterLast()) &&
+                        month.get(i).format("YYYY-MM-DD")
+                                .equals(cursor.getString(
+                                        cursor.getColumnIndex(
+                                                CalendarInfo.FeedEntry.DATE)))) {
+
+                    itemsPerDayFromMonth[i] += 3;
+                    cursor.moveToNext();
+                    Log.d(LOG_TAG, "Hit");
+                }
+
+            }
+
+            cursor.close();
+        }
+
+
+        return itemsPerDayFromMonth;
     }
 
     /**-------------------------------------------------------------------------------------------
@@ -453,6 +513,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
 
             String daySelection = CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND "
                     + CalendarInfo.FeedEntry.DATE + " < '" + endDate + "'";
+
+            Log.d(LOG_TAG, "async: " + daySelection);
 
             //Query for all entries within date. Should be sorted by start time descending
             Cursor cursor = cr.query(CalendarContentProvider.CONTENT_URI,
