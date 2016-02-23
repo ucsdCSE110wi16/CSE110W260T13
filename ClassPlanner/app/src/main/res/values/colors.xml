@@ -10,6 +10,9 @@
     <color name="colorIcons">#FFFFFF</color>
     <color name="colorDivider">#B6B6B6</color>
     <color name="colorBlue">#34498f</color>
+    <color name="colorMidBlue">#4eb3d3</color>
+    <color name="colorDarkMidBlue">#0868ac</color>
+    <color name="colorTurqBlue">#7bccc4</color>
 
     <color name="black">#464646</color>
     <color name="red">#cf0000</color>

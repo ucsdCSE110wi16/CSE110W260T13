@@ -141,7 +141,7 @@ public class CalendarContentProvider extends ContentProvider {
                             CalendarInfo.FeedEntry._ID + "=" + id, null);
                 }
                 else {
-                    rowsUpdated = db.update(CourseCalendarInfo.FeedEntry.TABLE_NAME, values,
+                    rowsUpdated = db.update(CourseCalendarInfo.GeneralInfo.TABLE_NAME, values,
                             CalendarInfo.FeedEntry._ID + "=" + id + "and"
                                     + selection, selectionArgs);
                 }

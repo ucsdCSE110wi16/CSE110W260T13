@@ -23,7 +23,6 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -107,45 +106,45 @@ public class AddClassActivity extends AppCompatActivity {
     private void displayCurrentInfo(String currName){
         ContentResolver cr = getContentResolver();
         Cursor cursor = cr.query(CourseCalendarContentProvider.CONTENT_URI,
-                CourseCalendarInfo.FeedEntry.ALL_COLUMNS,
-                CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
+                CourseCalendarInfo.GeneralInfo.ALL_COLUMNS,
+                CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME + "=?",
                 new String[] { currName + "" }, null);
 
         if(cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             updateDisplayInfo(
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_LOC)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_START_TIME)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_START_TIME)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_END_TIME)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_END_TIME)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_END_DATE)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_END_DATE)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_SUN)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_SUN)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_MON)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_MON)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_TUE)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_TUE)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_WED)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_WED)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_THUR)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_THUR)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_FRI)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_FRI)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_SAT)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_SAT)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_NOTES)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_NOTES)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_INSTR_NAME)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_INSTR_EMAIL)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_INSTR_EMAIL)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE))
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_WEBSITE))
             );
         }
     }
@@ -303,8 +302,8 @@ public class AddClassActivity extends AppCompatActivity {
         /*if(mode.contentEquals(CREATE)) {
             ContentResolver cr = getContentResolver();
             Cursor cursor = cr.query(CourseCalendarContentProvider.CONTENT_URI,
-                    CourseCalendarInfo.FeedEntry.ALL_COLUMNS,
-                    CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
+                    CourseCalendarInfo.GeneralInfo.ALL_COLUMNS,
+                    CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME + "=?",
                     new String[]{ currName }, null);
             if (cursor != null && cursor.getCount()!=0) {
                 errors[Error.COURSE.ordinal()].setError("This course already exists.");
@@ -454,38 +453,38 @@ public class AddClassActivity extends AppCompatActivity {
 
         ContentValues values = new ContentValues();
 
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME,
                 editTextsInfo[Edits.COURSE.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_LOC,
                 editTextsInfo[Edits.LOCATION.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_START_TIME,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_START_TIME,
                 editTextsInfo[Edits.STARTTIME.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_END_TIME,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_END_TIME,
                 editTextsInfo[Edits.ENDTIME.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_END_DATE,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_END_DATE,
                 editTextsInfo[Edits.ENDDATE.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_NOTES,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_NOTES,
                 editTextsInfo[Edits.NOTES.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_INSTR_NAME,
                 editTextsInfo[Edits.INSTR.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_INSTR_EMAIL,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_INSTR_EMAIL,
                 editTextsInfo[Edits.EMAIL.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_WEBSITE,
                 editTextsInfo[Edits.WEB.ordinal()]);
 
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_SUN,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_SUN,
                 isChecked[Boxes.SUN.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_MON,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_MON,
                 isChecked[Boxes.MON.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_TUE,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_TUE,
                 isChecked[Boxes.TUE.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_WED,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_WED,
                 isChecked[Boxes.WED.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_THUR,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_THUR,
                 isChecked[Boxes.THUR.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_FRI,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_FRI,
                 isChecked[Boxes.FRI.ordinal()]);
-        values.put(CourseCalendarInfo.FeedEntry.COLUMN_SAT,
+        values.put(CourseCalendarInfo.GeneralInfo.COLUMN_SAT,
                 isChecked[Boxes.SAT.ordinal()]);
 
         ContentResolver cr = getContentResolver();
@@ -494,7 +493,7 @@ public class AddClassActivity extends AppCompatActivity {
         }
         else{
             cr.update(CourseCalendarContentProvider.CONTENT_URI, values,
-                    CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
+                    CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME + "=?",
                     new String[]{currName});
         }
     }

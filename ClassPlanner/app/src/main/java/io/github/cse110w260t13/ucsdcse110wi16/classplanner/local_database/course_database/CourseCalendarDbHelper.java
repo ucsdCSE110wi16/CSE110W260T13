@@ -11,30 +11,30 @@ public class CourseCalendarDbHelper extends SQLiteOpenHelper{
     public static final String DATABASE_NAME = "courseCalendar.db";
 
     private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " +
-            CourseCalendarInfo.FeedEntry.TABLE_NAME + " (" +
-            CourseCalendarInfo.FeedEntry._ID + " INTEGER PRIMARY KEY," +
-            CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + " TEXT," +
-            CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC + " TEXT," +
-            CourseCalendarInfo.FeedEntry.COLUMN_START_TIME + " TEXT," +
-            CourseCalendarInfo.FeedEntry.COLUMN_END_TIME + " TEXT," +
-            CourseCalendarInfo.FeedEntry.COLUMN_END_DATE + " TEXT," +
+            CourseCalendarInfo.GeneralInfo.TABLE_NAME + " (" +
+            CourseCalendarInfo.GeneralInfo._ID + " INTEGER PRIMARY KEY," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME + " TEXT," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_LOC + " TEXT," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_START_TIME + " TEXT," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_END_TIME + " TEXT," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_END_DATE + " TEXT," +
 
-            CourseCalendarInfo.FeedEntry.COLUMN_SUN + " INTEGER," +
-            CourseCalendarInfo.FeedEntry.COLUMN_MON + " INTEGER," +
-            CourseCalendarInfo.FeedEntry.COLUMN_TUE + " INTEGER," +
-            CourseCalendarInfo.FeedEntry.COLUMN_WED + " INTEGER," +
-            CourseCalendarInfo.FeedEntry.COLUMN_THUR + " INTEGER," +
-            CourseCalendarInfo.FeedEntry.COLUMN_FRI + " INTEGER," +
-            CourseCalendarInfo.FeedEntry.COLUMN_SAT + " INTEGER," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_SUN + " INTEGER," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_MON + " INTEGER," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_TUE + " INTEGER," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_WED + " INTEGER," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_THUR + " INTEGER," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_FRI + " INTEGER," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_SAT + " INTEGER," +
 
-            CourseCalendarInfo.FeedEntry.COLUMN_NOTES + " TEXT," +
-            CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME+ " TEXT," +
-            CourseCalendarInfo.FeedEntry.COLUMN_INSTR_EMAIL + " TEXT," +
-            CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE + " TEXT" +
+            CourseCalendarInfo.GeneralInfo.COLUMN_NOTES + " TEXT," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_INSTR_NAME+ " TEXT," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_INSTR_EMAIL + " TEXT," +
+            CourseCalendarInfo.GeneralInfo.COLUMN_WEBSITE + " TEXT" +
             " ) ";
 
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " +
-            CourseCalendarInfo.FeedEntry.TABLE_NAME;
+            CourseCalendarInfo.GeneralInfo.TABLE_NAME;
 
     public CourseCalendarDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
