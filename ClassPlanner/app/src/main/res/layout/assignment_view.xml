@@ -16,7 +16,6 @@
         android:id="@+id/CourseType"
         android:fontFamily="sans-serif-light"
         android:textSize="18sp"
-        android:textColor="#ffffff"
         android:layout_gravity="center"
         android:layout_marginRight="1sp"/>
     <TextView
@@ -26,7 +25,6 @@
         android:id="@+id/AssignmentName"
         android:fontFamily="sans-serif-light"
         android:textSize="18sp"
-        android:textColor="#ffffff"
         android:layout_gravity="center"
         android:layout_marginRight="1sp"/>
     <TextView
@@ -36,7 +34,6 @@
         android:id="@+id/AssignmentType"
         android:fontFamily="sans-serif-light"
         android:textSize="18sp"
-        android:textColor="#ffffff"
         android:layout_gravity="center"
         android:layout_marginRight="1sp"/>
     </LinearLayout>
@@ -55,7 +52,6 @@
             android:id="@+id/PointsEarned"
             android:fontFamily="sans-serif-light"
             android:textSize="18sp"
-            android:textColor="#ffffff"
             android:layout_gravity="center"
             android:layout_marginRight="1sp"/>
         <TextView
@@ -65,7 +61,6 @@
             android:id="@+id/PointsPossible"
             android:fontFamily="sans-serif-light"
             android:textSize="18sp"
-            android:textColor="#ffffff"
             android:layout_gravity="center"
             android:layout_marginRight="1sp"/>
 
@@ -78,8 +73,5 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:focusable="false"
-        />
-
-
+        android:focusable="false" />
 </RelativeLayout>
