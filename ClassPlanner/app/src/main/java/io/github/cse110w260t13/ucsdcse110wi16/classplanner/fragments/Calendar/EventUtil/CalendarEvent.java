@@ -2,15 +2,15 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.E
 
 public class CalendarEvent {
     public String eventID;
-    /* public String eventType;*/
+    public String eventType;
     public String eventTitle;
     public String eventDescr;
     public String eventSTime;
     public String eventETime;
 
-    public CalendarEvent(String id, /*String type,*/String title, String descr, String sTime, String eTime){
+    public CalendarEvent(String id, String type, String title, String descr, String sTime, String eTime){
         eventID = id;
-        /* eventType = type;*/
+        eventType = type;
         eventTitle=title;
         eventDescr=descr;
         eventSTime=sTime;

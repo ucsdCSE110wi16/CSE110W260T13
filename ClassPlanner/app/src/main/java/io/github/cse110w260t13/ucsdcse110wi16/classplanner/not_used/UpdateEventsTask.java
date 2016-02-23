@@ -5,7 +5,7 @@
  * Will leave this in files for now.
  */
 
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.not_used;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -19,8 +19,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarEvent;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.not_used.CalendarEventsAdapter;
 
 public class UpdateEventsTask extends AsyncTask<Date, Void, ArrayList<CalendarEvent>>{
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -67,6 +69,7 @@ public class UpdateEventsTask extends AsyncTask<Date, Void, ArrayList<CalendarEv
                     //Do stuff to set TextView of the event here
                     returnList.add(new CalendarEvent(
                             CalendarInfo.FeedEntry._ID,
+                            CalendarInfo.FeedEntry.EVENT_TYPE,
                             CalendarInfo.FeedEntry.EVENT_TITLE,
                             CalendarInfo.FeedEntry.EVENT_DESCR,
                             CalendarInfo.FeedEntry.START_TIME,

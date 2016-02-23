@@ -1,6 +1,8 @@
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.not_used;
 /**
  * Currently not being used.
+ * ISSUE: Inability to pass results to properly update colors and adapter list.
+ * Currently using a work-around.
  */
 
 import android.app.Dialog;

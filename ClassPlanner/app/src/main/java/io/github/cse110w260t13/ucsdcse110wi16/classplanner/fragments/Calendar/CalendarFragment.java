@@ -3,7 +3,6 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -15,7 +14,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,7 +43,6 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.Ca
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.AddCalendarDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarEvent;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarRecyclerAdapter;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.DeleteDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.EditDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
@@ -529,13 +526,13 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
                     int startTime = cursor.getColumnIndex(CalendarInfo.FeedEntry.START_TIME);
                     int endTime = cursor.getColumnIndex(CalendarInfo.FeedEntry.END_TIME);
                     int eventID = cursor.getColumnIndex(CalendarInfo.FeedEntry._ID);
-                    /*int eventType = cursor.getColumnIndex(CalendarInfo.FeedEntry.EVENT_TYPE);*/
+                    int eventType = cursor.getColumnIndex(CalendarInfo.FeedEntry.EVENT_TYPE);
                     Log.d("UpdateEventsTask: ", "doInBg " + cursor.getString(eventTitle));
 
                     //Add every event to the ArrayList
                     returnList.add(new CalendarEvent(
                             cursor.getString(eventID),
-                            /*cursor.getString(eventType),*/
+                            cursor.getString(eventType),
                             cursor.getString(eventTitle),
                             cursor.getString(eventDesc),
                             cursor.getString(startTime),
@@ -564,7 +561,6 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
             }
             adapter.notifyDataSetChanged();
         }
-
     }
 
     @Override

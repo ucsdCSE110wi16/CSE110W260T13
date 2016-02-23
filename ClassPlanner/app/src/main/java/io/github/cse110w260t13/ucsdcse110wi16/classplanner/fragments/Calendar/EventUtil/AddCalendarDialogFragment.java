@@ -24,6 +24,7 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
     private CheckBox repeatCheckBox;
     private View noRepeatView;
     private View repeatView;
+    private boolean checked = false;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -84,9 +85,11 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         // show or hide the included view and the date
                         if (isChecked) {
+                            checked = true;
                             calendarDialogLayout.addView(repeatView);
                             ((ViewGroup) repeatView.getParent()).removeView(noRepeatView);
                         } else {
+                            checked = false;
                             calendarDialogLayout.addView(noRepeatView);
                             ((ViewGroup) repeatView.getParent()).removeView(repeatView);
                         }

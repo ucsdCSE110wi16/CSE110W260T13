@@ -38,6 +38,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course
 public class AddClassActivity extends AppCompatActivity {
     public static final String UPDATE = "update";
     public static final String CREATE = "create";
+    public static final String CLASS = "class";
 
     private String mode;
     private String currName;
@@ -537,8 +538,8 @@ public class AddClassActivity extends AppCompatActivity {
                                 editTextsInfo[Edits.COURSE.ordinal()]);
                         values.put(CalendarInfo.FeedEntry.EVENT_DESCR,
                                 editTextsInfo[Edits.LOCATION.ordinal()]);
-                        /*values.put(CalendarInfo.FeedEntry.EVENT_TYPE,
-                                "CLASS");*/
+                        values.put(CalendarInfo.FeedEntry.EVENT_TYPE,
+                                CLASS);
                         cr.insert(CalendarContentProvider.CONTENT_URI, values);
                         copyStartDate = copyStartDate.plusWeeks(1);
                     }
