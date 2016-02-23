@@ -112,11 +112,13 @@ public class ToDoFragment extends Fragment {
         private ToDoTaskDbHelper helper;
         private Button deleteButton;
         private Button doneButton;
+        private boolean toggleState;
 
         public CustomToDoListAdapter(Context context, int layout, Cursor c,String[] from, int[] to){
             super(context,layout,c,from,to);
             this.myContext=context;
             this.layout=layout;
+            toggleState = false;
         }
 
         @Override
@@ -158,9 +160,13 @@ public class ToDoFragment extends Fragment {
                     View v = (View) view.getParent();
                     TextView tv = (TextView) v.findViewById(R.id.taskTextView);
                     //String task = taskTextView.getText().toString();
-
-                    tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
+                    if(toggleState==false) {
+                        tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                        toggleState=true;
+                    }else {
+                        tv.setPaintFlags(0);
+                        toggleState = false;
+                    }
                 }
             });
 
