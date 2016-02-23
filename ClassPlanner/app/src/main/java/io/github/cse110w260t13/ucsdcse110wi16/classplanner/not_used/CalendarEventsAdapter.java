@@ -1,4 +1,4 @@
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.not_used;
 /**
  * NO LONGER USING THIS ADAPTER.
  * Switched to using CalendarRecyclerAdapter for the purpose of displaying
@@ -20,6 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.CalendarEvent;
 
 public class CalendarEventsAdapter extends ArrayAdapter<CalendarEvent> {
     private final Context context;

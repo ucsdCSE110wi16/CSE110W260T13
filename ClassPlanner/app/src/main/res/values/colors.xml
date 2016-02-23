@@ -45,6 +45,8 @@
     <color name="calendar_22">#ff0b3d54</color>
     <color name="calendar_23">#ff03354c</color>
 
+    <color name="eventColor">#3ea3de</color>
+
 
 
 </resources>
