@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -110,6 +111,7 @@ public class ToDoFragment extends Fragment {
         private int layout;
         private ToDoTaskDbHelper helper;
         private Button deleteButton;
+        private Button doneButton;
 
         public CustomToDoListAdapter(Context context, int layout, Cursor c,String[] from, int[] to){
             super(context,layout,c,from,to);
@@ -146,6 +148,20 @@ public class ToDoFragment extends Fragment {
                     updateUI();
                 }
 
+            });
+
+            doneButton = (Button) v.findViewById(R.id.doneButton);
+            doneButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    View v = (View) view.getParent();
+                    TextView tv = (TextView) v.findViewById(R.id.taskTextView);
+                    //String task = taskTextView.getText().toString();
+
+                    tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                }
             });
 
         }
