@@ -193,7 +193,7 @@ public class CalendarRecyclerAdapter
             case EVENT:
                 holder.typeTitle.setText("Event");
                 holder.typeBG.setBackgroundColor(ContextCompat
-                        .getColor(context, R.color.calendar_10));
+                        .getColor(context, R.color.eventColor));
                 break;
         }
     }

@@ -44,6 +44,16 @@
                 android:hint="@string/calendar_event_description_hint"/>
 
         </android.support.design.widget.TextInputLayout>
+        <TimePicker
+            android:id="@+id/calendar_start_picker"
+            android:timePickerMode="spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"/>
+        <TimePicker
+            android:id="@+id/calendar_end_picker"
+            android:timePickerMode="spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"/>
 
         <CheckBox
             android:layout_width="wrap_content"

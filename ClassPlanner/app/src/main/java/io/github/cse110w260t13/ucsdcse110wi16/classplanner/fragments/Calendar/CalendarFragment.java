@@ -129,7 +129,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
                 // Display new calendar item dialog
                 DialogFragment dialog = new AddCalendarDialogFragment();
                 //Set target fragment to CalendarFragment for dialog.
-                dialog.setTargetFragment(getParentFragment(), REQUEST_CODE);
+                dialog.setTargetFragment(CalendarFragment.this, REQUEST_CODE);
                 dialog.show(getFragmentManager(), "AddCalendarDialogFragment");
             }
         });
@@ -560,19 +560,6 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
                 adapter.swap(calendarEventList);
             }
             adapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(daySelected!=null) {
-            UpdateEventsTask eventUpdater = new UpdateEventsTask(
-                    getActivity().getBaseContext(),
-                    list,
-                    getActivity().getContentResolver());
-            eventUpdater.execute(daySelected, null, null);
-
         }
     }
 }
