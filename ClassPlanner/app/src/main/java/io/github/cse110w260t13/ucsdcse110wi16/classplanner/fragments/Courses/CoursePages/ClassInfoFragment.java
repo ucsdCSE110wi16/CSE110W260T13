@@ -177,23 +177,25 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
                             int wed, int thur, int fri, int sat,
                             String notes, String instrName, String email,
                             String web){
-        textInfo[Texts.COURSE.ordinal()].setText(name);
-        textInfo[Texts.LOCATION.ordinal()].setText(loc);
-        textInfo[Texts.STARTTIME.ordinal()].setText(startTime);
-        textInfo[Texts.ENDTIME.ordinal()].setText(endTime);
+        if(textInfo != null) {
+            textInfo[Texts.COURSE.ordinal()].setText(name);
+            textInfo[Texts.LOCATION.ordinal()].setText(loc);
+            textInfo[Texts.STARTTIME.ordinal()].setText(startTime);
+            textInfo[Texts.ENDTIME.ordinal()].setText(endTime);
 
-        setColor(textInfo[Texts.SUN.ordinal()], sun);
-        setColor(textInfo[Texts.MON.ordinal()], mon);
-        setColor(textInfo[Texts.TUE.ordinal()], tue);
-        setColor(textInfo[Texts.WED.ordinal()], wed);
-        setColor(textInfo[Texts.THUR.ordinal()], thur);
-        setColor(textInfo[Texts.FRI.ordinal()], fri);
-        setColor(textInfo[Texts.SAT.ordinal()], sat);
+            setColor(textInfo[Texts.SUN.ordinal()], sun);
+            setColor(textInfo[Texts.MON.ordinal()], mon);
+            setColor(textInfo[Texts.TUE.ordinal()], tue);
+            setColor(textInfo[Texts.WED.ordinal()], wed);
+            setColor(textInfo[Texts.THUR.ordinal()], thur);
+            setColor(textInfo[Texts.FRI.ordinal()], fri);
+            setColor(textInfo[Texts.SAT.ordinal()], sat);
 
-        textInfo[Texts.NOTES.ordinal()].setText(notes);
-        textInfo[Texts.INSTR.ordinal()].setText(instrName);
-        textInfo[Texts.EMAIL.ordinal()].setText(email);
-        textInfo[Texts.WEB.ordinal()].setText(web);
+            textInfo[Texts.NOTES.ordinal()].setText(notes);
+            textInfo[Texts.INSTR.ordinal()].setText(instrName);
+            textInfo[Texts.EMAIL.ordinal()].setText(email);
+            textInfo[Texts.WEB.ordinal()].setText(web);
+        }
     }
 
     /**-------------------------------------------------------------------------------------------

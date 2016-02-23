@@ -10,11 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.SimpleCursorAdapter;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
@@ -39,7 +36,7 @@ public class AssignmentsFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_assignments, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_assignment, container, false);
         //makes onClickListeners to add and delete things
         ImageButton add = (ImageButton) rootView.findViewById(R.id.add_button);
         ImageButton delete = (ImageButton) rootView.findViewById(R.id.delete_button);
@@ -50,10 +47,8 @@ public class AssignmentsFragment extends Fragment{
         listview = (ListView)rootView.findViewById(R.id.assignment_list);
         updateData();
 
-
         return rootView;
     }
-
 
     /**
      * click handler for all buttons in the Assignments Page
@@ -79,22 +74,35 @@ public class AssignmentsFragment extends Fragment{
     }
 
     void updateData(){
+        Log.i("updateData", " entered");
         ContentResolver cr = getActivity().getContentResolver();
-        Cursor cursor = cr.query(AssignmentContentProvider.CONTENT_URI,
+        Cursor cursor = cr.query(
+                AssignmentContentProvider.CONTENT_URI,
                 AssignmentInfo.FeedEntry.ALL_COLUMNS,
-                AssignmentInfo.FeedEntry.ASSIGNMENT_NAME,
-                null, null);
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(),
-                R.layout.assignment_view,cursor,
+                null,
+                null,
+                null);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+                getContext(),
+                R.layout.assignment_view,
+                cursor,
                 new String[]{AssignmentInfo.FeedEntry.COURSE_NAME,
                         AssignmentInfo.FeedEntry.ASSIGNMENT_NAME,
                         AssignmentInfo.FeedEntry.TYPE,
                         AssignmentInfo.FeedEntry.POINTS_EARNED,
                         AssignmentInfo.FeedEntry.POINTS_POSSIBLE},
-                new int[]{R.id.CourseType,R.id.AssignmentName,R.id.AssignmentType,
-                R.id.PointsEarned,R.id.PointsPossible},0);
+                new int[]{R.id.CourseType,
+                        R.id.AssignmentName,
+                        R.id.AssignmentType,
+                        R.id.PointsEarned,
+                        R.id.PointsPossible}
+                ,0);
         listview.setAdapter(adapter);
     }
 
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateData();
+    }
 }
