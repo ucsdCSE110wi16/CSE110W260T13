@@ -77,6 +77,11 @@ public class ToDoFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String task = inputField.getText().toString();
 
+                        if(task.contains("'")){
+                            task.replaceAll("'","''");
+                        }
+
+
                         helper = new ToDoTaskDbHelper(getContext());
                         SQLiteDatabase db = helper.getWritableDatabase();
                         ContentValues values = new ContentValues();
@@ -124,6 +129,10 @@ public class ToDoFragment extends Fragment {
                     View v = (View) view.getParent();
                     TextView taskTextView = (TextView) v.findViewById(R.id.taskTextView);
                     String task = taskTextView.getText().toString();
+
+                    if(task.contains("'")){
+                        task.replaceAll("'","''");
+                    }
 
                     String sql = String.format("DELETE FROM %s WHERE %s = '%s'",
                             ToDoTaskContract.TABLE,
