@@ -78,7 +78,7 @@ public class ToDoFragment extends Fragment {
                         String task = inputField.getText().toString();
 
                         if(task.contains("'")){
-                            task.replaceAll("'","''");
+                            task = task.replaceAll("'","''");
                         }
 
 
@@ -131,7 +131,7 @@ public class ToDoFragment extends Fragment {
                     String task = taskTextView.getText().toString();
 
                     if(task.contains("'")){
-                        task.replaceAll("'","''");
+                        task = task.replaceAll("'","''");
                     }
 
                     String sql = String.format("DELETE FROM %s WHERE %s = '%s'",
