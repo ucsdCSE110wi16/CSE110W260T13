@@ -52,12 +52,14 @@ public class QueryADay {
                 int eventDesc = cursor.getColumnIndex(CalendarInfo.FeedEntry.EVENT_DESCR);
                 int startTime = cursor.getColumnIndex(CalendarInfo.FeedEntry.START_TIME);
                 int endTime = cursor.getColumnIndex(CalendarInfo.FeedEntry.END_TIME);
+                int eventType = cursor.getColumnIndex(CalendarInfo.FeedEntry.EVENT_TYPE);
                 Log.d("UpdateEventsTask: ", "doInBg " + cursor.getString(eventTitle));
 
                 //Add every event to the ArrayList
 
                 returnList.add(new CalendarEvent(
                         cursor.getString(eventID),
+                        cursor.getString(eventType),
                         cursor.getString(eventTitle),
                         cursor.getString(eventDesc),
                         cursor.getString(startTime),
