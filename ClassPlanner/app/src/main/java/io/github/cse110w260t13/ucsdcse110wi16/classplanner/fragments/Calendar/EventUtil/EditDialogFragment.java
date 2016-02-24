@@ -29,6 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.DateTimeUtil;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
@@ -36,12 +37,6 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarInfo;
 
 public class EditDialogFragment extends android.support.v4.app.DialogFragment {
-    public static final int HOUR = 0;
-    public static final int MINUTE = 1;
-
-    public static final int YEAR = 0;
-    public static final int MONTH = 1;
-    public static final int DAY = 2;
 
     @SuppressWarnings( "deprecation" )
     @Override
@@ -64,12 +59,12 @@ public class EditDialogFragment extends android.support.v4.app.DialogFragment {
                 .setPositiveButton("submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String dateString = getDateString(datePicker.getYear(),
+                        String dateString = DateTimeUtil.getDateString(datePicker.getYear(),
                                 datePicker.getMonth(),
                                 datePicker.getDayOfMonth());
-                        String startString = getTimeString(startPicker.getCurrentHour(),
+                        String startString = DateTimeUtil.getTimeString(startPicker.getCurrentHour(),
                                 startPicker.getCurrentMinute());
-                        String endString = getTimeString(endPicker.getCurrentHour(),
+                        String endString = DateTimeUtil.getTimeString(endPicker.getCurrentHour(),
                                 endPicker.getCurrentMinute());
                         Log.i("onUpdate"," id is " + hold_id);
                         Log.i("onUpdate", " date is " + dateString);
@@ -125,13 +120,13 @@ public class EditDialogFragment extends android.support.v4.app.DialogFragment {
             String end = cursor.getString(cursor.getColumnIndex(CalendarInfo.FeedEntry.END_TIME));
 
             datePicker.updateDate(
-                    getFromCalendar(date, YEAR),
-                    getFromCalendar(date, MONTH),
-                    getFromCalendar(date, DAY));
-            startPicker.setCurrentHour(getTime(start, HOUR));
-            startPicker.setCurrentMinute(getTime(start, MINUTE));
-            endPicker.setCurrentHour(getTime(end, HOUR));
-            endPicker.setCurrentMinute(getTime(end, MINUTE));
+                    DateTimeUtil.getDate(date, DateTimeUtil.YEAR),
+                    DateTimeUtil.getDate(date, DateTimeUtil.MONTH),
+                    DateTimeUtil.getDate(date, DateTimeUtil.DAY));
+            startPicker.setCurrentHour(DateTimeUtil.getTime(start, DateTimeUtil.HOUR));
+            startPicker.setCurrentMinute(DateTimeUtil.getTime(start, DateTimeUtil.MINUTE));
+            endPicker.setCurrentHour(DateTimeUtil.getTime(end, DateTimeUtil.HOUR));
+            endPicker.setCurrentMinute(DateTimeUtil.getTime(end, DateTimeUtil.MINUTE));
 
             eventTitle.setText(title);
             eventDescr.setText(descr);
@@ -140,66 +135,6 @@ public class EditDialogFragment extends android.support.v4.app.DialogFragment {
         }
 
         return dialog;
-    }
-
-    private int getFromCalendar(String strDate,int field)
-    {
-        SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-
-        Date convertedDate = new Date();
-        try {
-            convertedDate = dayFormat.parse(strDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(convertedDate);
-
-        switch(field){
-            case YEAR:
-                return cal.get(Calendar.YEAR);
-            case MONTH:
-                return cal.get(Calendar.MONTH);
-            case DAY:
-                return cal.get(Calendar.DAY_OF_MONTH);
-        }
-        return -1;
-    }
-
-    private int getTime(String time, int field)
-    {
-        String[] splitTime = time.split(":");
-        if (!splitTime[0].isEmpty() && !splitTime[1].isEmpty()){
-            if (field == HOUR){
-                return Integer.parseInt(splitTime[0]);
-            }
-            else if (field == MINUTE) {
-                return Integer.parseInt(splitTime[1]);
-            }
-        }
-        return -1;
-    }
-
-    private String getDateString(int year, int month, int day){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month);
-        cal.set(Calendar.DATE, day);
-        Date date = cal.getTime();
-
-        return sdf.format(date);
-    }
-
-    private String getTimeString(int hour, int minutes){
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, hour);
-        cal.set(Calendar.MINUTE, minutes);
-        Date date = cal.getTime();
-
-        return sdf.format(date);
     }
 
 }

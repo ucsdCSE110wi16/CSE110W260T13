@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,6 +28,10 @@ public class CalendarRecyclerAdapter
         extends RecyclerView.Adapter<CalendarRecyclerAdapter.ViewHolder>{
 
     public static final int UPDATE = 0;
+    public static final String CLASS = "class";
+    public static final String EVENT = "event";
+    public static final String TODO = "todo";
+    public static final String HWK  = "hwk";
 
     private ArrayList<CalendarEvent> calendarEvents = null;
     private Context context;
@@ -36,6 +42,8 @@ public class CalendarRecyclerAdapter
     // Container Activity must implement this interface
     public interface RecyclerAdapterCallback {
         void onCreateEditDialog(String id);
+
+        void onDeleteOK();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -43,15 +51,23 @@ public class CalendarRecyclerAdapter
         TextView description;
         TextView start;
         TextView end;
+
+        TextView typeTitle;
+        LinearLayout typeBG;
+
         ImageButton add;
         ImageButton del;
+
         String id;
+        String type;
         public ViewHolder(View v){
             super(v);
             title = (TextView) v.findViewById(R.id.event_title);
             description = (TextView) v.findViewById(R.id.description);
             start = (TextView) v.findViewById(R.id.start_time);
             end  = (TextView) v.findViewById(R.id.end_time);
+            typeTitle = (TextView) v.findViewById(R.id.event_type);
+            typeBG = (LinearLayout) v.findViewById(R.id.type_layout);
             add = (ImageButton) v.findViewById(R.id.add_button);
             del = (ImageButton) v.findViewById(R.id.delete_button);
         }
@@ -87,11 +103,14 @@ public class CalendarRecyclerAdapter
         this.holder = holder;
         if(calendarEvents != null) {
             CalendarEvent event = calendarEvents.get(position);
+            setEventType(event.eventType);
+
             holder.title.setText(event.eventTitle);
             holder.description.setText(event.eventDescr);
             holder.start.setText(event.eventSTime);
             holder.end.setText(event.eventETime);
             holder.id = event.eventID;
+            holder.type = event.eventType;
         }
     }
 
@@ -127,6 +146,8 @@ public class CalendarRecyclerAdapter
                             cr.delete(CalendarContentProvider.CONTENT_URI,
                                     CalendarInfo.FeedEntry._ID + "=?",
                                     new String[]{hold_id});
+
+                            mCallback.onDeleteOK();
                             calendarEvents.remove(pos);
                             notifyItemRemoved(pos);
                         }
@@ -160,5 +181,20 @@ public class CalendarRecyclerAdapter
             calendarEvents.addAll(events);
         }
         this.notifyDataSetChanged();
+    }
+
+    private void setEventType(String type){
+        switch(type){
+            case CLASS:
+                holder.typeTitle.setText("Class");
+                holder.typeBG.setBackgroundColor(ContextCompat
+                        .getColor(context, R.color.calendar_23));
+                break;
+            case EVENT:
+                holder.typeTitle.setText("Event");
+                holder.typeBG.setBackgroundColor(ContextCompat
+                        .getColor(context, R.color.colorMidBlue));
+                break;
+        }
     }
 }

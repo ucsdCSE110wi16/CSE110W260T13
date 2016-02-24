@@ -28,7 +28,6 @@
             android:id="@+id/spinner_nav"
             android:layout_width="fill_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/spinner_background_ab_example"
             android:popupBackground="@drawable/menu_dropdown_panel_example"/>
         </LinearLayout>
         <RelativeLayout

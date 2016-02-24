@@ -9,6 +9,10 @@
     <color name="colorSecondaryText">#727272</color>
     <color name="colorIcons">#FFFFFF</color>
     <color name="colorDivider">#B6B6B6</color>
+    <color name="colorBlue">#34498f</color>
+    <color name="colorMidBlue">#4eb3d3</color>
+    <color name="colorDarkMidBlue">#0868ac</color>
+    <color name="colorTurqBlue">#7bccc4</color>
 
     <color name="black">#464646</color>
     <color name="red">#cf0000</color>
@@ -44,6 +48,8 @@
     <color name="calendar_21">#ff13455c</color>
     <color name="calendar_22">#ff0b3d54</color>
     <color name="calendar_23">#ff03354c</color>
+
+    <color name="eventColor">#3ea3de</color>
 
 
 

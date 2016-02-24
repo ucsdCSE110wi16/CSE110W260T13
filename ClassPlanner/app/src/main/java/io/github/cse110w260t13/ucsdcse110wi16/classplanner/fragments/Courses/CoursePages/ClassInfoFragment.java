@@ -127,43 +127,43 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
 
         ContentResolver cr = getActivity().getContentResolver();
         Cursor cursor = cr.query(CourseCalendarContentProvider.CONTENT_URI,
-                CourseCalendarInfo.FeedEntry.ALL_COLUMNS,
-                CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
+                CourseCalendarInfo.GeneralInfo.ALL_COLUMNS,
+                CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME + "=?",
                 new String[]{class_name + ""}, null);
 
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             update_info(
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_LOC)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_START_TIME)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_START_TIME)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_END_TIME)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_END_TIME)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_SUN)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_SUN)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_MON)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_MON)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_TUE)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_TUE)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_WED)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_WED)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_THUR)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_THUR)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_FRI)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_FRI)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_SAT)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_SAT)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_NOTES)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_NOTES)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_INSTR_NAME)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_INSTR_EMAIL)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_INSTR_EMAIL)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE))
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_WEBSITE))
             );
             cursor.close();
         }
@@ -177,23 +177,25 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
                             int wed, int thur, int fri, int sat,
                             String notes, String instrName, String email,
                             String web){
-        textInfo[Texts.COURSE.ordinal()].setText(name);
-        textInfo[Texts.LOCATION.ordinal()].setText(loc);
-        textInfo[Texts.STARTTIME.ordinal()].setText(startTime);
-        textInfo[Texts.ENDTIME.ordinal()].setText(endTime);
+        if(textInfo != null) {
+            textInfo[Texts.COURSE.ordinal()].setText(name);
+            textInfo[Texts.LOCATION.ordinal()].setText(loc);
+            textInfo[Texts.STARTTIME.ordinal()].setText(startTime);
+            textInfo[Texts.ENDTIME.ordinal()].setText(endTime);
 
-        setColor(textInfo[Texts.SUN.ordinal()], sun);
-        setColor(textInfo[Texts.MON.ordinal()], mon);
-        setColor(textInfo[Texts.TUE.ordinal()], tue);
-        setColor(textInfo[Texts.WED.ordinal()], wed);
-        setColor(textInfo[Texts.THUR.ordinal()], thur);
-        setColor(textInfo[Texts.FRI.ordinal()], fri);
-        setColor(textInfo[Texts.SAT.ordinal()], sat);
+            setColor(textInfo[Texts.SUN.ordinal()], sun);
+            setColor(textInfo[Texts.MON.ordinal()], mon);
+            setColor(textInfo[Texts.TUE.ordinal()], tue);
+            setColor(textInfo[Texts.WED.ordinal()], wed);
+            setColor(textInfo[Texts.THUR.ordinal()], thur);
+            setColor(textInfo[Texts.FRI.ordinal()], fri);
+            setColor(textInfo[Texts.SAT.ordinal()], sat);
 
-        textInfo[Texts.NOTES.ordinal()].setText(notes);
-        textInfo[Texts.INSTR.ordinal()].setText(instrName);
-        textInfo[Texts.EMAIL.ordinal()].setText(email);
-        textInfo[Texts.WEB.ordinal()].setText(web);
+            textInfo[Texts.NOTES.ordinal()].setText(notes);
+            textInfo[Texts.INSTR.ordinal()].setText(instrName);
+            textInfo[Texts.EMAIL.ordinal()].setText(email);
+            textInfo[Texts.WEB.ordinal()].setText(web);
+        }
     }
 
     /**-------------------------------------------------------------------------------------------
@@ -234,7 +236,7 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
      *-------------------------------------------------------------------------------------------*/
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] projection = CourseCalendarInfo.FeedEntry.ALL_COLUMNS;
+        String[] projection = CourseCalendarInfo.GeneralInfo.ALL_COLUMNS;
 
         CursorLoader cursor_ld;
         if(currName == null) {
@@ -245,7 +247,7 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
         else{
             cursor_ld = new CursorLoader(getContext(),
                     CourseCalendarContentProvider.CONTENT_URI, projection,
-                    CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
+                    CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME + "=?",
                     new String[]{currName}, null);
 
         }
@@ -258,35 +260,35 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
             cursor.moveToFirst();
             update_info(
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_COURSE_LOC)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_LOC)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_START_TIME)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_START_TIME)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_END_TIME)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_END_TIME)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_SUN)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_SUN)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_MON)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_MON)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_TUE)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_TUE)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_WED)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_WED)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_THUR)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_THUR)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_FRI)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_FRI)),
                     cursor.getInt(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_SAT)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_SAT)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_NOTES)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_NOTES)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_INSTR_NAME)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_INSTR_NAME)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_INSTR_EMAIL)),
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_INSTR_EMAIL)),
                     cursor.getString(cursor.getColumnIndex
-                            (CourseCalendarInfo.FeedEntry.COLUMN_WEBSITE))
+                            (CourseCalendarInfo.GeneralInfo.COLUMN_WEBSITE))
             );
         }
         else{

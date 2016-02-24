@@ -51,14 +51,14 @@ public class CourseCalendarContentProvider extends ContentProvider{
         //check to see if the columns requests by the user exist
         checkColumns(projection);
 
-        queryBuilder.setTables(CourseCalendarInfo.FeedEntry.TABLE_NAME);
+        queryBuilder.setTables(CourseCalendarInfo.GeneralInfo.TABLE_NAME);
 
         int uriType = sURIMatcher.match(uri);
         switch(uriType) {
             case COURSE_INFO:
                 break;
             case COURSE_ID:
-                queryBuilder.appendWhere(CourseCalendarInfo.FeedEntry._ID + "=" +
+                queryBuilder.appendWhere(CourseCalendarInfo.GeneralInfo._ID + "=" +
                 uri.getLastPathSegment());
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -83,7 +83,7 @@ public class CourseCalendarContentProvider extends ContentProvider{
 
         switch (uriType) {
             case COURSE_INFO:
-                id = db.insert(CourseCalendarInfo.FeedEntry.TABLE_NAME, null, values);
+                id = db.insert(CourseCalendarInfo.GeneralInfo.TABLE_NAME, null, values);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -99,18 +99,18 @@ public class CourseCalendarContentProvider extends ContentProvider{
         int rowsDeleted = 0;
         switch (uriType) {
             case COURSE_INFO:
-                rowsDeleted = db.delete(CourseCalendarInfo.FeedEntry.TABLE_NAME, selection,
+                rowsDeleted = db.delete(CourseCalendarInfo.GeneralInfo.TABLE_NAME, selection,
                         selectionArgs);
                 break;
             case COURSE_ID:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)){
-                    rowsDeleted = db.delete(CourseCalendarInfo.FeedEntry.TABLE_NAME,
-                            CourseCalendarInfo.FeedEntry._ID + "=" + id, null);
+                    rowsDeleted = db.delete(CourseCalendarInfo.GeneralInfo.TABLE_NAME,
+                            CourseCalendarInfo.GeneralInfo._ID + "=" + id, null);
                 }
                 else {
-                    rowsDeleted = db.delete(CourseCalendarInfo.FeedEntry.TABLE_NAME,
-                            CourseCalendarInfo.FeedEntry._ID + "=" + id + "and"
+                    rowsDeleted = db.delete(CourseCalendarInfo.GeneralInfo.TABLE_NAME,
+                            CourseCalendarInfo.GeneralInfo._ID + "=" + id + "and"
                             + selection, selectionArgs);
                 }
             default:
@@ -129,18 +129,18 @@ public class CourseCalendarContentProvider extends ContentProvider{
 
         switch (uriType) {
             case COURSE_INFO:
-                rowsUpdated = db.update(CourseCalendarInfo.FeedEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(CourseCalendarInfo.GeneralInfo.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             case COURSE_ID:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)){
-                    rowsUpdated = db.update(CourseCalendarInfo.FeedEntry.TABLE_NAME, values,
-                            CourseCalendarInfo.FeedEntry._ID + "=" + id, null);
+                    rowsUpdated = db.update(CourseCalendarInfo.GeneralInfo.TABLE_NAME, values,
+                            CourseCalendarInfo.GeneralInfo._ID + "=" + id, null);
                 }
                 else {
-                    rowsUpdated = db.update(CourseCalendarInfo.FeedEntry.TABLE_NAME, values,
-                            CourseCalendarInfo.FeedEntry._ID + "=" + id + "and"
+                    rowsUpdated = db.update(CourseCalendarInfo.GeneralInfo.TABLE_NAME, values,
+                            CourseCalendarInfo.GeneralInfo._ID + "=" + id + "and"
                                     + selection, selectionArgs);
                 }
                 break;
@@ -152,7 +152,7 @@ public class CourseCalendarContentProvider extends ContentProvider{
     }
 
     private void checkColumns(String[] projection) {
-        String[] available = CourseCalendarInfo.FeedEntry.ALL_COLUMNS;
+        String[] available = CourseCalendarInfo.GeneralInfo.ALL_COLUMNS;
         if (projection != null) {
             HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
             HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));

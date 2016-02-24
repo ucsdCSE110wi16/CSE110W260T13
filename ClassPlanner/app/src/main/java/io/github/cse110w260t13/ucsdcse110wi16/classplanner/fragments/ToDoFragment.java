@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -77,6 +78,11 @@ public class ToDoFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String task = inputField.getText().toString();
 
+                        if(task.contains("'")){
+                            task = task.replaceAll("'","''");
+                        }
+
+
                         helper = new ToDoTaskDbHelper(getContext());
                         SQLiteDatabase db = helper.getWritableDatabase();
                         ContentValues values = new ContentValues();
@@ -105,11 +111,14 @@ public class ToDoFragment extends Fragment {
         private int layout;
         private ToDoTaskDbHelper helper;
         private Button deleteButton;
+        private Button doneButton;
+        private boolean toggleState;
 
         public CustomToDoListAdapter(Context context, int layout, Cursor c,String[] from, int[] to){
             super(context,layout,c,from,to);
             this.myContext=context;
             this.layout=layout;
+            toggleState = false;
         }
 
         @Override
@@ -125,6 +134,10 @@ public class ToDoFragment extends Fragment {
                     TextView taskTextView = (TextView) v.findViewById(R.id.taskTextView);
                     String task = taskTextView.getText().toString();
 
+                    if(task.contains("'")){
+                        task = task.replaceAll("'","''");
+                    }
+
                     String sql = String.format("DELETE FROM %s WHERE %s = '%s'",
                             ToDoTaskContract.TABLE,
                             ToDoTaskContract.Columns.TASK,
@@ -137,6 +150,24 @@ public class ToDoFragment extends Fragment {
                     updateUI();
                 }
 
+            });
+
+            doneButton = (Button) v.findViewById(R.id.doneButton);
+            doneButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    View v = (View) view.getParent();
+                    TextView tv = (TextView) v.findViewById(R.id.taskTextView);
+                    //String task = taskTextView.getText().toString();
+                    if(toggleState==false) {
+                        tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                        toggleState=true;
+                    }else {
+                        tv.setPaintFlags(0);
+                        toggleState = false;
+                    }
+                }
             });
 
         }

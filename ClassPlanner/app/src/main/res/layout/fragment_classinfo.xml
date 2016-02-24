@@ -276,19 +276,6 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:fontFamily="sans-serif-light"
-                android:text="Grade Scale"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_text_view"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:fontFamily="sans-serif-light"
                 android:text="Student Notes"/>
             <TextView
                 android:id="@+id/notes"

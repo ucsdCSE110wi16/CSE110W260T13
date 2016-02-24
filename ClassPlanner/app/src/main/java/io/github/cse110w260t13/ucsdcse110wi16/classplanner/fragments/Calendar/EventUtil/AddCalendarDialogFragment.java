@@ -2,6 +2,8 @@ package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.E
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,9 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TimePicker;
 
+import java.sql.Time;
+
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.DateTimeUtil;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
 
 /**
  * Created by nick on 2/10/16.
@@ -24,41 +34,21 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
     private CheckBox repeatCheckBox;
     private View noRepeatView;
     private View repeatView;
+    private boolean checked = false;
 
+
+    @SuppressWarnings( "deprecation" )
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustom);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
+                R.style.AlertDialogCustom);
+
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
-
         View view = inflater.inflate(R.layout.dialog_add_calendar_item, null);
-
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
-        builder.setView(view)
-                // Add action buttons
-                .setPositiveButton("submit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        /*
-                        getTargetFragment().onActivityResult(getTargetRequestCode(),
-                                Activity.RESULT_OK, getActivity().getIntent());
-                                */
-                        dismiss();
-                    }
-                })
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        AddCalendarDialogFragment.this.getDialog().cancel();
-                    }
-                })
-                .setTitle("Add event");
-
-        Dialog dialog = builder.create();
 
         // Get the linear layout
         calendarDialogLayout = (LinearLayout) view.findViewById(R.id.calendar_dialog_linear_layout);
-
         // Get the checkbox
         repeatCheckBox = (CheckBox) view.findViewById(R.id.calendar_repeat_checkbox);
 
@@ -84,15 +74,75 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         // show or hide the included view and the date
                         if (isChecked) {
+                            checked = true;
                             calendarDialogLayout.addView(repeatView);
                             ((ViewGroup) repeatView.getParent()).removeView(noRepeatView);
                         } else {
+                            checked = false;
                             calendarDialogLayout.addView(noRepeatView);
                             ((ViewGroup) repeatView.getParent()).removeView(repeatView);
                         }
                     }
                 }
         );
+
+        final EditText eventTitle = (EditText) view.findViewById(R.id.calendar_event_title);
+        final EditText eventDescr = (EditText) view.findViewById(R.id.calendar_event_description);
+        final TimePicker startPicker = (TimePicker) view.findViewById(R.id.calendar_start_picker);
+        final TimePicker endPicker = (TimePicker) view.findViewById(R.id.calendar_end_picker);
+        final DatePicker noRepeatStartDate = (DatePicker) noRepeatView.findViewById(R.id.calendarDialogDatePicker);
+        final DatePicker repeatStartDate = (DatePicker) repeatView.findViewById(R.id.calendarDialogStartDatePicker);
+        final DatePicker repeatEndDate = (DatePicker) repeatView.findViewById(R.id.calendarDialogEndDatePicker);
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(view)
+                // Add action buttons
+                .setPositiveButton("submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        ContentResolver cr = getActivity().getContentResolver();
+                        ContentValues values = new ContentValues();
+
+                        if (!checked){
+                            String oneDayString = DateTimeUtil.getDateString(noRepeatStartDate.getYear(),
+                                    noRepeatStartDate.getMonth(),
+                                    noRepeatStartDate.getDayOfMonth());
+                            values.put(CalendarInfo.FeedEntry.DATE, oneDayString);
+                        }
+                        else{
+                            //blah blah
+                        }
+                        String startString = DateTimeUtil.getTimeString(startPicker.getCurrentHour(),
+                                startPicker.getCurrentMinute());
+                        String endString = DateTimeUtil.getTimeString(endPicker.getCurrentHour(),
+                                endPicker.getCurrentMinute());
+                        String title = eventTitle.getText().toString();
+                        String descr = eventDescr.getText().toString();
+
+                        values.put(CalendarInfo.FeedEntry.START_TIME,startString);
+                        values.put(CalendarInfo.FeedEntry.END_TIME, endString);
+                        values.put(CalendarInfo.FeedEntry.EVENT_TITLE, title);
+                        values.put(CalendarInfo.FeedEntry.EVENT_DESCR, descr);
+                        values.put(CalendarInfo.FeedEntry.EVENT_TYPE, "event");
+
+                        cr.insert(CalendarContentProvider.CONTENT_URI, values);
+
+                        getTargetFragment().onActivityResult(getTargetRequestCode(),
+                                Activity.RESULT_OK, getActivity().getIntent());
+
+                        dismiss();
+                    }
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        AddCalendarDialogFragment.this.getDialog().cancel();
+                    }
+                })
+                .setTitle("Add event");
+
+        Dialog dialog = builder.create();
 
         return dialog;
     }

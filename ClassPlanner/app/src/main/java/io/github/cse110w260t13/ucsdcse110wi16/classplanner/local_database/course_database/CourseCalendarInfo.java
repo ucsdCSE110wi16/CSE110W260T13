@@ -6,7 +6,7 @@ public class CourseCalendarInfo {
 
     public CourseCalendarInfo(){}
 
-    public static abstract class FeedEntry implements BaseColumns {
+    public static abstract class GeneralInfo implements BaseColumns {
         public static final String TABLE_NAME = "CourseList";
         public static final String COLUMN_COURSE_NAME = "CourseName";
         public static final String COLUMN_COURSE_LOC = "CourseLocation";
@@ -48,5 +48,7 @@ public class CourseCalendarInfo {
                 COLUMN_WEBSITE,
         };
     }
+
+
 
 }

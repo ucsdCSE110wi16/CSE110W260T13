@@ -32,6 +32,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.AddClassActivity;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.AssignmentsFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.ClassInfoFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.GradescaleFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.ErrorDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.TabsAdapter;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
@@ -77,6 +78,8 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
                 ClassInfoFragment.class, null);
         courseTabAdapter.addTab(courseTabHost.newTabSpec("two").setIndicator("Assignment"),
                 AssignmentsFragment.class, null);
+        courseTabAdapter.addTab(courseTabHost.newTabSpec("three").setIndicator("Scale"),
+                GradescaleFragment.class, null);
 
         //Set the background and color of the tabs
         for (int i = 0; i < courseTabHost.getTabWidget().getChildCount(); i++) {
@@ -129,7 +132,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
                                    int position, long id) {
             Cursor cursor = (Cursor) adapter.getItem(position);
             String course_name = cursor.getString(cursor.getColumnIndex
-                    (CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME));
+                    (CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME));
             currentClass = course_name;
             updateChildFragments(course_name);
         }
@@ -164,7 +167,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
                                 public void onClick(DialogInterface dialog, int id) {
                                     ContentResolver cr = getActivity().getContentResolver();
                                     cr.delete(CourseCalendarContentProvider.CONTENT_URI,
-                                            CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME + "=?",
+                                            CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME + "=?",
                                             new String[]{currentClass});
 
                                     cr.delete(CalendarContentProvider.CONTENT_URI,
@@ -172,7 +175,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
                                             new String[]{currentClass});
 
                                     Cursor cursor = cr.query(CourseCalendarContentProvider.CONTENT_URI,
-                                            CourseCalendarInfo.FeedEntry.ALL_COLUMNS,
+                                            CourseCalendarInfo.GeneralInfo.ALL_COLUMNS,
                                             null, null, null);
                                     if(cursor!=null && cursor.getCount() == 0){
                                         updateChildFragments(null);
@@ -206,8 +209,11 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             if (viewPagerFragment instanceof ClassInfoFragment) {
                 ((ClassInfoFragment)viewPagerFragment).selectClass(course_name);
             }
-            if (viewPagerFragment instanceof  AssignmentsFragment){
+            else if (viewPagerFragment instanceof  AssignmentsFragment){
                 ((AssignmentsFragment)viewPagerFragment).test(course_name);
+            }
+            else if (viewPagerFragment instanceof GradescaleFragment){
+
             }
         }
     }
@@ -224,7 +230,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
      *--------------------------------------------------------------------------------------------*/
     private void fillData() {
         // Must include the _id column for the adapter to work
-        String[] from = new String[] { CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME} ;
+        String[] from = new String[] { CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME} ;
         // Fields on the UI to which we map
         int[] to = new int[] { android.R.id.text1 };
 
@@ -251,8 +257,8 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
      *--------------------------------------------------------------------------------------------*/
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] projection = { CourseCalendarInfo.FeedEntry._ID,
-                CourseCalendarInfo.FeedEntry.COLUMN_COURSE_NAME};
+        String[] projection = { CourseCalendarInfo.GeneralInfo._ID,
+                CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME};
         return new CursorLoader(getContext(), CourseCalendarContentProvider.CONTENT_URI,
                 projection, null, null, null);
     }

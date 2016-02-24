@@ -18,7 +18,7 @@ public class AssignmentDbHelper extends SQLiteOpenHelper{
             AssignmentInfo.FeedEntry.TYPE + " TEXT," +
             AssignmentInfo.FeedEntry.POINTS_EARNED + " INTEGER," +
             AssignmentInfo.FeedEntry.POINTS_POSSIBLE + " INTEGER" +
-   //         AssignmentInfo.FeedEntry.NOTES + " TEXT" +
+   //         AssignmentInfo.GeneralInfo.NOTES + " TEXT" +
             " ) ";
 
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " +
