@@ -196,5 +196,4 @@ public class HomeFragment extends Fragment implements HomeRecyclerAdapter.Recycl
             adapter.notifyDataSetChanged();
         }
     }
-
 }
