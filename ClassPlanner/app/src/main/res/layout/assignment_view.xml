@@ -7,44 +7,53 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_toLeftOf="@+id/second"
+>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Course"
+        android:id="@+id/CourseType"
+        android:fontFamily="sans-serif-light"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:layout_alignParentLeft="true"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/second"
         android:layout_toLeftOf="@+id/score"
         android:layout_alignBottom="@+id/deleteButton">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Course Name"
-        android:id="@+id/CourseType"
-        android:fontFamily="sans-serif-light"
-        android:textSize="18sp"
-        android:layout_gravity="center"
-        android:layout_marginRight="1sp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Assignment Name"
+        android:text="Name"
         android:id="@+id/AssignmentName"
         android:fontFamily="sans-serif-light"
         android:textSize="18sp"
         android:layout_gravity="center"
-        android:layout_marginRight="1sp"/>
+        android:layout_marginRight="1sp"
+        android:layout_alignParentLeft="true"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Assignment Type"
+        android:text="Type"
         android:id="@+id/AssignmentType"
         android:fontFamily="sans-serif-light"
         android:textSize="18sp"
         android:layout_gravity="center"
-        android:layout_marginRight="1sp"/>
+        android:layout_marginRight="1sp"
+        android:layout_alignParentLeft="true"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:id="@+id/score"
-        android:layout_toLeftOf="@+id/deleteButton"
-        android:layout_alignBottom="@+id/deleteButton">
+        android:layout_toLeftOf="@+id/deleteButton">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,4 +83,5 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:focusable="false" />
-</RelativeLayout>
+    </RelativeLayout>
+

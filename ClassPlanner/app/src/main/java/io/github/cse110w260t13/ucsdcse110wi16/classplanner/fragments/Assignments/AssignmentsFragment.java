@@ -1,6 +1,8 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Assignments;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -62,11 +65,28 @@ public class AssignmentsFragment extends Fragment{
                     startActivity(intent);
                     break;
                 case R.id.delete_button:
-                    Log.d("on click", AssignmentName);
-                    ContentResolver cr = getActivity().getContentResolver();
-                    cr.delete(AssignmentContentProvider.CONTENT_URI,
-                            AssignmentInfo.FeedEntry.ASSIGNMENT_NAME + "=?",
-                            new String[]{AssignmentName});
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Delete an assignment");
+                    builder.setMessage("Which assignment should be deleted?");
+                    final EditText inputField = new EditText(getContext());
+                    builder.setView(inputField);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String name = inputField.getText().toString();
+                            ContentResolver cr = getActivity().getContentResolver();
+                            cr.delete(AssignmentContentProvider.CONTENT_URI,
+                                    AssignmentInfo.FeedEntry.ASSIGNMENT_NAME + "=?",
+                                    new String[]{name});
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.create().show();
                     break;
             }
             updateData();
