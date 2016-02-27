@@ -11,7 +11,7 @@ public class ErrorDialogFragment extends android.support.v4.app.DialogFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        errorMessage = getArguments().getString("errorMsg");
+        errorMessage = getArguments().getString("error");
     }
 
     @Override

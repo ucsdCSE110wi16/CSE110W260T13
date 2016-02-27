@@ -104,6 +104,12 @@ public class GradescaleFragment extends Fragment{
     }
 
     public void updateChart(String courseName){
+        if(courseName == null){
+            mChart.setData(null);
+            mChart.invalidate();
+            currName = null;
+            return;
+        }
         currName = courseName;
         gradeScale = createScaleData(courseName);
         setData(gradeScale);
@@ -202,6 +208,11 @@ public class GradescaleFragment extends Fragment{
         super.onResume();
         if (currName!=null){
             updateChart(currName);
+        }
+        else{
+            mChart.setData(null);
+            mChart.invalidate();
+            currName = null;
         }
     }
 

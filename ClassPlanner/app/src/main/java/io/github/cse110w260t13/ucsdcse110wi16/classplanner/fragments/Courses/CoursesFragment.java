@@ -88,7 +88,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
                 ClassInfoFragment.class, null);
         /*courseTabAdapter.addTab(courseTabHost.newTabSpec("two").setIndicator("Assignment"),
                 AssignmentsFragment.class, null);*/
-        courseTabAdapter.addTab(courseTabHost.newTabSpec("three").setIndicator("Scale"),
+        courseTabAdapter.addTab(courseTabHost.newTabSpec("two").setIndicator("Scale"),
                 GradescaleFragment.class, null);
 
         //Set the background and color of the tabs
@@ -165,7 +165,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
                     if(currentClass == null){
                         ErrorDialogFragment error = new ErrorDialogFragment();
                         Bundle args = new Bundle();
-                        args.putString("errorMsg", "You currently have no classes.");
+                        args.putString("error", "You currently have no classes.");
                         error.setArguments(args);
                         error.show(getFragmentManager(), "No Classes Error Popup");
                         break;
