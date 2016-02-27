@@ -144,6 +144,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             String course_name = cursor.getString(cursor.getColumnIndex
                     (CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME));
             currentClass = course_name;
+            updateChildFragments(course_name);
         }
         @Override
         public void onNothingSelected(AdapterView<?> parent) {}

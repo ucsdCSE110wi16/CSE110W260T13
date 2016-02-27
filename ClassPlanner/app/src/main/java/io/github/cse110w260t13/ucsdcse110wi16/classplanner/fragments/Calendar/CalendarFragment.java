@@ -81,6 +81,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         DialogFragment dialog = new EditDialogFragment();
         Bundle args = new Bundle();
         args.putString("id", id);
+        args.putString("day", daySelected.toString());
         dialog.setArguments(args);
         dialog.setTargetFragment(this, REQUEST_CODE);
         dialog.show(getFragmentManager(), "EditDialogFragment");
@@ -130,6 +131,9 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
             public void onClick(View view) {
                 // Display new calendar item dialog
                 DialogFragment dialog = new AddCalendarDialogFragment();
+                Bundle args = new Bundle();
+                args.putString("day", daySelected.toString());
+                dialog.setArguments(args);
                 //Set target fragment to CalendarFragment for dialog.
                 dialog.setTargetFragment(CalendarFragment.this, REQUEST_CODE);
                 dialog.show(getFragmentManager(), "AddCalendarDialogFragment");

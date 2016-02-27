@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
+import org.joda.time.LocalDate;
+
 import java.sql.Time;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.DateTimeUtil;
@@ -50,7 +52,7 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
         // Get the linear layout
         calendarDialogLayout = (LinearLayout) view.findViewById(R.id.calendar_dialog_linear_layout);
         // Get the checkbox
-        repeatCheckBox = (CheckBox) view.findViewById(R.id.calendar_repeat_checkbox);
+        //repeatCheckBox = (CheckBox) view.findViewById(R.id.calendar_repeat_checkbox);
 
         // get the repeating layout view
         LayoutInflater layoutInflater = (LayoutInflater)
@@ -67,6 +69,15 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
         // Default is for norepeatview to be visible...
         calendarDialogLayout.addView(noRepeatView);
 
+        final DatePicker noRepeatStartDate = (DatePicker) noRepeatView.findViewById(R.id.calendarDialogDatePicker);
+        /*final DatePicker repeatStartDate = (DatePicker) repeatView.findViewById(R.id.calendarDialogStartDatePicker);
+        final DatePicker repeatEndDate = (DatePicker) repeatView.findViewById(R.id.calendarDialogEndDatePicker);
+        Bundle args = getArguments();
+        final String dateSelected = args.getString("day");
+        noRepeatStartDate.updateDate(
+                DateTimeUtil.getDate(dateSelected, DateTimeUtil.YEAR),
+                DateTimeUtil.getDate(dateSelected, DateTimeUtil.MONTH),
+                DateTimeUtil.getDate(dateSelected, DateTimeUtil.DAY));
         // Set the checkbox's on change listener
         repeatCheckBox.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
@@ -76,23 +87,29 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
                         if (isChecked) {
                             checked = true;
                             calendarDialogLayout.addView(repeatView);
+                            repeatStartDate.updateDate(
+                                    DateTimeUtil.getDate(dateSelected, DateTimeUtil.YEAR),
+                                    DateTimeUtil.getDate(dateSelected, DateTimeUtil.MONTH),
+                                    DateTimeUtil.getDate(dateSelected, DateTimeUtil.DAY));
                             ((ViewGroup) repeatView.getParent()).removeView(noRepeatView);
                         } else {
                             checked = false;
                             calendarDialogLayout.addView(noRepeatView);
+                            noRepeatStartDate.updateDate(
+                                    DateTimeUtil.getDate(dateSelected, DateTimeUtil.YEAR),
+                                    DateTimeUtil.getDate(dateSelected, DateTimeUtil.MONTH),
+                                    DateTimeUtil.getDate(dateSelected, DateTimeUtil.DAY));
                             ((ViewGroup) repeatView.getParent()).removeView(repeatView);
                         }
                     }
                 }
-        );
+        );*/
 
         final EditText eventTitle = (EditText) view.findViewById(R.id.calendar_event_title);
         final EditText eventDescr = (EditText) view.findViewById(R.id.calendar_event_description);
         final TimePicker startPicker = (TimePicker) view.findViewById(R.id.calendar_start_picker);
         final TimePicker endPicker = (TimePicker) view.findViewById(R.id.calendar_end_picker);
-        final DatePicker noRepeatStartDate = (DatePicker) noRepeatView.findViewById(R.id.calendarDialogDatePicker);
-        final DatePicker repeatStartDate = (DatePicker) repeatView.findViewById(R.id.calendarDialogStartDatePicker);
-        final DatePicker repeatEndDate = (DatePicker) repeatView.findViewById(R.id.calendarDialogEndDatePicker);
+
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
@@ -105,30 +122,55 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
                         ContentResolver cr = getActivity().getContentResolver();
                         ContentValues values = new ContentValues();
 
-                        if (!checked){
+                        /*if (!checked){*/
                             String oneDayString = DateTimeUtil.getDateString(noRepeatStartDate.getYear(),
                                     noRepeatStartDate.getMonth(),
                                     noRepeatStartDate.getDayOfMonth());
                             values.put(CalendarInfo.FeedEntry.DATE, oneDayString);
-                        }
-                        else{
-                            //blah blah
-                        }
-                        String startString = DateTimeUtil.getTimeString(startPicker.getCurrentHour(),
-                                startPicker.getCurrentMinute());
-                        String endString = DateTimeUtil.getTimeString(endPicker.getCurrentHour(),
-                                endPicker.getCurrentMinute());
-                        String title = eventTitle.getText().toString();
-                        String descr = eventDescr.getText().toString();
+                            String startString = DateTimeUtil.getTimeString(startPicker.getCurrentHour(),
+                                    startPicker.getCurrentMinute());
+                            String endString = DateTimeUtil.getTimeString(endPicker.getCurrentHour(),
+                                    endPicker.getCurrentMinute());
+                            String title = eventTitle.getText().toString();
+                            String descr = eventDescr.getText().toString();
 
-                        values.put(CalendarInfo.FeedEntry.START_TIME,startString);
-                        values.put(CalendarInfo.FeedEntry.END_TIME, endString);
-                        values.put(CalendarInfo.FeedEntry.EVENT_TITLE, title);
-                        values.put(CalendarInfo.FeedEntry.EVENT_DESCR, descr);
-                        values.put(CalendarInfo.FeedEntry.EVENT_TYPE, "event");
+                            values.put(CalendarInfo.FeedEntry.START_TIME,startString);
+                            values.put(CalendarInfo.FeedEntry.END_TIME, endString);
+                            values.put(CalendarInfo.FeedEntry.EVENT_TITLE, title);
+                            values.put(CalendarInfo.FeedEntry.EVENT_DESCR, descr);
+                            values.put(CalendarInfo.FeedEntry.EVENT_TYPE, "event");
 
-                        cr.insert(CalendarContentProvider.CONTENT_URI, values);
-
+                            cr.insert(CalendarContentProvider.CONTENT_URI, values);
+                        //}
+                        /*else{
+                            LocalDate startdate = new LocalDate(DateTimeUtil.getDateString(
+                                    repeatStartDate.getYear(),
+                                    repeatStartDate.getMonth(),
+                                    repeatStartDate.getDayOfMonth()));
+                            LocalDate enddate = new LocalDate(DateTimeUtil.getDateString(
+                                    noRepeatStartDate.getYear(),
+                                    noRepeatStartDate.getMonth(),
+                                    noRepeatStartDate.getDayOfMonth()));
+                            while (startdate.isBefore(enddate)) {
+                                values.put(CalendarInfo.FeedEntry.DATE,
+                                        repeatStartDate.toString());
+                                values.put(CalendarInfo.FeedEntry.START_TIME,
+                                        DateTimeUtil.getTimeString(startPicker.getCurrentHour(),
+                                                startPicker.getCurrentMinute()));
+                                values.put(CalendarInfo.FeedEntry.END_TIME,
+                                        DateTimeUtil.getTimeString(endPicker.getCurrentHour(),
+                                                endPicker.getCurrentMinute()));
+                                values.put(CalendarInfo.FeedEntry.EVENT_TITLE,
+                                        eventTitle.getText().toString());
+                                values.put(CalendarInfo.FeedEntry.EVENT_DESCR,
+                                        eventDescr.getText().toString());
+                                values.put(CalendarInfo.FeedEntry.EVENT_TYPE,
+                                        "event");
+                                cr.insert(CalendarContentProvider.CONTENT_URI, values);
+                                values.clear();
+                                startdate = startdate.plusWeeks(1);
+                            }
+                        }*/
                         getTargetFragment().onActivityResult(getTargetRequestCode(),
                                 Activity.RESULT_OK, getActivity().getIntent());
 

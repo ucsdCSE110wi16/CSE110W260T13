@@ -289,7 +289,6 @@ public class AddClassActivity extends AppCompatActivity {
 
         if(!haveCourseErrors()) valid = false;
         if(!haveEmailErrors()) valid = false;
-        if(!haveWebErrors()) valid = false;
         if(!haveTimeErrors()) valid = false;
         if(!haveInvalidDays()) valid = false;
         if(!haveInvalidEndDate()) valid = false;
@@ -330,7 +329,7 @@ public class AddClassActivity extends AppCompatActivity {
         return true;
     }
 
-    //Web Errors
+    //Web Errors - not used
     private boolean haveWebErrors(){
         //Website can be empty but not invalid.
         if (!TextUtils.isEmpty(editTextsInfo[Edits.WEB.ordinal()])
@@ -518,6 +517,7 @@ public class AddClassActivity extends AppCompatActivity {
         LocalDate startdate = new LocalDate();
         String end = editTextsInfo[Edits.ENDDATE.ordinal()];
         LocalDate enddate = new LocalDate(end);
+
 
         if(mode.contentEquals(UPDATE)){
             cr.delete(CalendarContentProvider.CONTENT_URI,
