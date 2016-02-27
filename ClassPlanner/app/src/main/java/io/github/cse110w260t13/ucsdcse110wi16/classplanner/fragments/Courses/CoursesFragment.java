@@ -86,8 +86,8 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         //Load Content of Each Tab
         courseTabAdapter.addTab(courseTabHost.newTabSpec("one").setIndicator("Class Info"),
                 ClassInfoFragment.class, null);
-        courseTabAdapter.addTab(courseTabHost.newTabSpec("two").setIndicator("Assignment"),
-                AssignmentsFragment.class, null);
+        /*courseTabAdapter.addTab(courseTabHost.newTabSpec("two").setIndicator("Assignment"),
+                AssignmentsFragment.class, null);*/
         courseTabAdapter.addTab(courseTabHost.newTabSpec("three").setIndicator("Scale"),
                 GradescaleFragment.class, null);
 
@@ -219,9 +219,9 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             if (viewPagerFragment instanceof ClassInfoFragment) {
                 ((ClassInfoFragment)viewPagerFragment).selectClass(course_name);
             }
-            else if (viewPagerFragment instanceof  AssignmentsFragment){
+            /*else if (viewPagerFragment instanceof  AssignmentsFragment){
                 ((AssignmentsFragment)viewPagerFragment).test(course_name);
-            }
+            }*/
             else if (viewPagerFragment instanceof GradescaleFragment){
                 ((GradescaleFragment)viewPagerFragment).updateChart(course_name);
             }
