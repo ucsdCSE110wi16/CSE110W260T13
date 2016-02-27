@@ -27,6 +27,13 @@ public class TabsAdapter extends FragmentPagerAdapter
     private final ViewPager mViewPager;
     private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
 
+    TabsCallback mCallback;
+
+    // Container Activity must implement this interface
+    public interface TabsCallback {
+        void refreshOnTabsChanged();
+    }
+
 
     /**
      * Class that will contain the information of the tab that it is
@@ -73,11 +80,12 @@ public class TabsAdapter extends FragmentPagerAdapter
      * @param mng
      */
     public TabsAdapter(FragmentActivity activity, TabHost tabHost,
-                       ViewPager pager, FragmentManager mng) {
+                       ViewPager pager, FragmentManager mng, TabsCallback mCallback) {
         super(mng);
         mContext = activity;
         mTabHost = tabHost;
         mViewPager = pager;
+        this.mCallback = mCallback;
         mTabHost.setOnTabChangedListener(this);
         mViewPager.setAdapter(this);
         mViewPager.addOnPageChangeListener(this);
@@ -130,6 +138,7 @@ public class TabsAdapter extends FragmentPagerAdapter
     public void onTabChanged(String tabId) {
         int position = mTabHost.getCurrentTab();
         mViewPager.setCurrentItem(position);
+        mCallback.refreshOnTabsChanged();
     }
 
 

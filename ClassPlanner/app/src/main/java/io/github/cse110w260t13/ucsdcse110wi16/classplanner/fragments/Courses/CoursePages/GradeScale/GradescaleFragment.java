@@ -197,4 +197,12 @@ public class GradescaleFragment extends Fragment{
         mChart.invalidate();
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (currName!=null){
+            updateChart(currName);
+        }
+    }
+
 }

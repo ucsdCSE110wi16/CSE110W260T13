@@ -47,6 +47,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
     private TabHost courseTabHost;
     private ViewPager courseViewPager;
     private TabsAdapter courseTabAdapter;
+    private TabsAdapter.TabsCallback mCallback;
 
     private SimpleCursorAdapter adapter;
     private Spinner spin;
@@ -70,8 +71,17 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
 
         //ViewPager is a layout manager that lets you flip right and left through tabs
         courseViewPager = (ViewPager) rootView.findViewById(R.id.pager);
+
+        /*Crappy but it works*/
+        mCallback = new TabsAdapter.TabsCallback() {
+            @Override
+            public void refreshOnTabsChanged() {
+                updateChildFragments(currentClass);
+            }
+        };
+
         courseTabAdapter = new TabsAdapter(getActivity(), courseTabHost, courseViewPager,
-                getChildFragmentManager());
+                getChildFragmentManager(), mCallback);
 
         //Load Content of Each Tab
         courseTabAdapter.addTab(courseTabHost.newTabSpec("one").setIndicator("Class Info"),
@@ -134,7 +144,6 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
             String course_name = cursor.getString(cursor.getColumnIndex
                     (CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME));
             currentClass = course_name;
-            updateChildFragments(course_name);
         }
         @Override
         public void onNothingSelected(AdapterView<?> parent) {}

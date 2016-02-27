@@ -75,7 +75,7 @@ public class EditScaleActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Are you sure?");
         builder.setMessage("This will permanently change the categories for your" +
-                "Assignments according to the order on this page.");
+                " Assignments.");
         builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 int index = 0;
