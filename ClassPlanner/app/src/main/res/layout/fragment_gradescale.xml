@@ -8,20 +8,28 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:id="@+id/toplayer">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:fontFamily="sans-serif-light"
+            android:text="Grade Distribution"/>
         <Button
             android:id="@+id/edit_info"
             android:background="@drawable/edit_icon_white"
-            android:layout_margin="@dimen/activity_horizontal_margin"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"/>
         <com.github.mikephil.charting.charts.PieChart
+            android:layout_below="@id/edit_info"
             android:id="@+id/chart"
             android:layout_width="350sp"
             android:layout_height="350sp"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 

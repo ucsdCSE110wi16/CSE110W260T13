@@ -26,6 +26,10 @@
             android:label="Add Class"
             android:parentActivityName=".nav_drawer.MainActivity" >
         </activity>
+        <activity android:name=".fragments.Courses.CoursePages.GradeScale.EditScaleActivity"
+            android:label="Add Class"
+            android:parentActivityName=".nav_drawer.MainActivity" >
+        </activity>
 
         <activity android:name=".fragments.Assignments.AddAssignment"
             android:label="Add Assignment"
@@ -38,7 +42,11 @@
         </provider>
         <provider
             android:name=".local_database.course_database.CourseCalendarContentProvider"
-            android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database">
+            android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.course">
+        </provider>
+        <provider
+            android:name=".local_database.course_database.GradeScaleContentProvider"
+            android:authorities="io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.scale">
         </provider>
         <provider
             android:name=".local_database.calendar_database.CalendarContentProvider"

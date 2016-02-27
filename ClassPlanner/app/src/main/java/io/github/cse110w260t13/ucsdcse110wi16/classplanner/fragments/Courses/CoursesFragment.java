@@ -32,7 +32,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.AddClassActivity;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.AssignmentsFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.ClassInfoFragment;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.GradescaleFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursePages.GradeScale.GradescaleFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.ErrorDialogFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.TabsAdapter;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
@@ -114,7 +114,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
         //set the listeners for the buttons on the Courses page
         ImageButton add = (ImageButton)rootView.findViewById(R.id.add_course_button);
         ImageButton delete = (ImageButton)rootView.findViewById(R.id.delete_course_button);
-        clickHandler click_handler = new clickHandler();
+        ClickHandler click_handler = new ClickHandler();
         add.setOnClickListener(click_handler);
         delete.setOnClickListener(click_handler);
 
@@ -143,7 +143,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
     /**--------------------------------------------------------------------------------------------
      * click handler for all buttons in the Courses Page
      *--------------------------------------------------------------------------------------------*/
-    private class clickHandler implements View.OnClickListener {
+    private class ClickHandler implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.add_course_button:
@@ -213,7 +213,7 @@ public class CoursesFragment extends Fragment implements LoaderManager.LoaderCal
                 ((AssignmentsFragment)viewPagerFragment).test(course_name);
             }
             else if (viewPagerFragment instanceof GradescaleFragment){
-
+                ((GradescaleFragment)viewPagerFragment).updateChart(course_name);
             }
         }
     }

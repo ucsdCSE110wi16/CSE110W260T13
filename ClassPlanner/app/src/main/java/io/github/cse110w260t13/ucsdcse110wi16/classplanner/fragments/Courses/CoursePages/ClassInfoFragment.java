@@ -55,7 +55,7 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
         getLoaderManager().initLoader(URL_LOADER, null, this);
 
         Button editButton = (Button) rootView.findViewById(R.id.edit_info);
-        clickHandler handler = new clickHandler();
+        ClickHandler handler = new ClickHandler();
         editButton.setOnClickListener(handler);
 
         return rootView;
@@ -90,7 +90,7 @@ public class ClassInfoFragment extends Fragment implements LoaderManager.LoaderC
     /**-------------------------------------------------------------------------------------------
      * clickHandle handles all click operations for the ClassInfoFragment
      *-------------------------------------------------------------------------------------------*/
-    private class clickHandler implements View.OnClickListener {
+    private class ClickHandler implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.edit_info:

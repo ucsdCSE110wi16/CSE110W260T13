@@ -81,4 +81,11 @@ public final class DateTimeUtil {
         return sdf.format(date);
     }
 
+    public static String getDateTitleFromDate(Date date){
+        SimpleDateFormat titleFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return titleFormat.format(cal.getTime());
+    }
+
 }

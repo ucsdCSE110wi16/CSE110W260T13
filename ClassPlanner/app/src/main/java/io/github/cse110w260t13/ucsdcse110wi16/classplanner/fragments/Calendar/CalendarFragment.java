@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidFragment;
@@ -38,6 +39,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import hirondelle.date4j.DateTime;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.DateTimeUtil;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CaldroidUtil.CaldroidCustomFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.AddCalendarDialogFragment;
@@ -53,11 +55,9 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calend
 public class CalendarFragment extends Fragment implements CalendarRecyclerAdapter.RecyclerAdapterCallback{
 
     private static final String LOG_TAG = "CalendarFragment";
-    private static final int COLOR_DELTA = 3;
     private static final int REQUEST_CODE = 0;
 
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private static final int URL_LOADER = 0;
     private RecyclerView list;
     private CalendarRecyclerAdapter adapter;
 
@@ -72,6 +72,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
 
     private int caldroidSelectedMonth;
     private int caldroidSelectedYear;
+
+    private View rootView;
 
     @Override
     public void onCreateEditDialog(String id){
@@ -110,7 +112,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
         coordinatorLayout = (CoordinatorLayout) rootView.findViewById(R.id.fragment_calendar_coordinator_layout);
 
         /*******************************SETTING UP THE TOOLBAR************************************/
@@ -233,6 +235,9 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         Date today = new Date();
         daySelected = today;
 
+        TextView dateTitle = (TextView) rootView.findViewById(R.id.calendar_date_title);
+        dateTitle.setText(DateTimeUtil.getDateTitleFromDate(daySelected));
+
         UpdateEventsTask eventUpdater = new UpdateEventsTask(
                 getActivity().getBaseContext(),
                 list,
@@ -250,7 +255,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         public void onSelectDate(Date date, View view) {
             Log.d("onSelectDate: ", "shortpress");
 
-            Snackbar.make(coordinatorLayout, "Showing events for " + formatter.format(date), Snackbar.LENGTH_SHORT)
+            Snackbar.make(coordinatorLayout, "Showing events for "
+                    + formatter.format(date), Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
 
             UpdateEventsTask eventUpdater = new UpdateEventsTask(
@@ -262,6 +268,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
             //updateCalendarColors();
 
             daySelected = date;
+            TextView dateTitle = (TextView) rootView.findViewById(R.id.calendar_date_title);
+            dateTitle.setText(DateTimeUtil.getDateTitleFromDate(daySelected));
         }
 
         @Override

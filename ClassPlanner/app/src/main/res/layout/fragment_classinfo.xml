@@ -279,6 +279,7 @@
                 android:text="Student Notes"/>
             <TextView
                 android:id="@+id/notes"
+                android:autoLink="email|phone|web"
                 android:text="@string/note_here"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
