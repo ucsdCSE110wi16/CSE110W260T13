@@ -8,15 +8,19 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.URLUtil;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
@@ -33,6 +37,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.assign
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.assignment_database.AssignmentInfo;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.DateSelector;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.TimeSelector;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarInfo;
 
 public class AddAssignment extends AppCompatActivity {
     public static final String UPDATE = "update";
@@ -40,10 +45,14 @@ public class AddAssignment extends AppCompatActivity {
 
     private String mode;
     private String currName;
+    private String courseName;
 
     private EditText[] editTexts;
     private String[] editTextsInfo;
     private TextInputLayout[] errors;
+
+    private Spinner spin;
+    private SimpleCursorAdapter adapter;
 
     private enum Edits{
         COURSE, NAME, TYPE, POINTSPOS, POINTSEARNED
@@ -54,6 +63,10 @@ public class AddAssignment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_assignment);
 
+        spin=(Spinner) findViewById(R.id.course_chooser);
+        dropdownHandler drpHandler = new dropdownHandler();
+        spin.setOnItemSelectedListener(drpHandler);
+        fillData();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -76,6 +89,28 @@ public class AddAssignment extends AppCompatActivity {
 
         add.setOnClickListener(click_handler);
         cancel.setOnClickListener(click_handler);
+    }
+
+    private void fillData() {
+        // Must include the _id column for the adapter to work
+        String[] courses = new String[] { CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME} ;
+
+        ArrayAdapter adapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item,courses);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin.setAdapter(adapter);
+
+    }
+
+    private class dropdownHandler implements AdapterView.OnItemSelectedListener {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view,
+                                   int position, long id) {
+            courseName = parent.getItemAtPosition(position).toString();
+
+        }
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {}
     }
 
     private void displayCurrentInfo(String currName){
@@ -155,10 +190,8 @@ public class AddAssignment extends AppCompatActivity {
 
 
     /**--------------------------------------------------------------------------------------------
-     * The methods in this section deal with inserting/updating data into the Calendar db
-     * Courses db.
-     * insertAllData handles the calls for data insertion and completion then finishes the activ.
-     * insertCourseData and insertCalendarData insert to their respective databases.
+     * The methods in this section deal with inserting/updating data into the assignment
+     * database
      *--------------------------------------------------------------------------------------------*/
     private boolean insertAllData(String mode) {
         insertAssignmentData(mode);
@@ -171,7 +204,7 @@ public class AddAssignment extends AppCompatActivity {
         ContentValues values = new ContentValues();
 
         values.put(AssignmentInfo.FeedEntry.COURSE_NAME,
-                editTextsInfo[Edits.COURSE.ordinal()]);
+                courseName);
         values.put(AssignmentInfo.FeedEntry.ASSIGNMENT_NAME,
                 editTextsInfo[Edits.NAME.ordinal()]);
         values.put(AssignmentInfo.FeedEntry.TYPE,
