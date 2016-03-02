@@ -154,8 +154,7 @@ public class AddAssignment extends AppCompatActivity {
         EditText type = (EditText) findViewById(R.id.edit_type);
         EditText pointspos = (EditText) findViewById(R.id.edit_possible);
         EditText earned = (EditText) findViewById(R.id.edit_earned);
-        EditText notes = (EditText) findViewById(R.id.notes);
-        editTexts = new EditText[]{course, name, type, pointspos, earned ,notes};
+        editTexts = new EditText[]{course, name, type, pointspos, earned};
 
     }
 
