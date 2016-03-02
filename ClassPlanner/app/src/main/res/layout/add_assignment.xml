@@ -45,19 +45,11 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp">
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ti_course">
-                    <!--User input course name-->
-                    <EditText
-                        android:id="@+id/text_coursename"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:hint="Course Name"
-                        android:fontFamily="sans-serif-light" />
-                </android.support.design.widget.TextInputLayout>
+                <Spinner
+                    android:id="@+id/course_chooser"
+                    android:layout_width="fill_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:popupBackground="@drawable/menu_dropdown_panel_example"/>
 
 
                 <android.support.design.widget.TextInputLayout

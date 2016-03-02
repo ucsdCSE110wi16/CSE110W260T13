@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.assignment_database.AssignmentContentProvider;
@@ -30,7 +31,8 @@ public class AssignmentsFragment extends Fragment{
     private SQLiteDatabase db;
     private AssignmentDbHelper mDbHelper;
 
-    private String AssignmentName;
+    private String CourseName;
+    Spinner spin;
 
     private ListView listview;
 
