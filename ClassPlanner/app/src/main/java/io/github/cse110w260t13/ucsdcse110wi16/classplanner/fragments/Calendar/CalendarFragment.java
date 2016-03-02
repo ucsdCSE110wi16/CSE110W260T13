@@ -271,6 +271,9 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
 
         Date today = new Date();
         daySelected = today;
+        caldroidSelectedYear = DateTimeUtil.getDateFromDate(today, DateTimeUtil.YEAR);
+        caldroidSelectedMonth = DateTimeUtil.getDateFromDate(today, DateTimeUtil.MONTH);
+        classCheckbox.setChecked(true);
 
         TextView dateTitle = (TextView) rootView.findViewById(R.id.calendar_date_title);
         dateTitle.setText(DateTimeUtil.getDateTitleFromDate(daySelected));

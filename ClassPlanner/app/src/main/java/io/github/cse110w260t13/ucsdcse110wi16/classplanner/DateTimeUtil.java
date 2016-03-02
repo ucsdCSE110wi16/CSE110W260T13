@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public final class DateTimeUtil {
@@ -21,7 +22,22 @@ public final class DateTimeUtil {
 
     private DateTimeUtil(){}
 
-    public static int getDate(String strDate,int field)
+    public static int getDateFromDate(Date date, int field){
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(date);
+
+        switch(field){
+            case YEAR:
+                return cal.get(Calendar.YEAR);
+            case MONTH:
+                return cal.get(Calendar.MONTH);
+            case DAY:
+                return cal.get(Calendar.DAY_OF_MONTH);
+        }
+        return -1;
+    }
+
+    public static int getDateFromString(String strDate, int field)
     {
         SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 

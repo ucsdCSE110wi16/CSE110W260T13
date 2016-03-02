@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,29 +11,14 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TimePicker;
-
-import org.joda.time.LocalDate;
-
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.DateTimeUtil;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarContentProvider;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarInfo;
 
 public class EditDialogFragment extends android.support.v4.app.DialogFragment {
 
@@ -120,9 +104,9 @@ public class EditDialogFragment extends android.support.v4.app.DialogFragment {
             String end = cursor.getString(cursor.getColumnIndex(CalendarInfo.FeedEntry.END_TIME));
 
             datePicker.updateDate(
-                    DateTimeUtil.getDate(date, DateTimeUtil.YEAR),
-                    DateTimeUtil.getDate(date, DateTimeUtil.MONTH),
-                    DateTimeUtil.getDate(date, DateTimeUtil.DAY));
+                    DateTimeUtil.getDateFromString(date, DateTimeUtil.YEAR),
+                    DateTimeUtil.getDateFromString(date, DateTimeUtil.MONTH),
+                    DateTimeUtil.getDateFromString(date, DateTimeUtil.DAY));
             startPicker.setCurrentHour(DateTimeUtil.getTime(start, DateTimeUtil.HOUR));
             startPicker.setCurrentMinute(DateTimeUtil.getTime(start, DateTimeUtil.MINUTE));
             endPicker.setCurrentHour(DateTimeUtil.getTime(end, DateTimeUtil.HOUR));

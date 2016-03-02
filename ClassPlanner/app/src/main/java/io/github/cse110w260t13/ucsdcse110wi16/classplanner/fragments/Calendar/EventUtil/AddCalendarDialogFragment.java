@@ -75,9 +75,9 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
         Bundle args = getArguments();
         final String dateSelected = args.getString("day");
         noRepeatStartDate.updateDate(
-                DateTimeUtil.getDate(dateSelected, DateTimeUtil.YEAR),
-                DateTimeUtil.getDate(dateSelected, DateTimeUtil.MONTH),
-                DateTimeUtil.getDate(dateSelected, DateTimeUtil.DAY));
+                DateTimeUtil.getDateFromString(dateSelected, DateTimeUtil.YEAR),
+                DateTimeUtil.getDateFromString(dateSelected, DateTimeUtil.MONTH),
+                DateTimeUtil.getDateFromString(dateSelected, DateTimeUtil.DAY));
         // Set the checkbox's on change listener
         repeatCheckBox.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
@@ -88,17 +88,17 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
                             checked = true;
                             calendarDialogLayout.addView(repeatView);
                             repeatStartDate.updateDate(
-                                    DateTimeUtil.getDate(dateSelected, DateTimeUtil.YEAR),
-                                    DateTimeUtil.getDate(dateSelected, DateTimeUtil.MONTH),
-                                    DateTimeUtil.getDate(dateSelected, DateTimeUtil.DAY));
+                                    DateTimeUtil.getDateFromString(dateSelected, DateTimeUtil.YEAR),
+                                    DateTimeUtil.getDateFromString(dateSelected, DateTimeUtil.MONTH),
+                                    DateTimeUtil.getDateFromString(dateSelected, DateTimeUtil.DAY));
                             ((ViewGroup) repeatView.getParent()).removeView(noRepeatView);
                         } else {
                             checked = false;
                             calendarDialogLayout.addView(noRepeatView);
                             noRepeatStartDate.updateDate(
-                                    DateTimeUtil.getDate(dateSelected, DateTimeUtil.YEAR),
-                                    DateTimeUtil.getDate(dateSelected, DateTimeUtil.MONTH),
-                                    DateTimeUtil.getDate(dateSelected, DateTimeUtil.DAY));
+                                    DateTimeUtil.getDateFromString(dateSelected, DateTimeUtil.YEAR),
+                                    DateTimeUtil.getDateFromString(dateSelected, DateTimeUtil.MONTH),
+                                    DateTimeUtil.getDateFromString(dateSelected, DateTimeUtil.DAY));
                             ((ViewGroup) repeatView.getParent()).removeView(repeatView);
                         }
                     }
