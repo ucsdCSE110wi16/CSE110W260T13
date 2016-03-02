@@ -49,6 +49,20 @@ public class CourseCalendarInfo {
         };
     }
 
+    public static abstract class GradeScale implements BaseColumns{
+        public static final String TABLE_NAME = "ScaleTable";
+        public static final String COURSE_NAME = "CourseName";
+        public static final String CATEGORY = "Category";
+        public static final String WEIGHT = "Weight";
+
+        public static final String[] ALL_COLUMNS = {
+                _ID,
+                COURSE_NAME,
+                CATEGORY,
+                WEIGHT
+        };
+    }
+
 
 
 }

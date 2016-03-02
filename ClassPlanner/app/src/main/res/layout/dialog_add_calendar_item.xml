@@ -55,11 +55,11 @@
             android:layout_width="wrap_content"
             android:layout_height="200dp"/>
 
-        <CheckBox
+        <!--<CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/calendar_repeat_checkbox"
-            android:id="@+id/calendar_repeat_checkbox" />
+            android:id="@+id/calendar_repeat_checkbox" />-->
 
     </LinearLayout>
 

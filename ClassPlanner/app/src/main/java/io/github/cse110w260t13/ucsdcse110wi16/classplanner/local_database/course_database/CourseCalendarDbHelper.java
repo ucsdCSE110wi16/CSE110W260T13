@@ -7,10 +7,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class CourseCalendarDbHelper extends SQLiteOpenHelper{
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "courseCalendar.db";
 
-    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " +
+    private static final String CREATE_COURSE_ENTRIES = "CREATE TABLE " +
             CourseCalendarInfo.GeneralInfo.TABLE_NAME + " (" +
             CourseCalendarInfo.GeneralInfo._ID + " INTEGER PRIMARY KEY," +
             CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME + " TEXT," +
@@ -33,21 +33,33 @@ public class CourseCalendarDbHelper extends SQLiteOpenHelper{
             CourseCalendarInfo.GeneralInfo.COLUMN_WEBSITE + " TEXT" +
             " ) ";
 
-    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " +
+    private static final String CREATE_SCALE_ENTRIES ="CREATE TABLE " +
+            CourseCalendarInfo.GradeScale.TABLE_NAME + " (" +
+            CourseCalendarInfo.GradeScale._ID + " INTEGER PRIMARY KEY," +
+            CourseCalendarInfo.GradeScale.COURSE_NAME + " TEXT," +
+            CourseCalendarInfo.GradeScale.CATEGORY + " TEXT," +
+            CourseCalendarInfo.GradeScale.WEIGHT + " INTEGER" + " ) ";
+
+    private static final String DELETE_COURSE_ENTRIES = "DROP TABLE IF EXISTS " +
             CourseCalendarInfo.GeneralInfo.TABLE_NAME;
+
+    private static final String DELETE_SCALE_ENTRIES = "DROP TABLE IF EXISTS " +
+            CourseCalendarInfo.GradeScale.TABLE_NAME;
 
     public CourseCalendarDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(CREATE_COURSE_ENTRIES);
+        db.execSQL(CREATE_SCALE_ENTRIES);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
-        db.execSQL(SQL_DELETE_ENTRIES);
+        db.execSQL(DELETE_COURSE_ENTRIES);
+        db.execSQL(DELETE_SCALE_ENTRIES);
         onCreate(db);
     }
 

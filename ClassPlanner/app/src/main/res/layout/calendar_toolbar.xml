@@ -33,6 +33,7 @@
                 android:theme="@style/ToolBarStyle"
                 app:layout_collapseMode="pin">
                 <TextView
+                    android:id="@+id/calendar_date_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
@@ -45,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:orientation = "horizontal">
                     <LinearLayout
-                        android:id="@+id/class_checkbox"
+                        android:id="@+id/class_check"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
@@ -63,12 +64,12 @@
                             android:layout_marginTop = "-5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/todo_checkBox" />
+                            android:id="@+id/class_checkbox" />
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/hwk_check"
-                        android:layout_toLeftOf="@id/class_checkbox"
-                        android:layout_toStartOf="@id/class_checkbox"
+                        android:layout_toLeftOf="@id/class_check"
+                        android:layout_toStartOf="@id/class_check"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -86,7 +87,7 @@
                             android:layout_marginTop = "-5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/assignments" />
+                            android:id="@+id/homework_checkbox" />
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/todo_check"
@@ -110,7 +111,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#fff"
-                            android:id="@+id/Todo" />
+                            android:id="@+id/todo_checkBox" />
                     </LinearLayout>
 
                 </RelativeLayout>

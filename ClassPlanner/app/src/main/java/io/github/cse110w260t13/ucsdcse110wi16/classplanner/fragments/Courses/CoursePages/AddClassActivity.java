@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Button;
@@ -28,11 +29,13 @@ import java.util.regex.Pattern;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.DateSelector;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.Scale;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CourseUtil.TimeSelector;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.CourseCalendarInfo;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.course_database.GradeScaleContentProvider;
 
 public class AddClassActivity extends AppCompatActivity {
     public static final String UPDATE = "update";
@@ -286,7 +289,6 @@ public class AddClassActivity extends AppCompatActivity {
 
         if(!haveCourseErrors()) valid = false;
         if(!haveEmailErrors()) valid = false;
-        if(!haveWebErrors()) valid = false;
         if(!haveTimeErrors()) valid = false;
         if(!haveInvalidDays()) valid = false;
         if(!haveInvalidEndDate()) valid = false;
@@ -327,7 +329,7 @@ public class AddClassActivity extends AppCompatActivity {
         return true;
     }
 
-    //Web Errors
+    //Web Errors - not used
     private boolean haveWebErrors(){
         //Website can be empty but not invalid.
         if (!TextUtils.isEmpty(editTextsInfo[Edits.WEB.ordinal()])
@@ -446,6 +448,7 @@ public class AddClassActivity extends AppCompatActivity {
         }
         insertCourseData(mode);
         insertCalendarData(mode);
+        insertGradeScale(mode);
         return true;
     }
 
@@ -515,6 +518,7 @@ public class AddClassActivity extends AppCompatActivity {
         String end = editTextsInfo[Edits.ENDDATE.ordinal()];
         LocalDate enddate = new LocalDate(end);
 
+
         if(mode.contentEquals(UPDATE)){
             cr.delete(CalendarContentProvider.CONTENT_URI,
                     CalendarInfo.FeedEntry.EVENT_TITLE + "=?",
@@ -545,6 +549,27 @@ public class AddClassActivity extends AppCompatActivity {
                 }
             }
             startdate = startdate.plusDays(1);
+        }
+    }
+
+    /**--------------------------------------------------------------------------------------------
+     * Inserts a default grade scale for this particular class
+     *--------------------------------------------------------------------------------------------*/
+    private void insertGradeScale(String mode){
+        if (mode.contentEquals(UPDATE)) return;
+
+        ContentResolver cr = getContentResolver();
+        ContentValues values = new ContentValues();
+        Scale gradeScale = new Scale(Scale.DEFAULT);
+        for(int i=0; i < gradeScale.size(); i++) {
+            Log.i("insert grade scale ", editTextsInfo[Edits.COURSE.ordinal()]
+                    + " " + gradeScale.getCategory(i) + " " + gradeScale.getWeight(i));
+            values.put(CourseCalendarInfo.GradeScale.COURSE_NAME,
+                    editTextsInfo[Edits.COURSE.ordinal()]);
+            values.put(CourseCalendarInfo.GradeScale.CATEGORY, gradeScale.getCategory(i));
+            values.put(CourseCalendarInfo.GradeScale.WEIGHT, gradeScale.getWeight(i));
+            cr.insert(GradeScaleContentProvider.CONTENT_URI, values);
+            values.clear();
         }
     }
 

@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidFragment;
@@ -38,6 +39,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import hirondelle.date4j.DateTime;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.DateTimeUtil;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CaldroidUtil.CaldroidCustomFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil.AddCalendarDialogFragment;
@@ -53,16 +55,21 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calend
 public class CalendarFragment extends Fragment implements CalendarRecyclerAdapter.RecyclerAdapterCallback{
 
     private static final String LOG_TAG = "CalendarFragment";
-    private static final int COLOR_DELTA = 3;
     private static final int REQUEST_CODE = 0;
 
+    public static final String EVENT_TYPE_EVENT = "event";
+    public static final String EVENT_TYPE_CLASS = "class";
+    public static final String EVENT_TYPE_HOMEWORK = "homework";
+    public static final String EVENT_TYPE_TODO = "todo";
+
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private static final int URL_LOADER = 0;
     private RecyclerView list;
     private CalendarRecyclerAdapter adapter;
 
     private CaldroidFragment caldroidFragment;
     private CheckBox personalTodoCheckbox;
+    private CheckBox homeworkCheckbox;
+    private CheckBox classCheckbox;
     private Date daySelected;
 
     private Drawable[] calendarColors;
@@ -73,12 +80,15 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
     private int caldroidSelectedMonth;
     private int caldroidSelectedYear;
 
+    private View rootView;
+
     @Override
     public void onCreateEditDialog(String id){
         Log.i("CalendarCallback", "onCreateEditDialog start");
         DialogFragment dialog = new EditDialogFragment();
         Bundle args = new Bundle();
         args.putString("id", id);
+        args.putString("day", daySelected.toString());
         dialog.setArguments(args);
         dialog.setTargetFragment(this, REQUEST_CODE);
         dialog.show(getFragmentManager(), "EditDialogFragment");
@@ -110,7 +120,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
         coordinatorLayout = (CoordinatorLayout) rootView.findViewById(R.id.fragment_calendar_coordinator_layout);
 
         /*******************************SETTING UP THE TOOLBAR************************************/
@@ -128,6 +138,9 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
             public void onClick(View view) {
                 // Display new calendar item dialog
                 DialogFragment dialog = new AddCalendarDialogFragment();
+                Bundle args = new Bundle();
+                args.putString("day", daySelected.toString());
+                dialog.setArguments(args);
                 //Set target fragment to CalendarFragment for dialog.
                 dialog.setTargetFragment(CalendarFragment.this, REQUEST_CODE);
                 dialog.show(getFragmentManager(), "AddCalendarDialogFragment");
@@ -143,7 +156,33 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            updateCalendarColors();
+                        updateCalendarColors();
+                    }
+                }
+        );
+
+        // Get the personal todolist checkbox
+        homeworkCheckbox = (CheckBox) rootView.findViewById(R.id.homework_checkbox);
+
+        // Set the change listener to update the colors
+        homeworkCheckbox.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        updateCalendarColors();
+                    }
+                }
+        );
+
+        // Get the personal todolist checkbox
+        classCheckbox = (CheckBox) rootView.findViewById(R.id.class_checkbox);
+
+        // Set the change listener to update the colors
+        classCheckbox.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        updateCalendarColors();
                     }
                 }
         );
@@ -233,6 +272,9 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         Date today = new Date();
         daySelected = today;
 
+        TextView dateTitle = (TextView) rootView.findViewById(R.id.calendar_date_title);
+        dateTitle.setText(DateTimeUtil.getDateTitleFromDate(daySelected));
+
         UpdateEventsTask eventUpdater = new UpdateEventsTask(
                 getActivity().getBaseContext(),
                 list,
@@ -250,7 +292,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         public void onSelectDate(Date date, View view) {
             Log.d("onSelectDate: ", "shortpress");
 
-            Snackbar.make(coordinatorLayout, "Showing events for " + formatter.format(date), Snackbar.LENGTH_SHORT)
+            Snackbar.make(coordinatorLayout, "Showing events for "
+                    + formatter.format(date), Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
 
             UpdateEventsTask eventUpdater = new UpdateEventsTask(
@@ -262,6 +305,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
             //updateCalendarColors();
 
             daySelected = date;
+            TextView dateTitle = (TextView) rootView.findViewById(R.id.calendar_date_title);
+            dateTitle.setText(DateTimeUtil.getDateTitleFromDate(daySelected));
         }
 
         @Override
@@ -362,8 +407,6 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
 
         HashMap<DateTime, Drawable> mappedColors = new HashMap<DateTime, Drawable>();
 
-        int[] itemsPerDayInMonth;
-
         DateTime today = CalendarHelper.convertDateToDateTime(new Date());
 
         ArrayList<DateTime> gridDayList = CalendarHelper.getFullWeeks(
@@ -394,7 +437,29 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
             }
         }
 
-        itemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList);
+        int[] itemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList, EVENT_TYPE_EVENT);
+        int[] todoItemsPerDayInMonth = new int[monthDayList.size()];
+        int[] homeworkItemsPerDayInMonth = new int[monthDayList.size()];
+        int[] classItemsPerDayInMonth = new int[monthDayList.size()];
+
+        if(personalTodoCheckbox.isChecked()) {
+            todoItemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList, EVENT_TYPE_TODO);
+        }
+
+        if(homeworkCheckbox.isChecked()) {
+            homeworkItemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList, EVENT_TYPE_HOMEWORK);
+        }
+
+        if(classCheckbox.isChecked()) {
+            classItemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList, EVENT_TYPE_CLASS);
+        }
+
+        for(int i = 0; i <= itemsPerDayInMonth.length - 1; i++) {
+            itemsPerDayInMonth[i]
+                    += todoItemsPerDayInMonth[i]
+                    + homeworkItemsPerDayInMonth[i]
+                    + classItemsPerDayInMonth[i];
+        }
 
         int colorIndex;
 
@@ -428,10 +493,11 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
      * Generates the number of events per day in the given month.
      *
      * @param month the days of the month
+     * @param eventType the type of event to be queried for
      * @return corresponding number of events per month day
      */
     @SuppressWarnings("deprecation")
-    private int[] getItemsPerDayFromMonth(ArrayList<DateTime> month) {
+    private int[] getItemsPerDayFromMonth(ArrayList<DateTime> month, String eventType) {
 
         int[] itemsPerDayFromMonth = new int[month.size()];
 
@@ -439,7 +505,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         String endDate = month.get(month.size() - 1).format("YYYY-MM-DD");
 
         String daySelection = CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND "
-                + CalendarInfo.FeedEntry.DATE + " <= '" + endDate + "'";
+                + CalendarInfo.FeedEntry.DATE + " <= '" + endDate + "' AND "
+                + CalendarInfo.FeedEntry.EVENT_TYPE + " == '" + eventType + "'";
 
         Log.d(LOG_TAG, daySelection);
 
