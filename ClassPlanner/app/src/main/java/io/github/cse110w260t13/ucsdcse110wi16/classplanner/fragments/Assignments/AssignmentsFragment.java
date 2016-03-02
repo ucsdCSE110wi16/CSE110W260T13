@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +42,16 @@ public class AssignmentsFragment extends Fragment{
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_assignment, container, false);
+
+        //Create and set the toolbar(Actionbar) for the Courses page
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        if (toolbar != null){
+            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         //makes onClickListeners to add and delete things
         ImageButton add = (ImageButton) rootView.findViewById(R.id.add_button);
         ImageButton delete = (ImageButton) rootView.findViewById(R.id.delete_button);
