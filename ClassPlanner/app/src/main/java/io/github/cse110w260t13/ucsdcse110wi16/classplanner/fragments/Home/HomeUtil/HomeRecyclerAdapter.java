@@ -55,8 +55,8 @@ public class HomeRecyclerAdapter
         TextView typeTitle;
         LinearLayout typeBG;
 
-        ImageButton add;
-        ImageButton del;
+       // ImageButton add;
+       // ImageButton del;
 
         String id;
         String type;
@@ -68,8 +68,8 @@ public class HomeRecyclerAdapter
             end  = (TextView) v.findViewById(R.id.end_time);
             typeTitle = (TextView) v.findViewById(R.id.event_type);
             typeBG = (LinearLayout) v.findViewById(R.id.type_layout);
-            add = (ImageButton) v.findViewById(R.id.add_button);
-            del = (ImageButton) v.findViewById(R.id.delete_button);
+           // add = (ImageButton) v.findViewById(R.id.add_button);
+           // del = (ImageButton) v.findViewById(R.id.delete_button);
         }
     }
 
@@ -86,14 +86,14 @@ public class HomeRecyclerAdapter
     public HomeRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                                  int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.layout_event, parent, false);
+        View v = inflater.inflate(R.layout.layout_home_event, parent, false);
         ViewHolder holder = new ViewHolder(v);
         clickHandler clickhandler = new clickHandler();
-        holder.add.setOnClickListener(clickhandler);
-        holder.del.setOnClickListener(clickhandler);
+       // holder.add.setOnClickListener(clickhandler);
+       // holder.del.setOnClickListener(clickhandler);
 
-        holder.add.setTag(holder);
-        holder.del.setTag(holder);
+       // holder.add.setTag(holder);
+       // holder.del.setTag(holder);
         return holder;
     }
 

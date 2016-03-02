@@ -187,8 +187,8 @@ public class HomeFragment extends Fragment implements HomeRecyclerAdapter.Recycl
             if(adapter == null){
                 Log.d("UpdateEventsTask: ", " test context");
                 adapter = new HomeRecyclerAdapter(HomeFragment.this, HomeEventList, context);
-                list.setAdapter(adapter);
-            }
+            list.setAdapter(adapter);
+        }
             //otherwise clear the adapter and re-add new events
             else {
                 adapter.swap(HomeEventList);
