@@ -57,12 +57,18 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
     private static final String LOG_TAG = "CalendarFragment";
     private static final int REQUEST_CODE = 0;
 
+    public static final String EVENT_TYPE_CLASS = "class";
+    public static final String EVENT_TYPE_HOMEWORK = "homework";
+    public static final String EVENT_TYPE_TODO = "todo";
+
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private RecyclerView list;
     private CalendarRecyclerAdapter adapter;
 
     private CaldroidFragment caldroidFragment;
     private CheckBox personalTodoCheckbox;
+    private CheckBox homeworkCheckbox;
+    private CheckBox classCheckbox;
     private Date daySelected;
 
     private Drawable[] calendarColors;
@@ -149,7 +155,33 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            updateCalendarColors();
+                        updateCalendarColors();
+                    }
+                }
+        );
+
+        // Get the personal todolist checkbox
+        homeworkCheckbox = (CheckBox) rootView.findViewById(R.id.homework_checkbox);
+
+        // Set the change listener to update the colors
+        homeworkCheckbox.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        updateCalendarColors();
+                    }
+                }
+        );
+
+        // Get the personal todolist checkbox
+        classCheckbox = (CheckBox) rootView.findViewById(R.id.class_checkbox);
+
+        // Set the change listener to update the colors
+        classCheckbox.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        updateCalendarColors();
                     }
                 }
         );
@@ -374,8 +406,6 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
 
         HashMap<DateTime, Drawable> mappedColors = new HashMap<DateTime, Drawable>();
 
-        int[] itemsPerDayInMonth;
-
         DateTime today = CalendarHelper.convertDateToDateTime(new Date());
 
         ArrayList<DateTime> gridDayList = CalendarHelper.getFullWeeks(
@@ -406,7 +436,29 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
             }
         }
 
-        itemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList);
+        int[] itemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList);
+        int[] todoItemsPerDayInMonth = new int[monthDayList.size()];
+        int[] homeworkItemsPerDayInMonth = new int[monthDayList.size()];
+        int[] classItemsPerDayInMonth = new int[monthDayList.size()];
+
+        if(personalTodoCheckbox.isChecked()) {
+            todoItemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList, EVENT_TYPE_TODO);
+        }
+
+        if(homeworkCheckbox.isChecked()) {
+            homeworkItemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList, EVENT_TYPE_HOMEWORK);
+        }
+
+        if(classCheckbox.isChecked()) {
+            classItemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList, EVENT_TYPE_CLASS);
+        }
+
+        for(int i = 0; i <= itemsPerDayInMonth.length - 1; i++) {
+            itemsPerDayInMonth[i]
+                    += todoItemsPerDayInMonth[i]
+                    + homeworkItemsPerDayInMonth[i]
+                    + classItemsPerDayInMonth[i];
+        }
 
         int colorIndex;
 
@@ -451,7 +503,63 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         String endDate = month.get(month.size() - 1).format("YYYY-MM-DD");
 
         String daySelection = CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND "
-                + CalendarInfo.FeedEntry.DATE + " <= '" + endDate + "'";
+                + CalendarInfo.FeedEntry.DATE + " <= '" + endDate + "' AND "
+                + CalendarInfo.FeedEntry.EVENT_TYPE + " != '" + EVENT_TYPE_TODO + "' AND "
+                + CalendarInfo.FeedEntry.EVENT_TYPE + " != '" + EVENT_TYPE_HOMEWORK + "' AND "
+                + CalendarInfo.FeedEntry.EVENT_TYPE + " != '" + EVENT_TYPE_CLASS + "'";
+
+        Log.d(LOG_TAG, daySelection);
+
+        //Query for all entries within date. Should be sorted by start time descending
+        Cursor cursor = getActivity().getContentResolver().query(CalendarContentProvider.CONTENT_URI,
+                CalendarInfo.FeedEntry.ALL_COLUMNS,
+                daySelection,
+                null,
+                CalendarInfo.FeedEntry.DATE + " ASC");
+
+        if (cursor != null && cursor.getCount() > 0) {
+
+            cursor.moveToFirst();
+
+            for(int i = 0; (i <= month.size() - 1) && (!cursor.isAfterLast()); i++) {
+
+                while((!cursor.isAfterLast()) &&
+                        month.get(i).format("YYYY-MM-DD")
+                                .equals(cursor.getString(
+                                        cursor.getColumnIndex(
+                                                CalendarInfo.FeedEntry.DATE)))) {
+
+                    itemsPerDayFromMonth[i] += 3;
+                    cursor.moveToNext();
+                }
+
+            }
+
+            cursor.close();
+        }
+
+
+        return itemsPerDayFromMonth;
+    }
+
+    /**
+     * Generates the number of events per day in the given month.
+     *
+     * @param month the days of the month
+     * @param eventType the type of event to be queried for
+     * @return corresponding number of events per month day
+     */
+    @SuppressWarnings("deprecation")
+    private int[] getItemsPerDayFromMonth(ArrayList<DateTime> month, String eventType) {
+
+        int[] itemsPerDayFromMonth = new int[month.size()];
+
+        String startDate = month.get(0).format("YYYY-MM-DD");
+        String endDate = month.get(month.size() - 1).format("YYYY-MM-DD");
+
+        String daySelection = CalendarInfo.FeedEntry.DATE + " >= '" + startDate + "' AND "
+                + CalendarInfo.FeedEntry.DATE + " <= '" + endDate + "' AND "
+                + CalendarInfo.FeedEntry.EVENT_TYPE + " == '" + eventType + "'";
 
         Log.d(LOG_TAG, daySelection);
 
