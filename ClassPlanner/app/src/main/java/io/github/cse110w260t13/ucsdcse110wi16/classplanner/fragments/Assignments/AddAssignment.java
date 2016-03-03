@@ -45,7 +45,7 @@ public class AddAssignment extends AppCompatActivity {
 
     private String mode;
     private String currName;
-    private String courseName;
+    private String HOMEWORK = "homework";
 
     private EditText[] editTexts;
     private String[] editTextsInfo;
@@ -179,6 +179,7 @@ public class AddAssignment extends AppCompatActivity {
      *--------------------------------------------------------------------------------------------*/
     private boolean insertAllData(String mode) {
         insertAssignmentData(mode);
+        insertCalendarData(mode);
         return true;
     }
 
@@ -209,6 +210,29 @@ public class AddAssignment extends AppCompatActivity {
                     new String[]{currName});
         }
     }
+
+    private void insertCalendarData(String mode) {
+        ContentValues values = new ContentValues();
+        ContentResolver cr = getContentResolver();
+
+        if(mode.contentEquals(UPDATE)){
+            cr.delete(CalendarContentProvider.CONTENT_URI,
+                    CalendarInfo.FeedEntry.EVENT_TITLE + "=?",
+                    new String[]{currName});
+        }
+
+        values.put(CalendarInfo.FeedEntry.DATE,
+                editTextsInfo[Edits.DUEDATE.ordinal()]);
+        values.put(CalendarInfo.FeedEntry.EVENT_TITLE,
+                editTextsInfo[Edits.NAME.ordinal()]);
+        values.put(CalendarInfo.FeedEntry.EVENT_TYPE,
+                HOMEWORK);
+        cr.insert(CalendarContentProvider.CONTENT_URI, values);
+
+
+    }
+
+
 
 
 }
