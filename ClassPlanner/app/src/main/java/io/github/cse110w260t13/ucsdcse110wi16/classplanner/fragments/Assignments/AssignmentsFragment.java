@@ -62,7 +62,7 @@ public class AssignmentsFragment extends Fragment{
         delete.setOnClickListener(click_handler);
 
         listview = (ListView)rootView.findViewById(R.id.assignment_list);
-      //  updateData();
+        updateData();
 
         return rootView;
     }
@@ -104,7 +104,7 @@ public class AssignmentsFragment extends Fragment{
                     builder.create().show();
                     break;
             }
-    //        updateData();
+            updateData();
         }
     }
 
@@ -141,6 +141,6 @@ public class AssignmentsFragment extends Fragment{
     @Override
     public void onResume(){
         super.onResume();
-      //  updateData();
+        updateData();
     }
 }

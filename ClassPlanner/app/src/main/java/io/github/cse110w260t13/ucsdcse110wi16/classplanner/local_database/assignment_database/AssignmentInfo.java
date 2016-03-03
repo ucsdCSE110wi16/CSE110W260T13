@@ -15,7 +15,7 @@ public class AssignmentInfo {
         public static final String POINTS_EARNED = "PointsEarned";
         public static final String POINTS_POSSIBLE = "PointsPossible";
 
-        public static final String DUE_DATE = "DueDate";
+        public static final String DUE_DATE = "Date";
 
         public static final String[] ALL_COLUMNS= {
                 _ID,
