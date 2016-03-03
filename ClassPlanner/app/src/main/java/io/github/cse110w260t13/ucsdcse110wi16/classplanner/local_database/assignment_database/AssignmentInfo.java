@@ -15,6 +15,8 @@ public class AssignmentInfo {
         public static final String POINTS_EARNED = "PointsEarned";
         public static final String POINTS_POSSIBLE = "PointsPossible";
 
+        public static final String DUE_DATE = "DueDate";
+
         public static final String[] ALL_COLUMNS= {
                 _ID,
                 COURSE_NAME,
@@ -22,6 +24,7 @@ public class AssignmentInfo {
                 TYPE,
                 POINTS_EARNED,
                 POINTS_POSSIBLE,
+                DUE_DATE,
         };
     }
 

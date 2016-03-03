@@ -62,7 +62,7 @@ public class AssignmentsFragment extends Fragment{
         delete.setOnClickListener(click_handler);
 
         listview = (ListView)rootView.findViewById(R.id.assignment_list);
-        updateData();
+      //  updateData();
 
         return rootView;
     }
@@ -92,6 +92,7 @@ public class AssignmentsFragment extends Fragment{
                             cr.delete(AssignmentContentProvider.CONTENT_URI,
                                     AssignmentInfo.FeedEntry.ASSIGNMENT_NAME + "=?",
                                     new String[]{name});
+                            updateData();
                         }
                     });
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -103,7 +104,7 @@ public class AssignmentsFragment extends Fragment{
                     builder.create().show();
                     break;
             }
-            updateData();
+    //        updateData();
         }
     }
 
@@ -124,12 +125,15 @@ public class AssignmentsFragment extends Fragment{
                         AssignmentInfo.FeedEntry.ASSIGNMENT_NAME,
                         AssignmentInfo.FeedEntry.TYPE,
                         AssignmentInfo.FeedEntry.POINTS_EARNED,
-                        AssignmentInfo.FeedEntry.POINTS_POSSIBLE},
+                        AssignmentInfo.FeedEntry.POINTS_POSSIBLE,
+                        AssignmentInfo.FeedEntry.DUE_DATE
+                },
                 new int[]{R.id.CourseType,
                         R.id.AssignmentName,
                         R.id.AssignmentType,
                         R.id.PointsEarned,
-                        R.id.PointsPossible}
+                        R.id.PointsPossible,
+                        R.id.Date}
                 ,0);
         listview.setAdapter(adapter);
     }
@@ -137,6 +141,6 @@ public class AssignmentsFragment extends Fragment{
     @Override
     public void onResume(){
         super.onResume();
-        updateData();
+      //  updateData();
     }
 }

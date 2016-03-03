@@ -63,6 +63,7 @@ public class AssignmentContentProvider extends ContentProvider{
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
+
         Cursor cursor = queryBuilder.query(db, projection, selection,
                 selectionArgs, null, null, sortOrder);
         //makes sure that potential listeners are getting notified

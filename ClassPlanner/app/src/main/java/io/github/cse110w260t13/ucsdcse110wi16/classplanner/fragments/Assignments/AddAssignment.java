@@ -55,7 +55,7 @@ public class AddAssignment extends AppCompatActivity {
     private SimpleCursorAdapter adapter;
 
     private enum Edits{
-        COURSE, NAME, TYPE, POINTSPOS, POINTSEARNED
+        COURSE, NAME, TYPE, POINTSPOS, POINTSEARNED, DUEDATE
     }
 
     @Override
@@ -63,10 +63,6 @@ public class AddAssignment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_assignment);
 
-        spin=(Spinner) findViewById(R.id.course_chooser);
-        dropdownHandler drpHandler = new dropdownHandler();
-        spin.setOnItemSelectedListener(drpHandler);
-        fillData();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -89,28 +85,7 @@ public class AddAssignment extends AppCompatActivity {
 
         add.setOnClickListener(click_handler);
         cancel.setOnClickListener(click_handler);
-    }
-
-    private void fillData() {
-        // Must include the _id column for the adapter to work
-        String[] courses = new String[] { CourseCalendarInfo.GeneralInfo.COLUMN_COURSE_NAME} ;
-
-        ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item,courses);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin.setAdapter(adapter);
-
-    }
-
-    private class dropdownHandler implements AdapterView.OnItemSelectedListener {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view,
-                                   int position, long id) {
-            courseName = parent.getItemAtPosition(position).toString();
-
-        }
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {}
+        editTexts[Edits.DUEDATE.ordinal()].setOnClickListener(click_handler);
     }
 
     private void displayCurrentInfo(String currName){
@@ -127,20 +102,22 @@ public class AddAssignment extends AppCompatActivity {
                     cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.ASSIGNMENT_NAME)),
                     cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.TYPE)),
                     cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.POINTS_POSSIBLE)),
-                    cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.POINTS_EARNED))
+                    cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.POINTS_EARNED)),
+                    cursor.getString(cursor.getColumnIndex(AssignmentInfo.FeedEntry.DUE_DATE))
 
             );
         }
     }
 
     public void updateDisplayInfo(String course, String name, String type, String points,
-                                  String earned){
+                                  String earned, String duedate){
 
         editTexts[Edits.COURSE.ordinal()].setText(course);
         editTexts[Edits.NAME.ordinal()].setText(name);
         editTexts[Edits.TYPE.ordinal()].setText(type);
         editTexts[Edits.POINTSPOS.ordinal()].setText(points);
         editTexts[Edits.POINTSEARNED.ordinal()].setText(earned);
+        editTexts[Edits.DUEDATE.ordinal()].setText(duedate);
     }
 
     /**--------------------------------------------------------------------------------------------
@@ -154,7 +131,8 @@ public class AddAssignment extends AppCompatActivity {
         EditText type = (EditText) findViewById(R.id.edit_type);
         EditText pointspos = (EditText) findViewById(R.id.edit_possible);
         EditText earned = (EditText) findViewById(R.id.edit_earned);
-        editTexts = new EditText[]{course, name, type, pointspos, earned};
+        EditText date = (EditText) findViewById(R.id.end_date_picker);
+        editTexts = new EditText[]{course, name, type, pointspos, earned, date};
 
     }
 
@@ -182,6 +160,13 @@ public class AddAssignment extends AppCompatActivity {
                 case R.id.cancel:
                     finish();
                     break;
+                case R.id.end_date_picker:
+                    final Bundle endDateArguments = new Bundle();
+                    endDateArguments.putInt("endDate", R.id.end_date_picker);
+                    DialogFragment endDatePicker = new DateSelector();
+                    endDatePicker.setArguments(endDateArguments);
+                    endDatePicker.show(getSupportFragmentManager(), "endDatePicker");
+                    break;
 
             }
         }
@@ -203,7 +188,7 @@ public class AddAssignment extends AppCompatActivity {
         ContentValues values = new ContentValues();
 
         values.put(AssignmentInfo.FeedEntry.COURSE_NAME,
-                courseName);
+                editTextsInfo[Edits.COURSE.ordinal()]);
         values.put(AssignmentInfo.FeedEntry.ASSIGNMENT_NAME,
                 editTextsInfo[Edits.NAME.ordinal()]);
         values.put(AssignmentInfo.FeedEntry.TYPE,
@@ -212,6 +197,8 @@ public class AddAssignment extends AppCompatActivity {
                 editTextsInfo[Edits.POINTSPOS.ordinal()]);
         values.put(AssignmentInfo.FeedEntry.POINTS_EARNED,
                 editTextsInfo[Edits.POINTSEARNED.ordinal()]);
+        values.put(AssignmentInfo.FeedEntry.DUE_DATE,
+                editTextsInfo[Edits.DUEDATE.ordinal()]);
         ContentResolver cr = getContentResolver();
         if (mode.contentEquals(CREATE)) {
             cr.insert(AssignmentContentProvider.CONTENT_URI, values);
