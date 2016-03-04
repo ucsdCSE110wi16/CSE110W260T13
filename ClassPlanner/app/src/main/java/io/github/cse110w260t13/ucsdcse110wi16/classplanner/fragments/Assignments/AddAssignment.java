@@ -223,6 +223,10 @@ public class AddAssignment extends AppCompatActivity {
 
         values.put(CalendarInfo.FeedEntry.DATE,
                 editTextsInfo[Edits.DUEDATE.ordinal()]);
+        values.put(CalendarInfo.FeedEntry.START_TIME,
+                editTextsInfo[Edits.DUEDATE.ordinal()]);
+        values.put(CalendarInfo.FeedEntry.END_TIME,
+                editTextsInfo[Edits.DUEDATE.ordinal()]);
         values.put(CalendarInfo.FeedEntry.EVENT_TITLE,
                 editTextsInfo[Edits.NAME.ordinal()]);
         values.put(CalendarInfo.FeedEntry.EVENT_TYPE,
