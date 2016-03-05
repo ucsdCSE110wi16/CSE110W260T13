@@ -24,7 +24,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Assignments.AssignmentsFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CalendarFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursesFragment;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.HomeFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Home.HomeFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.ToDoFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.NavDrawerItem;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.NavDrawerListAdapter;

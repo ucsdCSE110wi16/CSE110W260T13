@@ -1,6 +1,10 @@
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.EventUtil;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Home.HomeUtil;
 
-public class CalendarEvent {
+/**
+ * Created by Bryan Yang on 2/24/2016.
+ */
+
+public class HomeEvent {
     public String eventID;
     public String eventType;
     public String eventTitle;
@@ -8,7 +12,7 @@ public class CalendarEvent {
     public String eventSTime;
     public String eventETime;
 
-    public CalendarEvent(String id, String type, String title, String descr, String sTime, String eTime){
+    public HomeEvent(String id, String type, String title, String descr, String sTime, String eTime){
         eventID = id;
         eventType = type;
         eventTitle=title;
