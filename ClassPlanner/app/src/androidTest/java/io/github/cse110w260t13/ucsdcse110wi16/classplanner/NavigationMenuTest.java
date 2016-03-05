@@ -1,9 +1,23 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner;
 
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.DrawerActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.not;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -30,16 +44,7 @@ public class NavigationMenuTest {
      */
     @Before
     public void openNavigationDrawer() {
-        DrawerActions.open();
-    }
-
-    /**
-     * Test navigation to HomeFragment
-     *
-     */
-    @Test
-    public void navigateToHomeFragment() {
-
+        onView(ViewMatchers.withContentDescription("Navigate up")).perform(click());
     }
 
     /**
@@ -48,7 +53,7 @@ public class NavigationMenuTest {
      */
     @Test
     public void navigateToCalendarFragment() {
-
+        onView(withText("Calendar")).perform(click());
     }
 
     /**
@@ -57,7 +62,7 @@ public class NavigationMenuTest {
      */
     @Test
     public void navigateToCoursesFragment() {
-
+        onView(withText("Courses")).perform(click());
     }
 
     /**
@@ -66,7 +71,7 @@ public class NavigationMenuTest {
      */
     @Test
     public void navigateToAssignmentsFragment() {
-
+        onView(withText("Assignments")).perform(click());
     }
 
     /**
@@ -75,7 +80,7 @@ public class NavigationMenuTest {
      */
     @Test
     public void navigateToToDoListFragment() {
-
+        onView(withText("To-Do List")).perform(click());
     }
 
 }
