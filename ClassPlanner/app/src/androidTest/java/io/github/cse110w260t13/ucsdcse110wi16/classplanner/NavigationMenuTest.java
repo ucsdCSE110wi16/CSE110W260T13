@@ -1,7 +1,9 @@
 package io.github.cse110w260t13.ucsdcse110wi16.classplanner;
 
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
@@ -27,9 +29,9 @@ import org.junit.runner.RunWith;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.MainActivity;
 
 /**
- * This intends to test scenario #1.
+ * This intends to test scenario 1.1
  * See https://github.com/ucsdCSE110wi16/CSE110W260T13/blob/58f6644eea8052e753a35745e9aa098d3180ffed/SCENARIOS.txt#L9
- * for scenario.
+ *
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -53,7 +55,10 @@ public class NavigationMenuTest {
      */
     @Test
     public void navigateToCalendarFragment() {
+        ViewInteraction fragmentContainer = onView(withId(R.id.fragment_calendar_coordinator_layout));
+        fragmentContainer.check(ViewAssertions.doesNotExist());
         onView(withText("Calendar")).perform(click());
+        fragmentContainer.check(ViewAssertions.matches(isDisplayed()));
     }
 
     /**
@@ -62,7 +67,10 @@ public class NavigationMenuTest {
      */
     @Test
     public void navigateToCoursesFragment() {
+        ViewInteraction fragmentContainer = onView(withId(R.id.fragment_courses_linear_layout));
+        fragmentContainer.check(ViewAssertions.doesNotExist());
         onView(withText("Courses")).perform(click());
+        fragmentContainer.check(ViewAssertions.matches(isDisplayed()));
     }
 
     /**
@@ -71,7 +79,10 @@ public class NavigationMenuTest {
      */
     @Test
     public void navigateToAssignmentsFragment() {
+        ViewInteraction fragmentContainer = onView(withId(R.id.fragment_assignment_linear_layout));
+        fragmentContainer.check(ViewAssertions.doesNotExist());
         onView(withText("Assignments")).perform(click());
+        fragmentContainer.check(ViewAssertions.matches(isDisplayed()));
     }
 
     /**
@@ -80,7 +91,10 @@ public class NavigationMenuTest {
      */
     @Test
     public void navigateToToDoListFragment() {
+        ViewInteraction fragmentContainer = onView(withId(R.id.fragment_todo_relative_layout));
+        fragmentContainer.check(ViewAssertions.doesNotExist());
         onView(withText("To-Do List")).perform(click());
+        fragmentContainer.check(ViewAssertions.matches(isDisplayed()));
     }
 
 }
