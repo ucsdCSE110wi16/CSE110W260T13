@@ -79,7 +79,7 @@ public class ToDoFragment extends Fragment {
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Add a task");
-                builder.setMessage("What do you wanna do?");
+                builder.setMessage("What do you have to do?");
                 final EditText inputField = new EditText(getContext());
                 builder.setView(inputField);
                 builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
