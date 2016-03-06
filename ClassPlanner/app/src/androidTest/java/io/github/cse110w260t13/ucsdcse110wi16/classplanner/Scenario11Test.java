@@ -35,7 +35,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.MainActivi
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class NavigationMenuTest {
+public class Scenario11Test {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(

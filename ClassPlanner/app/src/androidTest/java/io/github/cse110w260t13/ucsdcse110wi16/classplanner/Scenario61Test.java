@@ -44,7 +44,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.MainActivi
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class ToDoFragTest {
+public class Scenario61Test {
 
     private static final String TEST_STRING =  "Write more Espresso tests";
 
