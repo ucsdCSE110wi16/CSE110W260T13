@@ -59,6 +59,7 @@ public class ToDoFragTest {
     public void navigateToToDoFragment() {
         onView(ViewMatchers.withContentDescription("Navigate up")).perform(click());
         onView(withText("To-Do List")).perform(click());
+        SystemClock.sleep(1000);
     }
 
     /**
