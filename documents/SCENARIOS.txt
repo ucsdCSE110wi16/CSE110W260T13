@@ -26,6 +26,8 @@ Scenario 2.2:
 Given that I am on the Courses page,
 When I tap on a specific course,
 Then a new page should pop up and show all information linked to this course.
+When I tap on the grade distribution tab,
+Then a grade distribution slider should pop up showing the grading scale for that class.
 
 Scenario 2.3:
 Given that I am on a specific course's page,
@@ -34,16 +36,6 @@ When I click the delete button,
 Then a dialog should appear asking if I am sure I would like to delete the course.
 When I confirm,
 Then the course and all information connected to it (assignments, to-do items, class times on calendar view) should be removed.
-
-Scenario 2.4: (if there is an assignments tab integrated into a course page)
-Given that I am on a specific course's page,
-And I would like to view that course's assignments,
-When I click the assignments tab on the course page (or swipe right or whatever)
-Then the page should show the assignments for that class.
-When I swipe left or tap delete on one of the assignments,
-Then a confirmation should show.
-When I confirm delete,
-Then the assignment should be removed from the app.
 
 (Importance: 3)
 Scenario 3.1:
@@ -85,10 +77,10 @@ Then the assignment should show up on the list.
 Scenario 4.3:
 Given that I am viewing any Assignments page (course specific or total)
 And I would like to delete an assignment,
-When I swipe left (or tap delete or whatever)
-Then I should be given the option to delete or confirm delete
-When I confirm delete,
-Then the assignment should be removed from the app (both course page linked and on the assignments page if implemented.)
+When I tap delete
+Then I should be given the option to enter an assignment to delete
+When I confirm deleting that assignment,
+Then the assignment should be removed from the app.
 
 
 (Importance: 5)
@@ -98,12 +90,10 @@ And there is information already entered into the app,
 When I view the home page,
 Then there should be a list of the most immediate events (to-do list items or courses, etc..) shown on the home page.
 
-Currently not sure what else to add to this part because I'm not sure what exactly we want the home page to do.
-
 
 (Importance: 6)
 Scenario 6.1:
-Given that I have tapped the academic to-do list tab,
+Given that I have tapped the to-do list tab,
 And I have added tasks already,
 When I view the page,
 Then the page should show all of my tasks in order.
@@ -120,31 +110,6 @@ When I click delete,
 Then the task should be removed from the list.
 
 Scenario 6.3:
-Given that I have completed a task,
-When I check that the task has been completed,
-Then the task should be moved to a completed list.
-When the task has been completed for a certain amount of time (5 days? idk) 
-Then the task should be erased from the list. (is this what we want?)
-
-(Imortance: 7)
-Scenario 7.1:
-Given that I have tapped the non-academic to-do list tab,
-And I have added tasks already,
-When I view the page,
-Then the page should show all of my tasks in order.
-When I click the add button,
-Then I should be given options to add (date, time, title, etc..)
-When I have finished adding the task,
-Then it should appear along with my other tasks in order of when it should be done.
-
-Scenario 7.2:
-Given that I have added tasks,
-When I swipe left on a task (or however you want to remove them)
-Then I should have the option to delete the task
-When I click delete,
-Then the task should be removed from the app.
-
-Scenario 7.3:
 Given that I have completed a task,
 When I check that the task has been completed,
 Then the task should be moved to a completed list.
