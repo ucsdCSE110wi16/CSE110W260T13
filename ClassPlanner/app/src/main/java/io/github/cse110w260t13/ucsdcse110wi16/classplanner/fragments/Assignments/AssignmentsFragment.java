@@ -25,9 +25,16 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.assign
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.assignment_database.AssignmentDbHelper;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.assignment_database.AssignmentInfo;
 
+/**
+ * AssignmentsFragment 
+ * 
+ * Fragments that implements functionality of assignments page.
+ * Shows assignments done with points earned and type for its respective course
+ * 
+ */ 
 public class AssignmentsFragment extends Fragment{
 
-
+    //initializing database, some vars for use.
     private SQLiteDatabase db;
     private AssignmentDbHelper mDbHelper;
 
@@ -38,11 +45,17 @@ public class AssignmentsFragment extends Fragment{
 
     public AssignmentsFragment() {
     }
-
+    
+    /**
+     * onCreateView method overriding Fragment's onCreateView
+     * @param inflater to create view objects
+     * @param container ViewGroup as a container
+     * @param savedInstanceState to recreate the saved activity
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        //creating the view
         View rootView = inflater.inflate(R.layout.fragment_assignment, container, false);
 
         //Create and set the toolbar(Actionbar) for the Courses page
@@ -60,7 +73,8 @@ public class AssignmentsFragment extends Fragment{
         clickHandler click_handler = new clickHandler();
         add.setOnClickListener(click_handler);
         delete.setOnClickListener(click_handler);
-
+        
+        //making the list view for the assginment details
         listview = (ListView)rootView.findViewById(R.id.assignment_list);
         updateData();
 
@@ -71,8 +85,13 @@ public class AssignmentsFragment extends Fragment{
      * click handler for all buttons in the Assignments Page
      */
     private class clickHandler implements View.OnClickListener {
+        /**
+         * onClick handles actions when clicks happen
+         * @param v view that clicks happen on.
+         */
         public void onClick(View v) {
             switch (v.getId()) {
+                //handles cases for add button (makes new add activity), delete button(makes new delete dialog)
                 case R.id.add_button:
                     Intent intent = new Intent(getContext(), AddAssignment.class);
                     intent.putExtra("mode", "create");
@@ -85,6 +104,11 @@ public class AssignmentsFragment extends Fragment{
                     final EditText inputField = new EditText(getContext());
                     builder.setView(inputField);
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        /**
+                         * onClick method for the delete dialog. Handles deleting.
+                         * @param dialog the dialog that it is interacting with
+                         * @param which int
+                         */
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String name = inputField.getText().toString();
@@ -95,7 +119,13 @@ public class AssignmentsFragment extends Fragment{
                             updateData();
                         }
                     });
+                    //handles canceling delete
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        /**
+                         * onClick method that handles canceling delete
+                         * @param dialog which it is interacting with
+                         * @param which int
+                         */
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
@@ -107,8 +137,12 @@ public class AssignmentsFragment extends Fragment{
             updateData();
         }
     }
-
+    
+    /**
+     * updateData method that updates the data for the assginments fragment.
+     */
     void updateData(){
+        //creating cursor from content resolver query for all columns in the assignment database.
         Log.i("updateData", " entered");
         ContentResolver cr = getActivity().getContentResolver();
         Cursor cursor = cr.query(
@@ -117,6 +151,7 @@ public class AssignmentsFragment extends Fragment{
                 null,
                 null,
                 null);
+        //sets an adapter to feed assignment database info into view.
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(
                 getContext(),
                 R.layout.assignment_view,
@@ -137,9 +172,13 @@ public class AssignmentsFragment extends Fragment{
                 ,0);
         listview.setAdapter(adapter);
     }
-
+    
+    /**
+     * onResume method overridden from super class
+     */
     @Override
     public void onResume(){
+        //calls super method, then updates.
         super.onResume();
         updateData();
     }
