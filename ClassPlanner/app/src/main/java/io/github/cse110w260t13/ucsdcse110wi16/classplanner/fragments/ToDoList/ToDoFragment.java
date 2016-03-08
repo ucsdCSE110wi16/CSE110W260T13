@@ -1,4 +1,4 @@
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.ToDoList;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -23,8 +23,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.ToDoTaskContract;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.ToDoTaskDbHelper;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.ToDo_database.ToDoTaskContract;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.ToDo_database.ToDoTaskDbHelper;
 
 
 public class ToDoFragment extends Fragment {

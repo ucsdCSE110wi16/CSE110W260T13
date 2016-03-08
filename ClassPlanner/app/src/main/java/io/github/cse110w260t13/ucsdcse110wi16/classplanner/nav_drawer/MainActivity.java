@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,12 +24,7 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Assignments
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Calendar.CalendarFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Courses.CoursesFragment;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.Home.HomeFragment;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.ToDoFragment;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.NavDrawerItem;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.nav_drawer.NavDrawerListAdapter;
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
-
-import java.util.ArrayList;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.ToDoList.ToDoFragment;
 
 
 public class MainActivity extends AppCompatActivity {

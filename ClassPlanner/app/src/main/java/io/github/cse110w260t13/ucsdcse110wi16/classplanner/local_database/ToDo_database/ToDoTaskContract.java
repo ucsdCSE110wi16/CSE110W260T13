@@ -1,4 +1,4 @@
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.ToDo_database;
 
 /**
  * Created by JamesOh on 1/30/2016.

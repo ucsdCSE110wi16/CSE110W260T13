@@ -1,4 +1,4 @@
-package io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database;
+package io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.ToDo_database;
 
 /**
  * Created by JamesOh on 1/30/2016.
@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import io.github.cse110w260t13.ucsdcse110wi16.classplanner.fragments.ToDoFragment;
+import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.ToDo_database.ToDoTaskContract;
 
 public class ToDoTaskDbHelper extends SQLiteOpenHelper{
 
