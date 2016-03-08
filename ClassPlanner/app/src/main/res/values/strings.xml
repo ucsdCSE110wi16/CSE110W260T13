@@ -28,7 +28,7 @@
     <!-- Order of names is order they show up on menu screen-->
     <!--Icon pictures are retrieved from /res/drawable/ic_XXXXX/-->
     <array name="nav_drawer_icons">
-        <item>@drawable/ic_home_black_24dp</item>
+        <item>@drawable/ic_action_taptrident2_turqicon</item>
         <item>@drawable/ic_action_calendaricon</item>
         <item>@drawable/ic_action_coursesicon</item>
         <item>@drawable/ic_action_assginmentsicon</item>
