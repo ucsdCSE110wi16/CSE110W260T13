@@ -38,7 +38,10 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
     private View repeatView;
     private boolean checked = false;
 
-
+    /**
+     * Implements actions to be done when dialog for calendar fragment is created.
+     * @param savedInstanceState to load from saved state
+     */
     @SuppressWarnings( "deprecation" )
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
