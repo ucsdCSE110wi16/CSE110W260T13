@@ -69,7 +69,13 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
         // Default is for norepeatview to be visible...
         calendarDialogLayout.addView(noRepeatView);
 
-        final DatePicker noRepeatStartDate = (DatePicker) noRepeatView.findViewById(R.id.calendarDialogDatePicker);
+        DatePicker startdate = (DatePicker) noRepeatView.findViewById(R.id.calendarDialogDatePicker);
+        Bundle args = getArguments();
+        final String dateSelected = args.getString("day");
+        startdate.updateDate(
+                DateTimeUtil.getDateFromString(dateSelected, DateTimeUtil.YEAR),
+                DateTimeUtil.getDateFromString(dateSelected, DateTimeUtil.MONTH),
+                DateTimeUtil.getDateFromString(dateSelected, DateTimeUtil.DAY));
         /*final DatePicker repeatStartDate = (DatePicker) repeatView.findViewById(R.id.calendarDialogStartDatePicker);
         final DatePicker repeatEndDate = (DatePicker) repeatView.findViewById(R.id.calendarDialogEndDatePicker);
         Bundle args = getArguments();
@@ -110,6 +116,8 @@ public class AddCalendarDialogFragment extends android.support.v4.app.DialogFrag
         final TimePicker startPicker = (TimePicker) view.findViewById(R.id.calendar_start_picker);
         final TimePicker endPicker = (TimePicker) view.findViewById(R.id.calendar_end_picker);
 
+
+        final DatePicker noRepeatStartDate = (DatePicker) noRepeatView.findViewById(R.id.calendarDialogDatePicker);
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout

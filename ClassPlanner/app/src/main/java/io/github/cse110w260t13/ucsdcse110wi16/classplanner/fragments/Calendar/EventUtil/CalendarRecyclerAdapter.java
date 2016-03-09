@@ -31,7 +31,7 @@ public class CalendarRecyclerAdapter
     public static final String CLASS = "class";
     public static final String EVENT = "event";
     public static final String TODO = "todo";
-    public static final String HWK  = "hwk";
+    public static final String HOMEWORK  = "homework";
 
     private ArrayList<CalendarEvent> calendarEvents = null;
     private Context context;
@@ -195,6 +195,12 @@ public class CalendarRecyclerAdapter
                 holder.typeBG.setBackgroundColor(ContextCompat
                         .getColor(context, R.color.colorMidBlue));
                 break;
+            case HOMEWORK:
+                holder.typeTitle.setText("Hwk");
+                holder.typeBG.setBackgroundColor(ContextCompat
+                        .getColor(context, R.color.colorDarkMidBlue));
+                break;
+
         }
     }
 }

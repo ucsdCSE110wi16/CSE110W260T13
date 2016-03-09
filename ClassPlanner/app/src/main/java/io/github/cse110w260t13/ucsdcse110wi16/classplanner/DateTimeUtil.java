@@ -65,12 +65,21 @@ public final class DateTimeUtil {
     public static int getTime(String time, int field)
     {
         String[] splitTime = time.split(":");
-        if (!splitTime[0].isEmpty() && !splitTime[1].isEmpty()){
-            if (field == HOUR){
-                return Integer.parseInt(splitTime[0]);
+        if(splitTime.length == 2) {
+            if (!splitTime[0].isEmpty() && !splitTime[1].isEmpty()) {
+                if (field == HOUR) {
+                    return Integer.parseInt(splitTime[0]);
+                } else if (field == MINUTE) {
+                    return Integer.parseInt(splitTime[1]);
+                }
             }
-            else if (field == MINUTE) {
-                return Integer.parseInt(splitTime[1]);
+        }
+        else{
+            if (field == HOUR){
+                return 12;
+            }
+            else if (field == MINUTE){
+                return 0;
             }
         }
         return -1;

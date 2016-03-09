@@ -67,7 +67,6 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
     private CalendarRecyclerAdapter adapter;
 
     private CaldroidFragment caldroidFragment;
-    private CheckBox personalTodoCheckbox;
     private CheckBox homeworkCheckbox;
     private CheckBox classCheckbox;
     private Date daySelected;
@@ -148,18 +147,6 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         });
 
         /*******************************SETTING UP CHECKBOXES*************************************/
-        // Get the personal todolist checkbox
-        personalTodoCheckbox = (CheckBox) rootView.findViewById(R.id.todo_checkBox);
-
-        // Set the change listener to update the colors
-        personalTodoCheckbox.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        updateCalendarColors();
-                    }
-                }
-        );
 
         // Get the personal todolist checkbox
         homeworkCheckbox = (CheckBox) rootView.findViewById(R.id.homework_checkbox);
@@ -441,13 +428,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         }
 
         int[] itemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList, EVENT_TYPE_EVENT);
-        int[] todoItemsPerDayInMonth = new int[monthDayList.size()];
         int[] homeworkItemsPerDayInMonth = new int[monthDayList.size()];
         int[] classItemsPerDayInMonth = new int[monthDayList.size()];
-
-        if(personalTodoCheckbox.isChecked()) {
-            todoItemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList, EVENT_TYPE_TODO);
-        }
 
         if(homeworkCheckbox.isChecked()) {
             homeworkItemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList, EVENT_TYPE_HOMEWORK);
@@ -458,8 +440,7 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         }
 
         for(int i = 0; i <= itemsPerDayInMonth.length - 1; i++) {
-            itemsPerDayInMonth[i]
-                    += todoItemsPerDayInMonth[i]
+            itemsPerDayInMonth[i] +=
                     + homeworkItemsPerDayInMonth[i]
                     + classItemsPerDayInMonth[i];
         }
