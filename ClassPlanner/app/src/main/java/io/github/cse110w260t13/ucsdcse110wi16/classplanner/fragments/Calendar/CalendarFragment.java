@@ -50,10 +50,11 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calend
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
 
 /**
- * Fragment that will contain Calendar section's features.
+ * Fragment that implements Calendar section's features.
  */
 public class CalendarFragment extends Fragment implements CalendarRecyclerAdapter.RecyclerAdapterCallback{
 
+    //creating static strings and ints
     private static final String LOG_TAG = "CalendarFragment";
     private static final int REQUEST_CODE = 0;
 
@@ -61,7 +62,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
     public static final String EVENT_TYPE_CLASS = "class";
     public static final String EVENT_TYPE_HOMEWORK = "homework";
     public static final String EVENT_TYPE_TODO = "todo";
-
+    
+    //making format, list view, adapter, other features
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private RecyclerView list;
     private CalendarRecyclerAdapter adapter;
@@ -80,11 +82,17 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
     private int caldroidSelectedYear;
 
     private View rootView;
-
+    
+    /**
+     * onCreateEditDialog method to create dialog when edit is chosen. 
+     * @param id to edit
+     */
     @Override
     public void onCreateEditDialog(String id){
+        //creates dialog
         Log.i("CalendarCallback", "onCreateEditDialog start");
         DialogFragment dialog = new EditDialogFragment();
+        //sets and shows dialog
         Bundle args = new Bundle();
         args.putString("id", id);
         args.putString("day", daySelected.toString());
@@ -92,12 +100,21 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
         dialog.setTargetFragment(this, REQUEST_CODE);
         dialog.show(getFragmentManager(), "EditDialogFragment");
     }
-
+    
+    /**
+     * onDeleteOK method to update calendar colors when item is deleted
+     */
     @Override
     public void onDeleteOK() {
         updateCalendarColors();
     }
-
+    
+    /**
+     * onActivityResult method does stuff depending on the request and result
+     * @param requestCode that was requested
+     * @param resultCode that results
+     * @param data intent operation to be performed
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -113,7 +130,10 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
     }
 
     /**-------------------------------------------------------------------------------------------
-     * Created upon entering Fragment's view creation stage.
+     * onCreateView Created upon entering Fragment's view creation stage.
+     * @param inflater to instantiate layout into view
+     * @param container to contain views
+     * @param savedInstanceState saved state of fragment
      *-------------------------------------------------------------------------------------------*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -275,17 +295,23 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
     }
 
     /**-------------------------------------------------------------------------------------------
-     * Listener that responds to a number of user interactions with the calendar
+     * CustomCaldroidListener that responds to a number of user interactions with the calendar
      *-------------------------------------------------------------------------------------------*/
     private class CustomCaldroidListener extends CaldroidListener{
+        /**
+         * onSelectDate method that displays view of events happening on a date
+         * @param date chosen
+         * @param view to be displayed
+         */
         @Override
         public void onSelectDate(Date date, View view) {
             Log.d("onSelectDate: ", "shortpress");
-
+            //making snackbar to display information for that date.
             Snackbar.make(coordinatorLayout, "Showing events for "
                     + formatter.format(date), Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
-
+                    
+            //making updater for date
             UpdateEventsTask eventUpdater = new UpdateEventsTask(
                     getActivity().getBaseContext(),
                     list,
@@ -293,12 +319,18 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
             eventUpdater.execute(date, null, null);
 
             //updateCalendarColors();
-
+            
+            //creating the view for the events happening that day
             daySelected = date;
             TextView dateTitle = (TextView) rootView.findViewById(R.id.calendar_date_title);
             dateTitle.setText(DateTimeUtil.getDateTitleFromDate(daySelected));
         }
-
+        
+        /**
+         * onChangeMonth method that repopulates colors for calendar when months are changed
+         * @param month selected
+         * @param year selected
+         */
         @Override
         public void onChangeMonth(int month, int year) {
 
@@ -308,13 +340,22 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
 
             //When Months are changed, need to repopulate the colors
         }
-
+        
+        /**
+         * onLongClickDate method to show view for when dates are long clicked.
+         * Currently not implemented.
+         * @param date being long clicked
+         * @param view being shown
+         */
         @Override
         public void onLongClickDate(Date date, View view) {
             //Use long click to edit events on a day?
             //updateCalendarColors();
         }
-
+        
+        /**
+         * onCaldroidViewCreated for when a caldroid calendar view is created
+         */
         @Override
         public void onCaldroidViewCreated() {
             // Set custom arrow colors
@@ -421,7 +462,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
                 break;
             }
         }
-
+        
+        //handles cases for when user chooses homework or class items checkbox
         int[] itemsPerDayInMonth = getItemsPerDayFromMonth(monthDayList, EVENT_TYPE_EVENT);
         int[] homeworkItemsPerDayInMonth = new int[monthDayList.size()];
         int[] classItemsPerDayInMonth = new int[monthDayList.size()];
@@ -439,7 +481,8 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
                     + homeworkItemsPerDayInMonth[i]
                     + classItemsPerDayInMonth[i];
         }
-
+        
+        //mapping the colors for the days in the month
         int colorIndex;
 
         for(int i = 0; i < monthDayList.size(); i++) {
@@ -589,7 +632,11 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
             }
             return returnList;
         }
-
+        
+        /**
+         * onPostExecute method creates an adapter if one does not exist and adds new events.
+         * @param calendarEventList an arraylist containing calendar events.
+         */
         @Override
         protected void onPostExecute(ArrayList<CalendarEvent> calendarEventList) {
             Log.d("UpdateEventsTask: ", " onPostExecute");
