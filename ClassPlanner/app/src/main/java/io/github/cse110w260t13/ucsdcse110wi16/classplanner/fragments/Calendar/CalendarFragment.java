@@ -304,11 +304,6 @@ public class CalendarFragment extends Fragment implements CalendarRecyclerAdapte
 
             caldroidSelectedMonth = month;
             caldroidSelectedYear = year;
-
-            String text = "month: " + month + " year: " + year;
-            Toast.makeText(getActivity().getBaseContext(), text,
-                    Toast.LENGTH_SHORT).show();
-
             updateCalendarColors();
 
             //When Months are changed, need to repopulate the colors
