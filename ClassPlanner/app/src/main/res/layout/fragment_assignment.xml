@@ -3,19 +3,19 @@
     android:id="@+id/fragment_assignment_linear_layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
     <include
         layout="@layout/assignment_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize" />
     <ListView
+        android:layout_marginTop="5dp"
         android:id="@+id/assignment_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
-        android:divider="@color/caldroid_gray"
+        android:divider="@android:color/transparent"
         android:dividerHeight="1dp"
-        android:listSelector="@drawable/list_selector"
-        android:background="@color/list_background"/>
+        android:background="@drawable/ab_background_textured_example"/>
 </LinearLayout>
