@@ -24,6 +24,9 @@ import io.github.cse110w260t13.ucsdcse110wi16.classplanner.R;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarContentProvider;
 import io.github.cse110w260t13.ucsdcse110wi16.classplanner.local_database.calendar_database.CalendarInfo;
 
+/**
+ * CalendarRecyclerAdapter implements adapter functions for the recycler view for the calendar fragment.
+ */
 public class CalendarRecyclerAdapter
         extends RecyclerView.Adapter<CalendarRecyclerAdapter.ViewHolder>{
 
@@ -39,14 +42,20 @@ public class CalendarRecyclerAdapter
 
     RecyclerAdapterCallback mCallback;
 
-    // Container Activity must implement this interface
+    /**
+     * Container Activity must implement this interface
+     */
     public interface RecyclerAdapterCallback {
         void onCreateEditDialog(String id);
 
         void onDeleteOK();
     }
-
+    
+    /**
+     * Viewholder that extends a RecyclerView ViewHolder.
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        //member variables for the events
         TextView title;
         TextView description;
         TextView start;
@@ -60,7 +69,13 @@ public class CalendarRecyclerAdapter
 
         String id;
         String type;
+        
+        /**
+         * Constructor for the ViewHolder
+         * @param v view that the ViewHolder parent class takes as an arg
+         */
         public ViewHolder(View v){
+            //calling the super constructor, then setting member vars
             super(v);
             title = (TextView) v.findViewById(R.id.event_title);
             description = (TextView) v.findViewById(R.id.description);
@@ -72,7 +87,13 @@ public class CalendarRecyclerAdapter
             del = (ImageButton) v.findViewById(R.id.delete_button);
         }
     }
-
+    
+    /**
+     * CalendarRecyclerAdapter constructor
+     * @param callback 
+     * @param calendarEvents list of events to be shown
+     * @param context
+     */
     public CalendarRecyclerAdapter( RecyclerAdapterCallback callback,
                                     ArrayList<CalendarEvent> calendarEvents,
                                     Context context ){
@@ -81,7 +102,12 @@ public class CalendarRecyclerAdapter
         mCallback = callback;
     }
 
-    // Create new views (invoked by the layout manager)
+    /** 
+     * Create new views (invoked by the layout manager)
+     * @param parent to get layout from
+     * @param viewType 
+     * @return ViewHolder
+     */
     @Override
     public CalendarRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
@@ -97,7 +123,11 @@ public class CalendarRecyclerAdapter
         return holder;
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+    /** 
+     * Replace the contents of a view (invoked by the layout manager)
+     * @param holder ViewHolder to set events on
+     * @param position of the event
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         this.holder = holder;
@@ -113,11 +143,20 @@ public class CalendarRecyclerAdapter
             holder.type = event.eventType;
         }
     }
-
+    
+    /**
+     * Click handler class to manage actions
+     */
     private class clickHandler implements View.OnClickListener {
         private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
+        
+        /**
+         * onClick handler
+         * @param v view to apply input to
+         */
         @Override
         public void onClick(View v) {
+            //takes input
             ViewHolder holder = (ViewHolder) v.getTag();
             final int pos = holder.getAdapterPosition();
             CalendarEvent event = calendarEvents.get(pos);
@@ -129,13 +168,15 @@ public class CalendarRecyclerAdapter
             args.putString("id", holder.id);
             final String hold_id = holder.id;
             final FragmentActivity activity = (FragmentActivity)context;
-
+            
+            //handles cases for add button and delete button
             switch (v.getId()) {
                 case R.id.add_button:
                     v.startAnimation(buttonClick);
                     mCallback.onCreateEditDialog(hold_id);
                     break;
                 case R.id.delete_button:
+                    //asks for delete confirmation and deletes if ok
                     v.startAnimation(buttonClick);
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                     builder.setTitle("Confirmation");
@@ -152,6 +193,7 @@ public class CalendarRecyclerAdapter
                             notifyItemRemoved(pos);
                         }
                     });
+                    //handles cancel button for delete
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                         }
@@ -162,7 +204,10 @@ public class CalendarRecyclerAdapter
             }
         }
     }
-    // Return the size of your dataset (invoked by the layout manager)
+    /** 
+     * Return the size of your dataset (invoked by the layout manager)
+     * @return int size of data set
+     */
     @Override
     public int getItemCount() {
         if(calendarEvents!=null) {
@@ -170,7 +215,11 @@ public class CalendarRecyclerAdapter
         }
         return 0;
     }
-
+    
+    /**
+     * For changing events in the calendar
+     * @param events to be added
+     */
     public void swap(ArrayList<CalendarEvent> events) {
         if(calendarEvents!=null) {
             calendarEvents.clear();
@@ -182,8 +231,13 @@ public class CalendarRecyclerAdapter
         }
         this.notifyDataSetChanged();
     }
-
+    
+    /**
+     * For setting the type of event
+     * @param type of event
+     */
     private void setEventType(String type){
+        //handles cases for if type is CLASS, EVENT, or HOMEWORK
         switch(type){
             case CLASS:
                 holder.typeTitle.setText("Class");
